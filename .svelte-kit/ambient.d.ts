@@ -46,7 +46,6 @@ declare module '$env/static/private' {
 	export const COMPUTERNAME: string;
 	export const ComSpec: string;
 	export const DriverData: string;
-	export const EFC_8932_1592913036: string;
 	export const HOMEDRIVE: string;
 	export const HOMEPATH: string;
 	export const LOCALAPPDATA: string;
@@ -88,6 +87,9 @@ declare module '$env/static/private' {
 	export const USERPROFILE: string;
 	export const VS140COMNTOOLS: string;
 	export const windir: string;
+	export const WSLENV: string;
+	export const WT_PROFILE_ID: string;
+	export const WT_SESSION: string;
 	export const NODE_ENV: string;
 }
 
@@ -183,7 +185,6 @@ declare module '$env/dynamic/private' {
 		COMPUTERNAME: string;
 		ComSpec: string;
 		DriverData: string;
-		EFC_8932_1592913036: string;
 		HOMEDRIVE: string;
 		HOMEPATH: string;
 		LOCALAPPDATA: string;
@@ -225,6 +226,9 @@ declare module '$env/dynamic/private' {
 		USERPROFILE: string;
 		VS140COMNTOOLS: string;
 		windir: string;
+		WSLENV: string;
+		WT_PROFILE_ID: string;
+		WT_SESSION: string;
 		NODE_ENV: string;
 		[key: `PUBLIC_${string}`]: undefined;
 		[key: `${string}`]: string | undefined;

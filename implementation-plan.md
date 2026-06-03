@@ -4,21 +4,22 @@
 
 The project is a **fresh SvelteKit 2 scaffold** with Svelte 5 (runes mode).
 
-| Aspect | Status |
-|---|---|
-| Framework | SvelteKit 2 + Svelte 5, TypeScript 6, Vite 8 |
-| Package manager | Bun |
-| CSS/Styling | Nothing installed — pure CSS |
-| Routing | Default `+page.svelte` + demo scaffolding |
-| Data layer | None |
-| Image handling | None |
-| Deployment adapter | `adapter-auto` (no target chosen) |
+| Aspect             | Status                                       |
+| ------------------ | -------------------------------------------- |
+| Framework          | SvelteKit 2 + Svelte 5, TypeScript 6, Vite 8 |
+| Package manager    | Bun                                          |
+| CSS/Styling        | Nothing installed — pure CSS                 |
+| Routing            | Default `+page.svelte` + demo scaffolding    |
+| Data layer         | None                                         |
+| Image handling     | None                                         |
+| Deployment adapter | `adapter-auto` (no target chosen)            |
 
 ---
 
 ## 2. Tech Stack
 
 ### Keep (already in place)
+
 - **SvelteKit 2 / Svelte 5** — File-based routing, fast, small bundle, great DX.
 - **TypeScript** — Type safety for trip data models.
 - **Bun** — Fast installs and scripts.
@@ -27,13 +28,14 @@ The project is a **fresh SvelteKit 2 scaffold** with Svelte 5 (runes mode).
 
 ### Add
 
-| Tool | Purpose |
-|---|---|
+| Tool                         | Purpose                                                                            |
+| ---------------------------- | ---------------------------------------------------------------------------------- |
 | **@sveltejs/adapter-static** | Static site generation — deploy anywhere (GitHub Pages, Netlify, Cloudflare Pages) |
-| **sharp** | EXIF stripping + image optimization at build time |
-| **vitest** | Unit testing for image pipeline and data utilities |
+| **sharp**                    | EXIF stripping + image optimization at build time                                  |
+| **vitest**                   | Unit testing for image pipeline and data utilities                                 |
 
 ### Explicitly NOT adding
+
 - No Tailwind — pure CSS with custom properties
 - No CMS — trip data lives in TypeScript files
 - No database — static data files
@@ -46,12 +48,12 @@ The project is a **fresh SvelteKit 2 scaffold** with Svelte 5 (runes mode).
 
 Processed images live in `static/images/trips/` and are served by the static site host.
 
-| Pros | Cons |
-|---|---|
-| Zero runtime cost, no external dependencies | Repo size grows with images |
-| No API keys or third-party accounts | Git operations slow with many large images |
-| Works offline, full version control | Must run build-time script when adding photos |
-| Fastest possible delivery (CDN edge) | |
+| Pros                                        | Cons                                          |
+| ------------------------------------------- | --------------------------------------------- |
+| Zero runtime cost, no external dependencies | Repo size grows with images                   |
+| No API keys or third-party accounts         | Git operations slow with many large images    |
+| Works offline, full version control         | Must run build-time script when adding photos |
+| Fastest possible delivery (CDN edge)        |                                               |
 
 **Mitigation**: Use Git LFS if repo exceeds ~500MB. Keep source images outside the repo; only commit processed/optimized versions.
 
@@ -66,6 +68,7 @@ Build-time preprocessing pipeline using **sharp**:
 ```
 
 The script will:
+
 1. Read images from `src/content/trips/[trip-name]/raw/`
 2. Strip ALL EXIF metadata (GPS coordinates, device info, timestamps, camera settings)
 3. Resize to web-appropriate dimensions (max 2400px wide; 400px thumbnails)
@@ -84,27 +87,27 @@ Add a unit test that processes a sample image with known GPS data and verifies t
 
 ```typescript
 export interface TripPhoto {
-  filename: string;   // "beach-sunset.webp"
-  alt: string;        // Accessibility description
-  caption?: string;   // Optional display caption
-  width: number;      // For layout / aspect ratio
-  height: number;
+	filename: string; // "beach-sunset.webp"
+	alt: string; // Accessibility description
+	caption?: string; // Optional display caption
+	width: number; // For layout / aspect ratio
+	height: number;
 }
 
 export interface Trip {
-  slug: string;       // URL-friendly: "japan-2024"
-  title: string;      // "Two Weeks in Japan"
-  destination: string;
-  region?: string;    // Optional grouping, e.g. "East Asia"
-  dates: {
-    start: string;    // "2024-03-15" ISO date
-    end: string;      // "2024-03-29"
-  };
-  tags: string[];     // ["temples", "food", "hiking"]
-  coverPhoto: string; // filename of hero image
-  description: string;
-  body?: string;      // Longer narrative
-  photos: TripPhoto[];
+	slug: string; // URL-friendly: "japan-2024"
+	title: string; // "Two Weeks in Japan"
+	destination: string;
+	region?: string; // Optional grouping, e.g. "East Asia"
+	dates: {
+		start: string; // "2024-03-15" ISO date
+		end: string; // "2024-03-29"
+	};
+	tags: string[]; // ["temples", "food", "hiking"]
+	coverPhoto: string; // filename of hero image
+	description: string;
+	body?: string; // Longer narrative
+	photos: TripPhoto[];
 }
 ```
 
@@ -114,18 +117,23 @@ export interface Trip {
 import type { Trip } from '$lib/types/trip';
 
 export const trip: Trip = {
-  slug: 'japan-2024',
-  title: 'Two Weeks in Japan',
-  destination: 'Japan',
-  region: 'East Asia',
-  dates: { start: '2024-03-15', end: '2024-03-29' },
-  tags: ['temples', 'food', 'hiking', 'cherry-blossoms'],
-  coverPhoto: 'fushimi-inari.webp',
-  description: 'Exploring Tokyo, Kyoto, and the Japanese Alps.',
-  photos: [
-    { filename: 'fushimi-inari.webp', alt: 'Fushimi Inari shrine gates', width: 2400, height: 1600 },
-    { filename: 'ramen-shop.webp', alt: 'Bowl of tonkotsu ramen', width: 2400, height: 1800 }
-  ]
+	slug: 'japan-2024',
+	title: 'Two Weeks in Japan',
+	destination: 'Japan',
+	region: 'East Asia',
+	dates: { start: '2024-03-15', end: '2024-03-29' },
+	tags: ['temples', 'food', 'hiking', 'cherry-blossoms'],
+	coverPhoto: 'fushimi-inari.webp',
+	description: 'Exploring Tokyo, Kyoto, and the Japanese Alps.',
+	photos: [
+		{
+			filename: 'fushimi-inari.webp',
+			alt: 'Fushimi Inari shrine gates',
+			width: 2400,
+			height: 1600
+		},
+		{ filename: 'ramen-shop.webp', alt: 'Bowl of tonkotsu ramen', width: 2400, height: 1800 }
+	]
 };
 ```
 
@@ -137,8 +145,8 @@ import { trip as iceland2023 } from '../../content/trips/iceland-2023/trip';
 
 export const allTrips: Trip[] = [japan2024, iceland2023];
 
-export const allDestinations = [...new Set(allTrips.map(t => t.destination))].sort();
-export const allTags = [...new Set(allTrips.flatMap(t => t.tags))].sort();
+export const allDestinations = [...new Set(allTrips.map((t) => t.destination))].sort();
+export const allTags = [...new Set(allTrips.flatMap((t) => t.tags))].sort();
 ```
 
 ---
@@ -148,6 +156,7 @@ export const allTags = [...new Set(allTrips.flatMap(t => t.tags))].sort();
 Client-side filtering using Svelte 5 `$state` / `$derived`. URL search params drive filter state for shareable/bookmarkable URLs.
 
 ### Filter controls
+
 - **Destination dropdown** — populated from `allDestinations`
 - **Tag pills** — multi-select, populated from `allTags`
 - **Sort** — date (newest first, default) or destination (alphabetical)
@@ -160,13 +169,14 @@ let selectedTags = $state<string[]>([]);
 let sortBy = $state<'date' | 'destination'>('date');
 
 let filteredTrips = $derived(
-  allTrips
-    .filter(t => !selectedDestination || t.destination === selectedDestination)
-    .filter(t => selectedTags.length === 0 || selectedTags.every(tag => t.tags.includes(tag)))
-    .sort((a, b) => sortBy === 'date'
-      ? new Date(b.dates.start).getTime() - new Date(a.dates.start).getTime()
-      : a.destination.localeCompare(b.destination)
-    )
+	allTrips
+		.filter((t) => !selectedDestination || t.destination === selectedDestination)
+		.filter((t) => selectedTags.length === 0 || selectedTags.every((tag) => t.tags.includes(tag)))
+		.sort((a, b) =>
+			sortBy === 'date'
+				? new Date(b.dates.start).getTime() - new Date(a.dates.start).getTime()
+				: a.destination.localeCompare(b.destination)
+		)
 );
 ```
 
@@ -243,6 +253,7 @@ blog/
 ## 8. Implementation Phases
 
 ### Phase 0: Foundation
+
 **Goal**: Dev environment fully ready.
 
 - [ ] Install `@sveltejs/adapter-static`, `sharp`, `vitest`
@@ -254,6 +265,7 @@ blog/
 - [ ] Add `**/raw/` to `.gitignore`
 
 ### Phase 1: Layout Shell and Landing Page
+
 **Goal**: Working, styled site with navigation.
 
 - [ ] Build `Header.svelte`, `Footer.svelte`, `Nav.svelte`
@@ -263,6 +275,7 @@ blog/
 - [ ] Apply design tokens (colors, typography, spacing) from `design-system.md`
 
 ### Phase 2: Image Processing Pipeline
+
 **Goal**: Automated, tested EXIF stripping and image optimization.
 
 - [ ] Write `scripts/process-images.ts` using sharp
@@ -273,6 +286,7 @@ blog/
 - [ ] Write unit tests verifying EXIF data is fully removed
 
 ### Phase 3: Travel Page — Trip Index with Filtering
+
 **Goal**: Browsable, filterable travel page.
 
 - [ ] Create sample trip data files (at least 2 trips with placeholder images)
@@ -285,6 +299,7 @@ blog/
 - [ ] Responsive grid layout for trip cards
 
 ### Phase 4: Trip Detail Page
+
 **Goal**: Individual trip pages with photo galleries.
 
 - [ ] Build trip detail route (`src/routes/travel/[slug]/+page.svelte`)
@@ -295,6 +310,7 @@ blog/
 - [ ] Lazy-load images below the fold
 
 ### Phase 5: Polish and Testing
+
 **Goal**: Production-ready quality.
 
 - [ ] Accessibility audit (alt text, keyboard navigation, focus management, color contrast)
@@ -308,12 +324,12 @@ blog/
 
 ## 9. Key Technical Decisions
 
-| Decision | Choice | Trade-off |
-|---|---|---|
-| Static site generation | `adapter-static` | Cannot do server-side dynamic content; acceptable for a personal blog. Zero hosting cost. |
-| Trip data in TypeScript files | Yes | Adding a trip requires editing code + re-deploying. Fine for a solo dev blog. |
-| EXIF stripping at build time | Yes (sharp) | Must run script when adding photos. Mitigated by adding to build pipeline. |
-| Images as static assets | Yes | Repo grows with photos. Mitigated by WebP optimization; Git LFS if needed. |
-| Client-side filtering | Yes | All trip data shipped to client. Fine for dozens of trips. |
-| Pure CSS | Yes | No framework lock-in. CSS custom properties for the design system. |
-| No CMS | Yes | If non-technical collaborators ever needed, revisit. For a solo blog, file-based content is superior. |
+| Decision                      | Choice           | Trade-off                                                                                             |
+| ----------------------------- | ---------------- | ----------------------------------------------------------------------------------------------------- |
+| Static site generation        | `adapter-static` | Cannot do server-side dynamic content; acceptable for a personal blog. Zero hosting cost.             |
+| Trip data in TypeScript files | Yes              | Adding a trip requires editing code + re-deploying. Fine for a solo dev blog.                         |
+| EXIF stripping at build time  | Yes (sharp)      | Must run script when adding photos. Mitigated by adding to build pipeline.                            |
+| Images as static assets       | Yes              | Repo grows with photos. Mitigated by WebP optimization; Git LFS if needed.                            |
+| Client-side filtering         | Yes              | All trip data shipped to client. Fine for dozens of trips.                                            |
+| Pure CSS                      | Yes              | No framework lock-in. CSS custom properties for the design system.                                    |
+| No CMS                        | Yes              | If non-technical collaborators ever needed, revisit. For a solo blog, file-based content is superior. |

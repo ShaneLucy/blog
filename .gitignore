@@ -73,3 +73,9 @@ pids
 #     common/security.gitignore \
 #     tools/bun.gitignore \
 #     common/cache.gitignore | sort -u > .gitignore
+
+# Raw source images (keep outside repo)
+**/raw/
+
+# SvelteKit generated
+.svelte-kit/
