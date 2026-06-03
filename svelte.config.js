@@ -10,7 +10,17 @@ const config = {
 		// adapter-auto only supports some environments, see https://svelte.dev/docs/kit/adapter-auto for a list.
 		// If your environment is not supported, or you settled on a specific environment, switch out the adapter.
 		// See https://svelte.dev/docs/kit/adapters for more information about adapters.
-		adapter: adapter()
+		adapter: adapter(),
+		prerender: {
+			// /travel and /about will be added in later phases; warn instead of failing
+			handleHttpError: ({ path, referrer, message }) => {
+				if (path.startsWith('/travel') || path.startsWith('/about')) {
+					console.warn(`Prerender warning: ${message} (linked from ${referrer})`);
+					return;
+				}
+				throw new Error(message);
+			}
+		}
 	}
 };
 
