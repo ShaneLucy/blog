@@ -23,9 +23,7 @@
 	let filteredTrips = $derived(
 		data.trips
 			.filter((t) => !selectedDestination || t.destination === selectedDestination)
-			.filter(
-				(t) => selectedTags.length === 0 || selectedTags.every((tag) => t.tags.includes(tag))
-			)
+			.filter((t) => selectedTags.length === 0 || selectedTags.every((tag) => t.tags.includes(tag)))
 			.sort((a, b) =>
 				sortBy === 'date'
 					? new Date(b.dates.start).getTime() - new Date(a.dates.start).getTime()

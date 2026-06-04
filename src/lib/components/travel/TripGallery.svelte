@@ -51,8 +51,8 @@
 					class:is-active={selectedTags.includes(tag)}
 					type="button"
 					aria-pressed={selectedTags.includes(tag)}
-					onclick={() => toggleTag(tag)}
-				>{tag}</button>
+					onclick={() => toggleTag(tag)}>{tag}</button
+				>
 			{/each}
 		</div>
 	</div>

@@ -43,7 +43,6 @@
 
 <!-- Issue 10: aria-labelledby names the article landmark -->
 <article class="photo-detail" aria-labelledby="photo-title">
-
 	<!-- Issue 3: breadcrumb contains location link only — no next link -->
 	<nav class="photo-detail__breadcrumb container container--narrow" aria-label="Breadcrumb">
 		<a href="/travel/{trip.slug}" class="back-link">
@@ -62,10 +61,7 @@
 
 	<!-- Issue 2: image comes before metadata -->
 	<!-- Envelope aspect ratio keeps container height constant across all trip photos, preventing CLS on navigation -->
-	<div
-		class="photo-detail__image-wrap"
-		style="aspect-ratio: {envelopeWidth} / {envelopeHeight}"
-	>
+	<div class="photo-detail__image-wrap" style="aspect-ratio: {envelopeWidth} / {envelopeHeight}">
 		<!-- Issue 5: driven by $derived currentSrc -->
 		{#if currentSrc}
 			<img
@@ -127,10 +123,7 @@
 				<span class="photo-nav__placeholder" aria-hidden="true"></span>
 			{/if}
 
-			<span
-				class="photo-nav__counter"
-				aria-label="Photo {photoIndex + 1} of {trip.photos.length}"
-			>
+			<span class="photo-nav__counter" aria-label="Photo {photoIndex + 1} of {trip.photos.length}">
 				{photoIndex + 1} / {trip.photos.length}
 			</span>
 
@@ -156,7 +149,6 @@
 			{/if}
 		</div>
 	</nav>
-
 </article>
 
 <style>

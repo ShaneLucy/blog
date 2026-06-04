@@ -15,9 +15,7 @@
 		sortBy = $bindable<'date' | 'destination'>('date')
 	}: Props = $props();
 
-	let activeFilterCount = $derived(
-		(selectedDestination ? 1 : 0) + selectedTags.length
-	);
+	let activeFilterCount = $derived((selectedDestination ? 1 : 0) + selectedTags.length);
 
 	function toggleTag(tag: string) {
 		if (selectedTags.includes(tag)) {
@@ -81,7 +79,11 @@
 		{#if activeFilterCount > 0}
 			<button type="button" class="filters__clear" onclick={clearFilters}>
 				Clear
-				<span class="filters__clear-count" aria-label="{activeFilterCount} active filter{activeFilterCount === 1 ? '' : 's'}">{activeFilterCount}</span>
+				<span
+					class="filters__clear-count"
+					aria-label="{activeFilterCount} active filter{activeFilterCount === 1 ? '' : 's'}"
+					>{activeFilterCount}</span
+				>
 			</button>
 		{/if}
 	</div>

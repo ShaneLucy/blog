@@ -9,7 +9,8 @@ export const trip: Trip = {
 	dates: { start: '2026-06-01', end: '2026-06-14' },
 	tags: ['fjords', 'hiking', 'midnight-sun', 'villages', 'wilderness'],
 	coverPhoto: 'Bergen_Gateway_to_the_Fjords_of_Norway_pillars.webp',
-	description: 'Two weeks chasing the midnight sun through the fjords and mountains of western Norway.',
+	description:
+		'Two weeks chasing the midnight sun through the fjords and mountains of western Norway.',
 	body: `Summer in Norway means the sun barely sets. Fourteen days of golden light, impossibly blue fjords, and trails that wind above the clouds.`,
 	photos: [
 		{

@@ -64,9 +64,7 @@
 
 	<!-- Trip header -->
 	<header class="trip-detail__header container container--narrow">
-		<span class="eyebrow"
-			>{trip.destination}{trip.region ? ` · ${trip.region}` : ''}</span
-		>
+		<span class="eyebrow">{trip.destination}{trip.region ? ` · ${trip.region}` : ''}</span>
 		<h1>{trip.title}</h1>
 		<p class="trip-detail__dates">
 			<time datetime="{trip.dates.start}/{trip.dates.end}">{dateRange}</time>

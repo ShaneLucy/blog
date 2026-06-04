@@ -29,5 +29,13 @@ export function load({ params }) {
 		trip.photos[0]
 	);
 
-	return { trip, photo, photoIndex, prevPhoto, nextPhoto, envelopeWidth: envelope.width, envelopeHeight: envelope.height };
+	return {
+		trip,
+		photo,
+		photoIndex,
+		prevPhoto,
+		nextPhoto,
+		envelopeWidth: envelope.width,
+		envelopeHeight: envelope.height
+	};
 }
