@@ -17,23 +17,27 @@
 
 	let imageSrc = $derived(`/images/trips/${trip.slug}/${trip.coverPhoto}`);
 	let thumbSrc = $derived(`/images/trips/${trip.slug}/thumbnails/${trip.coverPhoto}`);
+	let thumbFailed = $state(false);
+	let imgFailed = $state(false);
+	let displaySrc = $derived(imgFailed ? null : thumbFailed ? imageSrc : thumbSrc);
 </script>
 
 <a href="/travel/{trip.slug}" class="trip-card" aria-label="{trip.title}, {trip.destination}">
 	<div class="trip-card__image" aria-hidden="true">
-		<img
-			src={thumbSrc}
-			alt=""
-			width="400"
-			height="267"
-			loading="lazy"
-			decoding="async"
-			onerror={(e) => {
-				const img = e.currentTarget as HTMLImageElement;
-				img.src = imageSrc;
-				img.onerror = null;
-			}}
-		/>
+		{#if displaySrc}
+			<img
+				src={displaySrc}
+				alt=""
+				width="400"
+				height="267"
+				loading="lazy"
+				decoding="async"
+				onerror={() => {
+					if (!thumbFailed) thumbFailed = true;
+					else imgFailed = true;
+				}}
+			/>
+		{/if}
 		<div class="trip-card__image-fallback" aria-hidden="true"></div>
 	</div>
 	<div class="trip-card__body">

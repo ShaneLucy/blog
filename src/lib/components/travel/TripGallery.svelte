@@ -57,6 +57,10 @@
 	function thumbSrc(photo: TripPhoto) {
 		return `/images/trips/${slug}/thumbnails/${photo.filename}`;
 	}
+
+	let thumbFailed = $state<Record<number, boolean>>({});
+	let imgFailed = $state<Record<number, boolean>>({});
+	let lightboxFailed = $state<Record<number, boolean>>({});
 </script>
 
 <ul class="gallery" aria-label="Trip photos">
@@ -68,19 +72,20 @@
 				aria-label="View photo: {photo.alt}"
 				onclick={() => openLightbox(i)}
 			>
-				<img
-					src={thumbSrc(photo)}
-					alt={photo.alt}
-					width={photo.width}
-					height={photo.height}
-					loading={i < 2 ? 'eager' : 'lazy'}
-					decoding="async"
-					onerror={(e) => {
-						const img = e.currentTarget as HTMLImageElement;
-						img.src = imageSrc(photo);
-						img.onerror = null;
-					}}
-				/>
+				{#if !imgFailed[i]}
+					<img
+						src={thumbFailed[i] ? imageSrc(photo) : thumbSrc(photo)}
+						alt={photo.alt}
+						width={photo.width}
+						height={photo.height}
+						loading={i < 2 ? 'eager' : 'lazy'}
+						decoding="async"
+						onerror={() => {
+							if (!thumbFailed[i]) thumbFailed[i] = true;
+							else imgFailed[i] = true;
+						}}
+					/>
+				{/if}
 			</button>
 		</li>
 	{/each}
@@ -116,12 +121,17 @@
 		</button>
 
 		<figure class="lightbox__figure">
-			<img
-				src={imageSrc(currentPhoto)}
-				alt={currentPhoto.alt}
-				class="lightbox__image"
-				decoding="async"
-			/>
+			{#if lightboxIndex !== null && !lightboxFailed[lightboxIndex]}
+				<img
+					src={imageSrc(currentPhoto)}
+					alt={currentPhoto.alt}
+					class="lightbox__image"
+					decoding="async"
+					onerror={() => {
+						if (lightboxIndex !== null) lightboxFailed[lightboxIndex] = true;
+					}}
+				/>
+			{/if}
 			{#if currentPhoto.caption}
 				<figcaption class="lightbox__caption">{currentPhoto.caption}</figcaption>
 			{/if}
