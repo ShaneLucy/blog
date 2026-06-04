@@ -23,11 +23,7 @@
 	let displaySrc = $derived(imgFailed ? null : thumbFailed ? imageSrc : thumbSrc);
 </script>
 
-<a
-	href={resolve('/travel/[slug]', { slug: trip.slug })}
-	class="trip-card"
-	aria-label="{trip.title}, {trip.destination}"
->
+<a href={resolve('/travel/[slug]', { slug: trip.slug })} class="trip-card">
 	<div class="trip-card__image" aria-hidden="true">
 		{#if displaySrc}
 			<img
@@ -48,7 +44,7 @@
 	<div class="trip-card__body">
 		<div class="trip-card__meta">
 			<span class="trip-card__destination">{trip.destination}</span>
-			<span class="trip-card__date" aria-label="Dates: {dateLabel}">{dateLabel}</span>
+			<span class="trip-card__date"><span class="sr-only">Dates: </span>{dateLabel}</span>
 		</div>
 		<h3 class="trip-card__title">{trip.title}</h3>
 		<p class="trip-card__desc">{trip.description}</p>
@@ -105,8 +101,11 @@
 		transition: transform var(--duration-slow) var(--ease-default);
 	}
 
-	.trip-card:hover .trip-card__image img {
-		transform: scale(1.04);
+	/* Scale zoom only when the user has not requested reduced motion */
+	@media (prefers-reduced-motion: no-preference) {
+		.trip-card:hover .trip-card__image img {
+			transform: scale(1.04);
+		}
 	}
 
 	/* Fallback gradient shown when image is missing */

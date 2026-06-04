@@ -8,7 +8,9 @@
 </svelte:head>
 
 <div class="error-page container container--narrow">
-	<p class="error-page__status">{$page.status}</p>
+	<!-- aria-hidden: status code is already conveyed by the page <title> ("Error 404 — ...").
+	     The large number is decorative; hiding it prevents screen readers announcing it twice. -->
+	<p class="error-page__status" aria-hidden="true">{$page.status}</p>
 	<h1 class="error-page__title">There is a problem with this website</h1>
 	{#if $page.error?.message}
 		<p class="error-page__message">{$page.error.message}</p>

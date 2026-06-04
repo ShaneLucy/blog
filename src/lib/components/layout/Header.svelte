@@ -56,8 +56,9 @@
 <header class="site-header" class:is-scrolled={scrolled}>
 	<div class="container">
 		<nav class="site-nav" aria-label="Main navigation">
-			<a href={resolve('/')} class="site-nav__logo" aria-label="Wandering Pages — home">
+			<a href={resolve('/')} class="site-nav__logo">
 				<span class="site-nav__logo-text">Wandering Pages</span>
+				<span class="sr-only"> — home</span>
 			</a>
 			<ul class="site-nav__links" role="list">
 				<li>
@@ -98,12 +99,29 @@
 	</div>
 	<div class="site-nav__mobile-menu" id="mobile-menu" hidden={!menuOpen}>
 		<ul class="site-nav__mobile-links" role="list">
-			<li><a href={resolve('/')} class="site-nav__mobile-link" onclick={closeMenu}>Home</a></li>
 			<li>
-				<a href={resolve('/travel')} class="site-nav__mobile-link" onclick={closeMenu}>Travel</a>
+				<a
+					href={resolve('/')}
+					class="site-nav__mobile-link"
+					aria-current={currentPage === '/' ? 'page' : undefined}
+					onclick={closeMenu}>Home</a
+				>
 			</li>
 			<li>
-				<a href={resolve('/about')} class="site-nav__mobile-link" onclick={closeMenu}>About</a>
+				<a
+					href={resolve('/travel')}
+					class="site-nav__mobile-link"
+					aria-current={currentPage.startsWith('/travel') ? 'page' : undefined}
+					onclick={closeMenu}>Travel</a
+				>
+			</li>
+			<li>
+				<a
+					href={resolve('/about')}
+					class="site-nav__mobile-link"
+					aria-current={currentPage === '/about' ? 'page' : undefined}
+					onclick={closeMenu}>About</a
+				>
 			</li>
 		</ul>
 	</div>

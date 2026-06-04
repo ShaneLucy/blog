@@ -34,7 +34,7 @@
 	<meta property="og:type" content="article" />
 </svelte:head>
 
-<article class="trip-detail">
+<article class="trip-detail" aria-labelledby="trip-title">
 	<!-- Back navigation -->
 	<nav class="trip-detail__breadcrumb container container--narrow" aria-label="Breadcrumb">
 		<a href={resolve('/travel')} class="back-link">
@@ -66,9 +66,9 @@
 	<!-- Trip header -->
 	<header class="trip-detail__header container container--narrow">
 		<span class="eyebrow">{trip.destination}{trip.region ? ` · ${trip.region}` : ''}</span>
-		<h1>{trip.title}</h1>
+		<h1 id="trip-title">{trip.title}</h1>
 		<p class="trip-detail__dates">
-			<time datetime="{trip.dates.start}/{trip.dates.end}">{dateRange}</time>
+			<time datetime={trip.dates.start}>{dateRange}</time>
 		</p>
 		{#if trip.tags.length > 0}
 			<ul class="trip-detail__tags" role="list" aria-label="Tags">

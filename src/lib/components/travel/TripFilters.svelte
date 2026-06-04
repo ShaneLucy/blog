@@ -37,12 +37,7 @@
 		<!-- Destination filter -->
 		<div class="filters__field">
 			<label for="destination-filter" class="filters__label">Destination</label>
-			<select
-				id="destination-filter"
-				class="filters__select"
-				bind:value={selectedDestination}
-				aria-label="Filter by destination"
-			>
+			<select id="destination-filter" class="filters__select" bind:value={selectedDestination}>
 				<option value="">All destinations</option>
 				{#each destinations as dest (dest)}
 					<option value={dest}>{dest}</option>
@@ -197,7 +192,7 @@
 
 	.filters__sort-btn.is-active {
 		background: var(--color-accent);
-		color: #fff;
+		color: var(--color-text-inverse);
 	}
 
 	.filters__sort-btn:focus-visible {
@@ -249,5 +244,16 @@
 		display: flex;
 		flex-wrap: wrap;
 		gap: var(--space-2);
+	}
+
+	/* Restore native select arrow when CSS background-image is hidden
+	   by the browser in Windows High Contrast / Forced Colors mode.
+	   The data-URI SVG chevron is not recoloured by the UA, so it
+	   disappears; reverting to appearance:auto restores the OS control. */
+	@media (forced-colors: active) {
+		.filters__select {
+			background-image: none;
+			appearance: auto;
+		}
 	}
 </style>

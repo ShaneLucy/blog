@@ -31,12 +31,24 @@
 - Any new route linked from a prerendered page must either exist or be explicitly handled in handleHttpError
 
 ### Accessibility patterns established
-- Skip-to-content link: NOT yet implemented (deferred from Phase 1 spec)
+- Skip-to-content link: IMPLEMENTED — <a href="#main-content" class="skip-link"> as first child of <body> in +layout.svelte; .skip-link CSS in app.css uses sr-only technique until :focus-visible reveals it styled as .btn--primary
 - Mobile menu: Escape key closes menu + returns focus to hamburger button
 - Mobile menu open: focus moves to first link in #mobile-menu
-- aria-current="page" on nav links driven by $derived($page.url.pathname)
+- aria-current="page" on nav links driven by $derived($page.url.pathname) — applied to BOTH desktop (.site-nav__link) and mobile (.site-nav__mobile-link) links
+- .site-nav__mobile-link[aria-current='page'] has explicit color + weight style in app.css (mirrors desktop treatment)
 - All interactive elements use :focus-visible (never :focus with outline: none)
 - Hamburger bars use aria-hidden="true"; button carries the full aria-label
+- Logo link uses <span class="sr-only"> — home</span> inside the <a> rather than aria-label override; visible and accessible names stay in sync
+- Never put aria-label on a <select> that already has a <label for> — it overrides and suppresses the visible label text (WCAG SC 2.5.3)
+- Never put aria-label on a presentational <span> inside an interactive element — it adds noise to the link's accessible name computation
+- Toggle button groups (tag pills, sort buttons) must use role="group" aria-labelledby on their container, with an id on the visible label element
+- Active toggle state: always use var(--color-text-inverse) not hardcoded #fff — the inverse token adjusts in dark mode; #fff against oklch(68%) accent fails 4.5:1 in dark mode
+- Scale transform (transform: scale()) on hover must be wrapped in @media (prefers-reduced-motion: no-preference) — the global transition kill-switch zeros durations but does NOT suppress the jump itself
+- <time datetime> only supports single valid dates/times/durations — NOT ISO 8601 interval notation (start/end). Use datetime={trip.dates.start} with the human-readable range as visible text only
+- Decorative status codes on error pages should use aria-hidden="true" — the code is already in the <title> and the <h1> provides context; the big number is purely visual
+- <header> only carries the 'banner' landmark role when it is a direct child of <body>/<main>/sectioning element — inside a plain <div> it is not a landmark; prefer <div> to avoid false landmark expectations
+- Whole-card <a> links: do NOT add aria-label to override inner text — let the link's accessible name compute naturally from inner content (heading + description); aria-label suppresses all inner text in AT browse modes
+- Custom select chevron (data-URI SVG background-image) disappears in Forced Colors mode; add @media (forced-colors: active) { background-image: none; appearance: auto; } to restore UA control
 
 ### Design tokens in use (key values)
 - Accent colour (terracotta): --color-accent = oklch(58% 0.13 42) light / oklch(68% 0.13 42) dark
@@ -64,6 +76,11 @@
 - Breadcrumb <nav aria-label="Breadcrumb"> must only contain location/hierarchy links — never sequence navigation
 - Photo sequence navigation should use <nav aria-label="Photo navigation"> separately from breadcrumb
 
+### CSS additions in app.css (post-Phase 5 audit)
+- .skip-link — visually hidden skip-to-main; becomes visible + styled on :focus-visible (end of file, after .sr-only)
+- .btn--secondary — outline/ghost variant: transparent bg, var(--color-accent) border + text, with hover/active/focus-visible states
+- .site-nav__mobile-link[aria-current='page'] — color: var(--color-accent); font-weight: var(--weight-semibold)
+
 ### Phase status (mirrored from main MEMORY.md for quick reference)
 - Phase 0: Foundation — COMPLETE
 - Phase 1: Layout shell + landing page — COMPLETE (build passes)
@@ -71,4 +88,4 @@
 - Phase 3: Travel page + filtering — COMPLETE
 - Phase 4: Trip detail page + photo detail — COMPLETE
 - PLAN.md (A–D): Photo tags, error page, photo detail routes — COMPLETE
-- Phase 5: Polish + testing — pending (review of photo detail page done)
+- Phase 5: Polish + testing — Accessibility audit COMPLETE (19 issues fixed)

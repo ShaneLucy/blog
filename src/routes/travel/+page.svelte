@@ -57,14 +57,15 @@
 </svelte:head>
 
 <div class="travel-page">
-	<!-- Page header -->
-	<header class="travel-page__header">
+	<!-- Page header — plain div; <header> inside a non-sectioning div
+	     would carry no landmark role, so a div is semantically cleaner here. -->
+	<div class="travel-page__header">
 		<div class="container container--narrow">
 			<span class="eyebrow">All trips</span>
 			<h1>Travel</h1>
 			<p class="prose">Photographs, notes, and stories from the road.</p>
 		</div>
-	</header>
+	</div>
 
 	<div class="container">
 		<!-- Filters -->

@@ -672,6 +672,12 @@ p {
 	text-decoration: none;
 }
 
+/* Active page indicator in mobile menu — mirrors desktop link treatment */
+.site-nav__mobile-link[aria-current='page'] {
+	color: var(--color-accent);
+	font-weight: var(--weight-semibold);
+}
+
 /* ---- Responsive: show hamburger, hide desktop links on mobile ---- */
 @media (max-width: 767px) {
 	.site-nav__links {
@@ -921,6 +927,35 @@ p {
 	text-decoration: none;
 }
 
+.btn--secondary {
+	background-color: transparent;
+	color: var(--color-accent);
+	border-color: var(--color-accent);
+}
+
+.btn--secondary:hover {
+	background-color: var(--color-accent-subtle);
+	color: var(--color-accent-hover);
+	border-color: var(--color-accent-hover);
+	box-shadow: var(--shadow-md);
+	transform: translateY(-1px);
+	text-decoration: none;
+}
+
+.btn--secondary:active {
+	background-color: var(--color-accent-subtle);
+	color: var(--color-accent-active);
+	border-color: var(--color-accent-active);
+	transform: translateY(0);
+}
+
+.btn--secondary:focus-visible {
+	outline: 3px solid var(--color-border-focus);
+	outline-offset: 3px;
+	box-shadow: 0 0 0 6px var(--color-accent-subtle);
+	text-decoration: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
 	.btn {
 		transition: var(--transition-color);
@@ -1029,7 +1064,7 @@ p {
 .tag-pill--toggle.is-active,
 .tag-pill--toggle[aria-pressed='true'] {
 	background: var(--color-accent);
-	color: #fff;
+	color: var(--color-text-inverse);
 	border-color: var(--color-accent);
 }
 
@@ -1134,4 +1169,49 @@ p {
 	clip: rect(0, 0, 0, 0);
 	white-space: nowrap;
 	border: 0;
+}
+
+/* ============================================================
+   SKIP LINK
+   Visually hidden until focused via keyboard. Satisfies
+   WCAG 2.2 SC 2.4.1 Bypass Blocks (Level A).
+   ============================================================ */
+
+.skip-link {
+	position: absolute;
+	inset-block-start: var(--space-3);
+	inset-inline-start: var(--space-3);
+	z-index: calc(var(--z-sticky) + 1);
+	/* Hidden state — same technique as .sr-only */
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border: 0;
+	text-decoration: none;
+}
+
+.skip-link:focus-visible {
+	/* Visible state when keyboard-focused */
+	width: auto;
+	height: auto;
+	padding: var(--space-3) var(--space-6);
+	margin: 0;
+	overflow: visible;
+	clip: auto;
+	white-space: normal;
+	/* Styled to match .btn--primary so it is unmistakably actionable */
+	background-color: var(--color-accent);
+	color: var(--color-text-inverse);
+	font-family: var(--font-sans);
+	font-size: var(--text-sm);
+	font-weight: var(--weight-semibold);
+	border-radius: var(--radius-md);
+	border: 2px solid var(--color-accent);
+	outline: 3px solid var(--color-border-focus);
+	outline-offset: 3px;
+	box-shadow: 0 0 0 6px var(--color-accent-subtle);
 }

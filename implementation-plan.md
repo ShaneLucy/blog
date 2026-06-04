@@ -313,7 +313,7 @@ blog/
 
 **Goal**: Production-ready quality.
 
-- [ ] Accessibility audit (alt text, keyboard navigation, focus management, color contrast)
+- [x] Accessibility audit (alt text, keyboard navigation, focus management, color contrast)
 - [ ] SEO: meta tags, Open Graph per page
 - [ ] Performance: Lighthouse score, image sizes, lazy loading
 - [ ] Write Playwright e2e tests (landing, travel index filtering, trip detail)

@@ -44,8 +44,8 @@
 
 {#if availableTags.length > 0}
 	<div class="photo-filters">
-		<span class="photo-filters__label">Filter photos</span>
-		<div class="photo-filters__pills">
+		<span class="photo-filters__label" id="photo-filter-label">Filter photos</span>
+		<div class="photo-filters__pills" role="group" aria-labelledby="photo-filter-label">
 			{#each availableTags as tag (tag)}
 				<button
 					class="tag-pill tag-pill--toggle"
@@ -142,9 +142,14 @@
 		transition: transform var(--duration-slow) var(--ease-default);
 	}
 
-	.gallery__link:hover img,
-	.gallery__link:focus-visible img {
-		transform: scale(1.04);
+	/* Scale zoom suppressed entirely for vestibular-motion-sensitive users;
+	   the transition duration is already zeroed by the global kill-switch in
+	   app.css, but the transform itself must also be removed here. */
+	@media (prefers-reduced-motion: no-preference) {
+		.gallery__link:hover img,
+		.gallery__link:focus-visible img {
+			transform: scale(1.04);
+		}
 	}
 
 	.gallery__link:focus-visible {
