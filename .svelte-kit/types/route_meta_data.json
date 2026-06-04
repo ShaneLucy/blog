@@ -10,5 +10,9 @@
 	"/travel/[slug]": [
 		"src/routes/travel/[slug]/+page.ts",
 		"src/routes/+layout.ts"
+	],
+	"/travel/[slug]/[photoSlug]": [
+		"src/routes/travel/[slug]/[photoSlug]/+page.ts",
+		"src/routes/+layout.ts"
 	]
 }

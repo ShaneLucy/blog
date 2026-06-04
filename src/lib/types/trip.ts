@@ -1,7 +1,24 @@
+export enum PhotoTag {
+	Architecture = 'architecture',
+	Landscape    = 'landscape',
+	Food         = 'food',
+	Night        = 'night',
+	Portrait     = 'portrait',
+	Street       = 'street',
+	Detail       = 'detail',
+	Nature       = 'nature',
+	Water        = 'water',
+	Urban        = 'urban',
+	Interior     = 'interior',
+	Transport    = 'transport',
+}
+
 export interface TripPhoto {
+	slug: string;
 	filename: string;
 	alt: string;
 	caption?: string;
+	tags?: PhotoTag[];
 	width: number;
 	height: number;
 }

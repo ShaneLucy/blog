@@ -345,6 +345,13 @@ body {
 	background-color: var(--color-bg);
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+	display: flex;
+	flex-direction: column;
+	min-height: 100dvh;
+}
+
+#main-content {
+	flex: 1;
 }
 
 img,
