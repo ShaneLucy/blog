@@ -236,8 +236,6 @@
 		border: none;
 		padding: 0;
 		margin: 0;
-		display: grid;
-		place-items: center;
 		color: white;
 	}
 
@@ -245,9 +243,11 @@
 		display: none;
 	}
 
-	/* dialog[open] is required — browsers hide dialog by default */
+	/* display:grid must be on [open] — setting it on the base overrides the
+	   browser's dialog:not([open]){display:none} user-agent rule */
 	.lightbox[open] {
 		display: grid;
+		place-items: center;
 	}
 
 	.lightbox__figure {
