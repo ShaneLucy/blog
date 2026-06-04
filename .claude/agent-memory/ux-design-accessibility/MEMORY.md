@@ -81,6 +81,18 @@
 - .btn--secondary — outline/ghost variant: transparent bg, var(--color-accent) border + text, with hover/active/focus-visible states
 - .site-nav__mobile-link[aria-current='page'] — color: var(--color-accent); font-weight: var(--weight-semibold)
 
+### About page patterns (src/routes/about/+page.svelte)
+- Page uses <article aria-labelledby="about-heading"> as the root element — consistent with trip/photo detail pages
+- Four <section> children: intro, philosophy, destinations, CTA — each has aria-labelledby pointing to its <h2>
+- Intro section uses h1 id="about-heading" so aria-labelledby on <article> resolves correctly
+- Destinations are hardcoded in the script block (no load function needed); update when new trips added to trips.ts
+- Destination links use aria-label="{name}, {year} — {description}" to give AT full context; year span carries aria-hidden="true" (visual decoration, already in aria-label)
+- Philosophy pillars use a single-column flex layout at ALL viewports (user preference confirmed) — never switch to grid columns regardless of viewport width
+- Pillar spacing: gap: var(--space-12) between items; gap: var(--space-4) inside each pillar (heading to body)
+- Left accent rule on each pillar: border-inline-start: 2px solid var(--color-accent); padding-inline-start: var(--space-5)
+- Intro body paragraphs: global p { max-width: var(--width-prose) } overridden with max-width: none — narrow container handles line length
+- Philosophy section uses background-color: var(--color-bg-subtle) + border-block for visual separation
+
 ### Phase status (mirrored from main MEMORY.md for quick reference)
 - Phase 0: Foundation — COMPLETE
 - Phase 1: Layout shell + landing page — COMPLETE (build passes)
@@ -89,3 +101,4 @@
 - Phase 4: Trip detail page + photo detail — COMPLETE
 - PLAN.md (A–D): Photo tags, error page, photo detail routes — COMPLETE
 - Phase 5: Polish + testing — Accessibility audit COMPLETE (19 issues fixed)
+- About page — COMPLETE (build not yet verified)
