@@ -2,6 +2,7 @@
 	import { goto } from '$app/navigation';
 	import type { PageData } from './$types';
 	import { resolve } from '$app/paths';
+	import { SITE_NAME, SITE_URL } from '$lib/config';
 
 	let { data }: { data: PageData } = $props();
 	let trip = $derived(data.trip);
@@ -36,10 +37,20 @@
 
 <svelte:window onkeydown={handleKeydown} />
 
-<!-- Issue 1: use caption ?? alt, not photo.slug -->
 <svelte:head>
 	<title>{photo.caption ?? photo.alt} — {trip.title} — Wandering Pages</title>
 	<meta name="description" content={photo.caption ?? photo.alt} />
+	<meta property="og:type" content="article" />
+	<meta property="og:site_name" content={SITE_NAME} />
+	<meta property="og:title" content={`${photo.caption ?? photo.alt} — ${trip.title}`} />
+	<meta property="og:description" content={photo.caption ?? photo.alt} />
+	<meta property="og:image" content={`${SITE_URL}${imageSrc}`} />
+	<meta property="og:url" content={`${SITE_URL}/travel/${trip.slug}/${photo.slug}`} />
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:title" content={`${photo.caption ?? photo.alt} — ${trip.title}`} />
+	<meta name="twitter:description" content={photo.caption ?? photo.alt} />
+	<meta name="twitter:image" content={`${SITE_URL}${imageSrc}`} />
+	<link rel="canonical" href={`${SITE_URL}/travel/${trip.slug}/${photo.slug}`} />
 </svelte:head>
 
 <!-- Issue 10: aria-labelledby names the article landmark -->

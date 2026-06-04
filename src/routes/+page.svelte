@@ -1,13 +1,21 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
+	import { SITE_NAME, SITE_URL } from '$lib/config';
+
+	const description =
+		'A personal travel journal — field notes, photographs, and stories from the road.';
 </script>
 
 <svelte:head>
 	<title>Wandering Pages</title>
-	<meta
-		name="description"
-		content="A personal travel journal — field notes, photographs, and stories from the road."
-	/>
+	<meta name="description" content={description} />
+	<meta property="og:type" content="website" />
+	<meta property="og:site_name" content={SITE_NAME} />
+	<meta property="og:title" content="Wandering Pages" />
+	<meta property="og:description" content={description} />
+	<meta property="og:url" content={`${SITE_URL}/`} />
+	<meta name="twitter:card" content="summary" />
+	<link rel="canonical" href={`${SITE_URL}/`} />
 </svelte:head>
 
 <!-- Hero -->

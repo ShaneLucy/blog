@@ -7,6 +7,7 @@
 	import { SvelteURLSearchParams } from 'svelte/reactivity';
 	import TripCard from '$lib/components/travel/TripCard.svelte';
 	import TripFilters from '$lib/components/travel/TripFilters.svelte';
+	import { SITE_NAME, SITE_URL } from '$lib/config';
 
 	let { data }: { data: PageData } = $props();
 
@@ -54,6 +55,16 @@
 		name="description"
 		content="A collection of trips — photographs, notes, and stories from the road."
 	/>
+	<meta property="og:type" content="website" />
+	<meta property="og:site_name" content={SITE_NAME} />
+	<meta property="og:title" content="Travel — Wandering Pages" />
+	<meta
+		property="og:description"
+		content="A collection of trips — photographs, notes, and stories from the road."
+	/>
+	<meta property="og:url" content={`${SITE_URL}/travel`} />
+	<meta name="twitter:card" content="summary" />
+	<link rel="canonical" href={`${SITE_URL}/travel`} />
 </svelte:head>
 
 <div class="travel-page">

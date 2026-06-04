@@ -2,6 +2,7 @@
 	import type { PageData } from './$types';
 	import TripGallery from '$lib/components/travel/TripGallery.svelte';
 	import { resolve } from '$app/paths';
+	import { SITE_NAME, SITE_URL } from '$lib/config';
 
 	let { data }: { data: PageData } = $props();
 	let trip = $derived(data.trip);
@@ -28,10 +29,21 @@
 <svelte:head>
 	<title>{trip.title} — Wandering Pages</title>
 	<meta name="description" content={trip.description} />
+	<meta property="og:type" content="article" />
+	<meta property="og:site_name" content={SITE_NAME} />
 	<meta property="og:title" content={trip.title} />
 	<meta property="og:description" content={trip.description} />
-	<meta property="og:image" content={coverSrc} />
-	<meta property="og:type" content="article" />
+	<meta property="og:image" content={`${SITE_URL}${coverSrc}`} />
+	<meta property="og:url" content={`${SITE_URL}/travel/${trip.slug}`} />
+	<meta property="article:published_time" content={trip.dates.start} />
+	{#each trip.tags as tag (tag)}
+		<meta property="article:tag" content={tag} />
+	{/each}
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:title" content={trip.title} />
+	<meta name="twitter:description" content={trip.description} />
+	<meta name="twitter:image" content={`${SITE_URL}${coverSrc}`} />
+	<link rel="canonical" href={`${SITE_URL}/travel/${trip.slug}`} />
 </svelte:head>
 
 <article class="trip-detail" aria-labelledby="trip-title">
