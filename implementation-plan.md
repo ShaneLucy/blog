@@ -316,6 +316,27 @@ blog/
 - [x] Accessibility audit (alt text, keyboard navigation, focus management, color contrast)
 - [x] SEO: meta tags, Open Graph per page
 - [ ] Performance: Lighthouse score, image sizes, lazy loading
+  - **5.3a — Remove unused italic font variants** (saves ~1.46 MB)
+    - Remove all 7 italic `@font-face` blocks from `src/app.css`
+  - **5.3b — Convert upright TTF → WOFF2** (~70% size reduction per file)
+    - Install `wawoff2` dev dependency
+    - Write `scripts/convert-fonts.ts` — batch-converts upright TTFs to WOFF2
+    - Add `"convert-fonts": "bun run scripts/convert-fonts.ts"` to `package.json`
+    - Convert: `Inter_18pt-Regular.ttf` → `.woff2`
+    - Convert: `Inter_18pt-Medium.ttf` → `.woff2`
+    - Convert: `Inter_18pt-SemiBold.ttf` → `.woff2`
+    - Convert: `Lora-Regular.ttf` → `.woff2`
+    - Convert: `Lora-Medium.ttf` → `.woff2`
+    - Convert: `Lora-SemiBold.ttf` → `.woff2`
+    - Convert: `Lora-Bold.ttf` → `.woff2`
+    - Update all 7 upright `@font-face` blocks in `src/app.css` to reference `.woff2` with `format('woff2')`
+  - **5.3c — Preload above-the-fold fonts** (eliminates CSS-parse → font-request waterfall)
+    - Add `<link rel="preload">` for `Inter_18pt-Regular.woff2` in `src/app.html`
+    - Add `<link rel="preload">` for `Lora-Bold.woff2` in `src/app.html`
+  - **5.3d — Add `<meta name="theme-color">`** to `src/app.html`
+  - **5.3e — Run Lighthouse** and measure baseline after font changes
+  - **5.3f — Add `<link rel="prefetch">` for `/travel`** on homepage `<svelte:head>`
+  - **5.3g — Pre-compression** (deferred — implement after deployment target is chosen)
 - [ ] Write Playwright e2e tests (landing, travel index filtering, trip detail)
 - [ ] Cross-browser check (Chrome, Firefox, Safari)
 - [ ] Choose deployment target and configure adapter
