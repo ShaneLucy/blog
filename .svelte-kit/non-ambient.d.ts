@@ -29,15 +29,16 @@ declare module "$app/types" {
 	type MatcherParam<M> = M extends (param : string) => param is (infer U extends string) ? U : string;
 
 	export interface AppTypes {
-		RouteId(): "/" | "/travel";
+		RouteId(): "/" | "/travel" | "/travel/[slug]";
 		RouteParams(): {
-			
+			"/travel/[slug]": { slug: string }
 		};
 		LayoutParams(): {
-			"/": Record<string, never>;
-			"/travel": Record<string, never>
+			"/": { slug?: string | undefined };
+			"/travel": { slug?: string | undefined };
+			"/travel/[slug]": { slug: string }
 		};
-		Pathname(): "/" | "/travel";
+		Pathname(): "/" | "/travel" | `/travel/${string}` & {} | `/travel/${string}/` & {};
 		ResolvedPathname(): `${"" | `/${string}`}${ReturnType<AppTypes['Pathname']>}`;
 		Asset(): "/fonts/inter/Inter_18pt-Italic.ttf" | "/fonts/inter/Inter_18pt-Medium.ttf" | "/fonts/inter/Inter_18pt-MediumItalic.ttf" | "/fonts/inter/Inter_18pt-Regular.ttf" | "/fonts/inter/Inter_18pt-SemiBold.ttf" | "/fonts/inter/Inter_18pt-SemiBoldItalic.ttf" | "/fonts/lora/Lora-Bold.ttf" | "/fonts/lora/Lora-BoldItalic.ttf" | "/fonts/lora/Lora-Italic.ttf" | "/fonts/lora/Lora-Medium.ttf" | "/fonts/lora/Lora-MediumItalic.ttf" | "/fonts/lora/Lora-Regular.ttf" | "/fonts/lora/Lora-SemiBold.ttf" | "/fonts/lora/Lora-SemiBoldItalic.ttf" | "/robots.txt" | string & {};
 	}
