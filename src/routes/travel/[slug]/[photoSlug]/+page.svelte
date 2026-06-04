@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
@@ -6,26 +7,44 @@
 	let photo = $derived(data.photo);
 	let prevPhoto = $derived(data.prevPhoto);
 	let nextPhoto = $derived(data.nextPhoto);
+	let photoIndex = $derived(data.photoIndex);
 
 	let imageSrc = $derived(`/images/trips/${trip.slug}/${photo.filename}`);
 	let thumbSrc = $derived(`/images/trips/${trip.slug}/thumbnails/${photo.filename}`);
 
+	let envelopeWidth = $derived(data.envelopeWidth);
+	let envelopeHeight = $derived(data.envelopeHeight);
+
 	let imgFailed = $state(false);
 	let thumbFailed = $state(false);
 
-	function srcToUse() {
-		if (imgFailed) return null;
-		return thumbFailed ? imageSrc : thumbSrc;
+	// Issue 5: $derived replaces plain srcToUse() function
+	let currentSrc = $derived(imgFailed ? null : thumbFailed ? imageSrc : thumbSrc);
+
+	// Issue 7: arrow-key navigation (progressive enhancement)
+	function handleKeydown(e: KeyboardEvent) {
+		const target = e.target as Element;
+		if (target.matches('input, textarea, select, [contenteditable]')) return;
+		if (e.key === 'ArrowLeft' && prevPhoto) {
+			goto(`/travel/${trip.slug}/${prevPhoto.slug}`);
+		} else if (e.key === 'ArrowRight' && nextPhoto) {
+			goto(`/travel/${trip.slug}/${nextPhoto.slug}`);
+		}
 	}
 </script>
 
+<svelte:window onkeydown={handleKeydown} />
+
+<!-- Issue 1: use caption ?? alt, not photo.slug -->
 <svelte:head>
-	<title>{photo.slug} — {trip.title} — Wandering Pages</title>
+	<title>{photo.caption ?? photo.alt} — {trip.title} — Wandering Pages</title>
 	<meta name="description" content={photo.caption ?? photo.alt} />
 </svelte:head>
 
-<article class="photo-detail">
-	<!-- Breadcrumb + Next navigation row -->
+<!-- Issue 10: aria-labelledby names the article landmark -->
+<article class="photo-detail" aria-labelledby="photo-title">
+
+	<!-- Issue 3: breadcrumb contains location link only — no next link -->
 	<nav class="photo-detail__breadcrumb container container--narrow" aria-label="Breadcrumb">
 		<a href="/travel/{trip.slug}" class="back-link">
 			<svg aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -39,42 +58,18 @@
 			</svg>
 			{trip.title}
 		</a>
-		{#if nextPhoto}
-			<a href="/travel/{trip.slug}/{nextPhoto.slug}" class="photo-nav__link photo-nav__link--next">
-				{nextPhoto.slug}
-				<svg aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="none">
-					<path
-						d="M6 4L10 8L6 12"
-						stroke="currentColor"
-						stroke-width="1.5"
-						stroke-linecap="round"
-						stroke-linejoin="round"
-					/>
-				</svg>
-			</a>
-		{/if}
 	</nav>
 
-	<!-- Title + description + tags -->
-	<header class="photo-detail__header container container--narrow">
-		<h1 class="photo-detail__title">{photo.slug}</h1>
-		{#if photo.alt}
-			<p class="photo-detail__description">{photo.alt}</p>
-		{/if}
-		{#if photo.tags && photo.tags.length > 0}
-			<ul class="photo-detail__tags" role="list" aria-label="Photo tags">
-				{#each photo.tags as tag}
-					<li class="tag-pill">{tag}</li>
-				{/each}
-			</ul>
-		{/if}
-	</header>
-
-	<!-- Full-size image -->
-	<div class="photo-detail__image-wrap">
-		{#if !imgFailed}
+	<!-- Issue 2: image comes before metadata -->
+	<!-- Envelope aspect ratio keeps container height constant across all trip photos, preventing CLS on navigation -->
+	<div
+		class="photo-detail__image-wrap"
+		style="aspect-ratio: {envelopeWidth} / {envelopeHeight}"
+	>
+		<!-- Issue 5: driven by $derived currentSrc -->
+		{#if currentSrc}
 			<img
-				src={srcToUse()}
+				src={currentSrc}
 				alt={photo.alt}
 				width={photo.width}
 				height={photo.height}
@@ -89,23 +84,79 @@
 		{/if}
 	</div>
 
-	<!-- Previous navigation -->
-	{#if prevPhoto}
-		<nav class="photo-detail__nav container container--narrow" aria-label="Photo navigation">
-			<a href="/travel/{trip.slug}/{prevPhoto.slug}" class="photo-nav__link photo-nav__link--prev">
-				<svg aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="none">
-					<path
-						d="M10 12L6 8L10 4"
-						stroke="currentColor"
-						stroke-width="1.5"
-						stroke-linecap="round"
-						stroke-linejoin="round"
-					/>
-				</svg>
-				Previous
-			</a>
-		</nav>
-	{/if}
+	<!-- Issues 1 + 4: title uses caption ?? alt; description only shown when distinct from caption -->
+	<div class="photo-detail__meta container container--narrow">
+		<h1 id="photo-title" class="photo-detail__title">{photo.caption ?? photo.alt}</h1>
+		{#if photo.caption && photo.alt && photo.alt !== photo.caption}
+			<p class="photo-detail__description">{photo.alt}</p>
+		{/if}
+		<!-- Issue 9: margin-block-start separates tags from title/description -->
+		{#if photo.tags && photo.tags.length > 0}
+			<ul class="photo-detail__tags" role="list" aria-label="Photo tags">
+				{#each photo.tags as tag}
+					<li class="tag-pill">{tag}</li>
+				{/each}
+			</ul>
+		{/if}
+	</div>
+
+	<!-- Issue 3: unified prev/counter/next nav, always present, placed below content -->
+	<!-- Issue 8: margin-block-start provides section-level separation -->
+	<nav class="photo-detail__nav container container--narrow" aria-label="Photo navigation">
+		<!-- Issue 7: hint for screen readers about arrow key shortcut -->
+		<p class="sr-only">Use the left and right arrow keys to browse photos.</p>
+		<div class="photo-nav">
+			{#if prevPhoto}
+				<a
+					href="/travel/{trip.slug}/{prevPhoto.slug}"
+					class="photo-nav__link photo-nav__link--prev"
+					aria-label="Previous photo: {prevPhoto.alt}"
+				>
+					<svg aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="none">
+						<path
+							d="M10 12L6 8L10 4"
+							stroke="currentColor"
+							stroke-width="1.5"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+						/>
+					</svg>
+					Previous
+				</a>
+			{:else}
+				<span class="photo-nav__placeholder" aria-hidden="true"></span>
+			{/if}
+
+			<span
+				class="photo-nav__counter"
+				aria-label="Photo {photoIndex + 1} of {trip.photos.length}"
+			>
+				{photoIndex + 1} / {trip.photos.length}
+			</span>
+
+			{#if nextPhoto}
+				<a
+					href="/travel/{trip.slug}/{nextPhoto.slug}"
+					class="photo-nav__link photo-nav__link--next"
+					aria-label="Next photo: {nextPhoto.alt}"
+				>
+					Next
+					<svg aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="none">
+						<path
+							d="M6 4L10 8L6 12"
+							stroke="currentColor"
+							stroke-width="1.5"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+						/>
+					</svg>
+				</a>
+			{:else}
+				<span class="photo-nav__placeholder" aria-hidden="true"></span>
+			{/if}
+		</div>
+	</nav>
+
 </article>
 
 <style>
@@ -116,35 +167,27 @@
 	/* Breadcrumb */
 	.photo-detail__breadcrumb {
 		padding-block: var(--space-5);
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
 	}
 
-	.back-link {
-		display: inline-flex;
-		align-items: center;
-		gap: var(--space-2);
-		font-family: var(--font-sans);
-		font-size: var(--text-sm);
-		font-weight: var(--weight-medium);
-		color: var(--color-text-secondary);
-		text-decoration: none;
-		transition: color var(--duration-fast) var(--ease-out);
+	/* Issue 6: aspect-ratio on wrapper prevents CLS; max-height caps tall portraits */
+	.photo-detail__image-wrap {
+		width: 100%;
+		max-height: 85dvh;
+		background: var(--color-bg-muted);
+		overflow: hidden;
+		margin-block-end: var(--space-2xl);
+		box-shadow: inset 0 0 0 1px var(--color-border);
 	}
 
-	.back-link:hover {
-		color: var(--color-text-primary);
+	.photo-detail__image {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
 	}
 
-	.back-link:focus-visible {
-		outline: 3px solid var(--color-border-focus);
-		outline-offset: 3px;
-		border-radius: var(--radius-sm);
-	}
-
-	/* Header */
-	.photo-detail__header {
+	/* Issue 2: metadata lives below the image */
+	.photo-detail__meta {
 		margin-block-end: var(--space-xl);
 	}
 
@@ -163,26 +206,7 @@
 		margin: 0;
 	}
 
-	/* Image */
-	.photo-detail__image-wrap {
-		width: 100%;
-		background: var(--color-bg-muted);
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		overflow: hidden;
-		margin-block-end: var(--space-xl);
-	}
-
-	.photo-detail__image {
-		display: block;
-		max-width: 100%;
-		max-height: 85dvh;
-		width: auto;
-		height: auto;
-		object-fit: contain;
-	}
-
+	/* Issue 9: top margin separates tags from title/description */
 	.photo-detail__tags {
 		display: flex;
 		flex-wrap: wrap;
@@ -190,28 +214,11 @@
 		list-style: none;
 		padding: 0;
 		margin: 0;
+		margin-block-start: var(--space-4);
 	}
 
-	/* Prev / Next nav */
-	.photo-nav__link {
-		display: inline-flex;
-		align-items: center;
-		gap: var(--space-2);
-		font-family: var(--font-sans);
-		font-size: var(--text-sm);
-		font-weight: var(--weight-medium);
-		color: var(--color-text-secondary);
-		text-decoration: none;
-		transition: color var(--duration-fast) var(--ease-out);
-	}
-
-	.photo-nav__link:hover {
-		color: var(--color-text-primary);
-	}
-
-	.photo-nav__link:focus-visible {
-		outline: 3px solid var(--color-border-focus);
-		outline-offset: 3px;
-		border-radius: var(--radius-sm);
+	/* Issue 8: section-level spacing above nav */
+	.photo-detail__nav {
+		margin-block-start: var(--space-2xl);
 	}
 </style>

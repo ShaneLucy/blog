@@ -47,10 +47,28 @@
 - Layout gutter: --gutter = clamp(1rem, 5vw, 3rem)
 - Sticky z-index: --z-sticky = 100
 
+### Photo detail page patterns (src/routes/travel/[slug]/[photoSlug]/+page.svelte)
+- TripPhoto has both `alt` (required, functional/screen-reader text) and `caption` (optional, editorial display text)
+- Visible title and page <title> should use `photo.caption ?? photo.alt` — never expose raw `photo.slug` to users
+- alt text should NOT be used as a visible description paragraph; only render caption as body text
+- Image should appear before the title/metadata block on a photo detail page (photo is primary content)
+- Prev/next navigation must be unified into a single <nav> below the content — do NOT embed a "next" link inside the breadcrumb <nav>
+- `photoIndex` is returned by the load function — use it for "N of M" counter in photo nav
+- `srcToUse()` plain function anti-pattern — use `$derived` instead for image source fallback logic
+- Arrow key navigation (ArrowLeft/ArrowRight) is expected UX for photo browsing; use `<svelte:window onkeydown>` as progressive enhancement
+- Image wrapper needs `aspect-ratio: {photo.width} / {photo.height}` to prevent CLS before image loads
+- `.back-link` and `.photo-nav__link` styles are duplicated across trip and photo-detail pages — promote to src/app.css as global classes
+
+### Landmark / ARIA patterns
+- <article> used for photo and trip detail pages — add aria-labelledby pointing to the <h1> id
+- Breadcrumb <nav aria-label="Breadcrumb"> must only contain location/hierarchy links — never sequence navigation
+- Photo sequence navigation should use <nav aria-label="Photo navigation"> separately from breadcrumb
+
 ### Phase status (mirrored from main MEMORY.md for quick reference)
 - Phase 0: Foundation — COMPLETE
 - Phase 1: Layout shell + landing page — COMPLETE (build passes)
-- Phase 2: Image processing pipeline — pending
-- Phase 3: Travel page + filtering — pending
-- Phase 4: Trip detail page — pending
-- Phase 5: Polish + testing — pending
+- Phase 2: Image processing pipeline — COMPLETE
+- Phase 3: Travel page + filtering — COMPLETE
+- Phase 4: Trip detail page + photo detail — COMPLETE
+- PLAN.md (A–D): Photo tags, error page, photo detail routes — COMPLETE
+- Phase 5: Polish + testing — pending (review of photo detail page done)

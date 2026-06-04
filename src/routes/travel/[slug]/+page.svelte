@@ -110,28 +110,6 @@
 		padding-block: var(--space-5);
 	}
 
-	.back-link {
-		display: inline-flex;
-		align-items: center;
-		gap: var(--space-2);
-		font-family: var(--font-sans);
-		font-size: var(--text-sm);
-		font-weight: var(--weight-medium);
-		color: var(--color-text-secondary);
-		text-decoration: none;
-		transition: color var(--duration-fast) var(--ease-out);
-	}
-
-	.back-link:hover {
-		color: var(--color-text-primary);
-	}
-
-	.back-link:focus-visible {
-		outline: 3px solid var(--color-border-focus);
-		outline-offset: 3px;
-		border-radius: var(--radius-sm);
-	}
-
 	/* Hero */
 	.trip-detail__hero {
 		width: 100%;

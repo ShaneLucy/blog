@@ -22,5 +22,12 @@ export function load({ params }) {
 	const prevPhoto = photoIndex > 0 ? trip.photos[photoIndex - 1] : null;
 	const nextPhoto = photoIndex < trip.photos.length - 1 ? trip.photos[photoIndex + 1] : null;
 
-	return { trip, photo, photoIndex, prevPhoto, nextPhoto };
+	// Envelope: find the most portrait photo (smallest w/h ratio) so the container
+	// height stays constant across all photos, eliminating layout shift on navigation.
+	const envelope = trip.photos.reduce(
+		(min, p) => (p.width / p.height < min.width / min.height ? p : min),
+		trip.photos[0]
+	);
+
+	return { trip, photo, photoIndex, prevPhoto, nextPhoto, envelopeWidth: envelope.width, envelopeHeight: envelope.height };
 }
