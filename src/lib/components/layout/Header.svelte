@@ -102,14 +102,3 @@
 	</div>
 </header>
 
-<style>
-	/* Respect reduced-motion preference for animated elements in this component */
-	@media (prefers-reduced-motion: reduce) {
-		.hamburger-bar,
-		.site-nav__mobile-menu,
-		/* stylelint-disable-next-line selector-pseudo-element-colon-notation */
-		:global(.site-nav__link::after) {
-			transition: none;
-		}
-	}
-</style>
