@@ -12,6 +12,7 @@
 		"lint": "prettier --write . && eslint . && npm run check",
 		"format": "prettier --write .",
 		"test:unit": "bun test",
+		"coverage": "bun test --coverage --coverage-reporter=text --coverage-reporter=lcov",
 		"process-images": "bun run scripts/process-images.ts",
 		"test:e2e": "playwright install && playwright test",
 		"test": "bun run test:unit && bun run test:e2e"

@@ -40,28 +40,31 @@ export async function processImage(
 	return { width: info.width, height: info.height };
 }
 
-async function verifyNoExif(filePath: string): Promise<boolean> {
+export async function verifyNoExif(filePath: string): Promise<boolean> {
 	const meta = await sharp(filePath).metadata();
 	return !meta.exif && !meta.iptc && !meta.xmp;
 }
 
-async function main(): Promise<void> {
-	if (!existsSync(CONTENT_DIR)) {
+export async function main(
+	contentDir: string = CONTENT_DIR,
+	outputDir: string = OUTPUT_DIR
+): Promise<void> {
+	if (!existsSync(contentDir)) {
 		console.log('No src/content/trips directory found. Nothing to process.');
 		return;
 	}
 
-	const tripDirs = await readdir(CONTENT_DIR, { withFileTypes: true });
+	const tripDirs = await readdir(contentDir, { withFileTypes: true });
 	let processed = 0;
 	let errors = 0;
 
 	for (const entry of tripDirs) {
 		if (!entry.isDirectory()) continue;
 
-		const rawDir = join(CONTENT_DIR, entry.name, 'raw');
+		const rawDir = join(contentDir, entry.name, 'raw');
 		if (!existsSync(rawDir)) continue;
 
-		const outDir = join(OUTPUT_DIR, entry.name);
+		const outDir = join(outputDir, entry.name);
 		const thumbDir = join(outDir, 'thumbnails');
 		await mkdir(outDir, { recursive: true });
 		await mkdir(thumbDir, { recursive: true });

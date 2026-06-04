@@ -1,8 +1,18 @@
 /// <reference types="bun-types" />
-import { test, expect, beforeAll, afterAll } from 'bun:test';
+import {
+	test,
+	expect,
+	beforeAll,
+	afterAll,
+	describe,
+	beforeEach,
+	afterEach,
+	spyOn
+} from 'bun:test';
 import sharp from 'sharp';
-import { processImage } from '../../scripts/process-images';
-import { mkdtemp, rm } from 'node:fs/promises';
+import { processImage, verifyNoExif, main } from '../../scripts/process-images';
+import { mkdtemp, rm, mkdir, writeFile } from 'node:fs/promises';
+import { existsSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 
@@ -126,4 +136,116 @@ test('thumbnail also has no EXIF metadata', async () => {
 	expect(thumbMeta.exif).toBeUndefined();
 	expect(thumbMeta.iptc).toBeUndefined();
 	expect(thumbMeta.xmp).toBeUndefined();
+});
+
+// --- verifyNoExif ---
+
+test('verifyNoExif: returns true for a processed file with no metadata', async () => {
+	const input = join(tempDir, 'vne-input.jpg');
+	const output = join(tempDir, 'vne-output.webp');
+	const thumb = join(tempDir, 'vne-thumb.webp');
+
+	await makeTestJpeg(input, { width: 200, height: 150 });
+	await processImage(input, output, thumb);
+
+	expect(await verifyNoExif(output)).toBe(true);
+});
+
+test('verifyNoExif: returns false for a JPEG with EXIF metadata', async () => {
+	const input = join(tempDir, 'vne-exif.jpg');
+	await makeTestJpeg(input, { width: 200, height: 150, withMeta: true });
+
+	expect(await verifyNoExif(input)).toBe(false);
+});
+
+// --- main ---
+
+describe('main', () => {
+	let contentDir: string;
+	let outputDir: string;
+
+	beforeEach(async () => {
+		contentDir = await mkdtemp(join(tmpdir(), 'content-'));
+		outputDir = await mkdtemp(join(tmpdir(), 'output-'));
+	});
+
+	afterEach(async () => {
+		try {
+			await rm(contentDir, { recursive: true, force: true });
+		} catch {
+			// temp dir will be cleaned by the OS
+		}
+		try {
+			await rm(outputDir, { recursive: true, force: true });
+		} catch {
+			// temp dir will be cleaned by the OS
+		}
+	});
+
+	test('returns early and logs when content dir does not exist', async () => {
+		const logSpy = spyOn(console, 'log').mockImplementation(() => {});
+		await main('/nonexistent-dir-abc123', outputDir);
+		expect(logSpy).toHaveBeenCalledWith(
+			'No src/content/trips directory found. Nothing to process.'
+		);
+		logSpy.mockRestore();
+	});
+
+	test('skips non-directory entries in content dir', async () => {
+		await writeFile(join(contentDir, 'not-a-dir.txt'), 'hello');
+		const logSpy = spyOn(console, 'log').mockImplementation(() => {});
+		await main(contentDir, outputDir);
+		expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('0 image(s) processed'));
+		logSpy.mockRestore();
+	});
+
+	test('skips trip directories with no raw subdir', async () => {
+		await mkdir(join(contentDir, 'my-trip'));
+		const logSpy = spyOn(console, 'log').mockImplementation(() => {});
+		await main(contentDir, outputDir);
+		expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('0 image(s) processed'));
+		logSpy.mockRestore();
+	});
+
+	test('skips files with unsupported extensions in raw dir', async () => {
+		const rawDir = join(contentDir, 'my-trip', 'raw');
+		await mkdir(rawDir, { recursive: true });
+		await writeFile(join(rawDir, 'notes.txt'), 'not an image');
+		const logSpy = spyOn(console, 'log').mockImplementation(() => {});
+		await main(contentDir, outputDir);
+		expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('Processing 0 image(s)'));
+		logSpy.mockRestore();
+	});
+
+	test('processes valid images and writes output files', async () => {
+		const rawDir = join(contentDir, 'my-trip', 'raw');
+		await mkdir(rawDir, { recursive: true });
+		await makeTestJpeg(join(rawDir, 'photo.jpg'), { width: 300, height: 200 });
+
+		const logSpy = spyOn(console, 'log').mockImplementation(() => {});
+		await main(contentDir, outputDir);
+		logSpy.mockRestore();
+
+		expect(existsSync(join(outputDir, 'my-trip', 'photo.webp'))).toBe(true);
+		expect(existsSync(join(outputDir, 'my-trip', 'thumbnails', 'photo.webp'))).toBe(true);
+	});
+
+	test('logs error and exits with code 1 for an unprocessable image', async () => {
+		const rawDir = join(contentDir, 'my-trip', 'raw');
+		await mkdir(rawDir, { recursive: true });
+		await writeFile(join(rawDir, 'corrupt.jpg'), 'this is not an image');
+
+		const logSpy = spyOn(console, 'log').mockImplementation(() => {});
+		const errSpy = spyOn(console, 'error').mockImplementation(() => {});
+		const exitSpy = spyOn(process, 'exit').mockImplementation(() => undefined as never);
+
+		await main(contentDir, outputDir);
+
+		expect(errSpy).toHaveBeenCalled();
+		expect(exitSpy).toHaveBeenCalledWith(1);
+
+		logSpy.mockRestore();
+		errSpy.mockRestore();
+		exitSpy.mockRestore();
+	});
 });
