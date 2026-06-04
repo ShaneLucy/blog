@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { Trip } from '$lib/types/trip';
+	import { resolve } from '$app/paths';
 
 	interface Props {
 		trip: Trip;
@@ -22,7 +23,11 @@
 	let displaySrc = $derived(imgFailed ? null : thumbFailed ? imageSrc : thumbSrc);
 </script>
 
-<a href="/travel/{trip.slug}" class="trip-card" aria-label="{trip.title}, {trip.destination}">
+<a
+	href={resolve('/travel/[slug]', { slug: trip.slug })}
+	class="trip-card"
+	aria-label="{trip.title}, {trip.destination}"
+>
 	<div class="trip-card__image" aria-hidden="true">
 		{#if displaySrc}
 			<img
@@ -49,7 +54,7 @@
 		<p class="trip-card__desc">{trip.description}</p>
 		{#if trip.tags.length > 0}
 			<ul class="trip-card__tags" role="list" aria-label="Tags">
-				{#each trip.tags.slice(0, 4) as tag}
+				{#each trip.tags.slice(0, 4) as tag (tag)}
 					<li class="tag-pill">{tag}</li>
 				{/each}
 			</ul>
@@ -159,6 +164,7 @@
 		color: var(--color-text-secondary);
 		display: -webkit-box;
 		-webkit-line-clamp: 2;
+		line-clamp: 2;
 		-webkit-box-orient: vertical;
 		overflow: hidden;
 		max-width: none;

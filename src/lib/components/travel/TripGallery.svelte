@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { TripPhoto } from '$lib/types/trip';
 	import type { PhotoTag } from '$lib/types/trip';
+	import { resolve } from '$app/paths';
 
 	interface Props {
 		photos: TripPhoto[];
@@ -45,7 +46,7 @@
 	<div class="photo-filters">
 		<span class="photo-filters__label">Filter photos</span>
 		<div class="photo-filters__pills">
-			{#each availableTags as tag}
+			{#each availableTags as tag (tag)}
 				<button
 					class="tag-pill tag-pill--toggle"
 					class:is-active={selectedTags.includes(tag)}
@@ -62,7 +63,7 @@
 	{#each filteredPhotos as photo (photo.slug)}
 		<li class="gallery__item">
 			<a
-				href="/travel/{slug}/{photo.slug}"
+				href={resolve('/travel/[slug]/[photoSlug]', { slug, photoSlug: photo.slug })}
 				class="gallery__link"
 				aria-label="View photo: {photo.alt}"
 			>

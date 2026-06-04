@@ -44,7 +44,7 @@
 				aria-label="Filter by destination"
 			>
 				<option value="">All destinations</option>
-				{#each destinations as dest}
+				{#each destinations as dest (dest)}
 					<option value={dest}>{dest}</option>
 				{/each}
 			</select>
@@ -91,7 +91,7 @@
 	<!-- Tag pills -->
 	{#if tags.length > 0}
 		<div class="filters__tags" role="group" aria-label="Filter by tag">
-			{#each tags as tag}
+			{#each tags as tag (tag)}
 				<button
 					type="button"
 					class="tag-pill tag-pill--toggle"

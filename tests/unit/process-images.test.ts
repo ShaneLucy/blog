@@ -1,3 +1,4 @@
+/// <reference types="bun-types" />
 import { test, expect, beforeAll, afterAll } from 'bun:test';
 import sharp from 'sharp';
 import { processImage } from '../../scripts/process-images';

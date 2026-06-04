@@ -1,5 +1,5 @@
 <script lang="ts">
-	// No imports needed for the landing page
+	import { resolve } from '$app/paths';
 </script>
 
 <svelte:head>
@@ -21,7 +21,7 @@
 		<span class="eyebrow">A personal travel journal</span>
 		<h1 class="hero__title">Wandering Pages</h1>
 		<p class="hero__tagline">Field notes, photographs, and stories from the road.</p>
-		<a href="/travel" class="btn btn--primary">
+		<a href={resolve('/travel')} class="btn btn--primary">
 			Explore Trips
 			<svg aria-hidden="true" focusable="false" width="16" height="16" viewBox="0 0 16 16">
 				<path
@@ -45,7 +45,7 @@
 			This is where I document my travels — the places, the people, and the moments that stick with
 			you long after you've come home. Part photo journal, part field notes, all wandering.
 		</p>
-		<a href="/travel" class="btn btn--primary" style="margin-block-start: var(--space-6)"
+		<a href={resolve('/travel')} class="btn btn--primary" style="margin-block-start: var(--space-6)"
 			>See all trips</a
 		>
 	</div>

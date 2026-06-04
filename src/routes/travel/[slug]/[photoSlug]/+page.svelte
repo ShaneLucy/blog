@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import type { PageData } from './$types';
+	import { resolve } from '$app/paths';
 
 	let { data }: { data: PageData } = $props();
 	let trip = $derived(data.trip);
@@ -26,9 +27,9 @@
 		const target = e.target as Element;
 		if (target.matches('input, textarea, select, [contenteditable]')) return;
 		if (e.key === 'ArrowLeft' && prevPhoto) {
-			goto(`/travel/${trip.slug}/${prevPhoto.slug}`);
+			goto(resolve('/travel/[slug]/[photoSlug]', { slug: trip.slug, photoSlug: prevPhoto.slug }));
 		} else if (e.key === 'ArrowRight' && nextPhoto) {
-			goto(`/travel/${trip.slug}/${nextPhoto.slug}`);
+			goto(resolve('/travel/[slug]/[photoSlug]', { slug: trip.slug, photoSlug: nextPhoto.slug }));
 		}
 	}
 </script>
@@ -45,7 +46,7 @@
 <article class="photo-detail" aria-labelledby="photo-title">
 	<!-- Issue 3: breadcrumb contains location link only — no next link -->
 	<nav class="photo-detail__breadcrumb container container--narrow" aria-label="Breadcrumb">
-		<a href="/travel/{trip.slug}" class="back-link">
+		<a href={resolve('/travel/[slug]', { slug: trip.slug })} class="back-link">
 			<svg aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="none">
 				<path
 					d="M10 12L6 8L10 4"
@@ -89,7 +90,7 @@
 		<!-- Issue 9: margin-block-start separates tags from title/description -->
 		{#if photo.tags && photo.tags.length > 0}
 			<ul class="photo-detail__tags" role="list" aria-label="Photo tags">
-				{#each photo.tags as tag}
+				{#each photo.tags as tag (tag)}
 					<li class="tag-pill">{tag}</li>
 				{/each}
 			</ul>
@@ -104,7 +105,10 @@
 		<div class="photo-nav">
 			{#if prevPhoto}
 				<a
-					href="/travel/{trip.slug}/{prevPhoto.slug}"
+					href={resolve('/travel/[slug]/[photoSlug]', {
+						slug: trip.slug,
+						photoSlug: prevPhoto.slug
+					})}
 					class="photo-nav__link photo-nav__link--prev"
 					aria-label="Previous photo: {prevPhoto.alt}"
 				>
@@ -129,7 +133,10 @@
 
 			{#if nextPhoto}
 				<a
-					href="/travel/{trip.slug}/{nextPhoto.slug}"
+					href={resolve('/travel/[slug]/[photoSlug]', {
+						slug: trip.slug,
+						photoSlug: nextPhoto.slug
+					})}
 					class="photo-nav__link photo-nav__link--next"
 					aria-label="Next photo: {nextPhoto.alt}"
 				>

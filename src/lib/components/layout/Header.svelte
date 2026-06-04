@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
+	import { resolve } from '$app/paths';
 
 	let menuOpen = $state(false);
 	let scrolled = $state(false);
@@ -55,25 +56,27 @@
 <header class="site-header" class:is-scrolled={scrolled}>
 	<div class="container">
 		<nav class="site-nav" aria-label="Main navigation">
-			<a href="/" class="site-nav__logo" aria-label="Wandering Pages — home">
+			<a href={resolve('/')} class="site-nav__logo" aria-label="Wandering Pages — home">
 				<span class="site-nav__logo-text">Wandering Pages</span>
 			</a>
 			<ul class="site-nav__links" role="list">
 				<li>
-					<a href="/" class="site-nav__link" aria-current={currentPage === '/' ? 'page' : undefined}
-						>Home</a
+					<a
+						href={resolve('/')}
+						class="site-nav__link"
+						aria-current={currentPage === '/' ? 'page' : undefined}>Home</a
 					>
 				</li>
 				<li>
 					<a
-						href="/travel"
+						href={resolve('/travel')}
 						class="site-nav__link"
 						aria-current={currentPage.startsWith('/travel') ? 'page' : undefined}>Travel</a
 					>
 				</li>
 				<li>
 					<a
-						href="/about"
+						href={resolve('/about')}
 						class="site-nav__link"
 						aria-current={currentPage === '/about' ? 'page' : undefined}>About</a
 					>
@@ -83,7 +86,7 @@
 				class="site-nav__hamburger"
 				type="button"
 				aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'}
-				aria-expanded={String(menuOpen)}
+				aria-expanded={menuOpen ? 'true' : 'false'}
 				aria-controls="mobile-menu"
 				onclick={toggleMenu}
 			>
@@ -95,9 +98,13 @@
 	</div>
 	<div class="site-nav__mobile-menu" id="mobile-menu" hidden={!menuOpen}>
 		<ul class="site-nav__mobile-links" role="list">
-			<li><a href="/" class="site-nav__mobile-link" onclick={closeMenu}>Home</a></li>
-			<li><a href="/travel" class="site-nav__mobile-link" onclick={closeMenu}>Travel</a></li>
-			<li><a href="/about" class="site-nav__mobile-link" onclick={closeMenu}>About</a></li>
+			<li><a href={resolve('/')} class="site-nav__mobile-link" onclick={closeMenu}>Home</a></li>
+			<li>
+				<a href={resolve('/travel')} class="site-nav__mobile-link" onclick={closeMenu}>Travel</a>
+			</li>
+			<li>
+				<a href={resolve('/about')} class="site-nav__mobile-link" onclick={closeMenu}>About</a>
+			</li>
 		</ul>
 	</div>
 </header>

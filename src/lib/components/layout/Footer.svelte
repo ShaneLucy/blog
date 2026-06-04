@@ -1,3 +1,7 @@
+<script lang="ts">
+	import { resolve } from '$app/paths';
+</script>
+
 <!-- role="contentinfo" is implicit on <footer>; omitting the explicit role avoids redundancy -->
 <footer class="site-footer">
 	<div class="container">
@@ -7,7 +11,7 @@
 			</p>
 			<nav class="site-footer__nav" aria-label="Footer navigation">
 				<ul role="list">
-					<li><a href="/about">About</a></li>
+					<li><a href={resolve('/about')}>About</a></li>
 				</ul>
 			</nav>
 		</div>

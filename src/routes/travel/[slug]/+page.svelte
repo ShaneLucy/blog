@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { PageData } from './$types';
 	import TripGallery from '$lib/components/travel/TripGallery.svelte';
+	import { resolve } from '$app/paths';
 
 	let { data }: { data: PageData } = $props();
 	let trip = $derived(data.trip);
@@ -36,7 +37,7 @@
 <article class="trip-detail">
 	<!-- Back navigation -->
 	<nav class="trip-detail__breadcrumb container container--narrow" aria-label="Breadcrumb">
-		<a href="/travel" class="back-link">
+		<a href={resolve('/travel')} class="back-link">
 			<svg aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="none">
 				<path
 					d="M10 12L6 8L10 4"
@@ -71,7 +72,7 @@
 		</p>
 		{#if trip.tags.length > 0}
 			<ul class="trip-detail__tags" role="list" aria-label="Tags">
-				{#each trip.tags as tag}
+				{#each trip.tags as tag (tag)}
 					<li class="tag-pill">{tag}</li>
 				{/each}
 			</ul>

@@ -3,6 +3,8 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import { browser } from '$app/environment';
+	import { resolve } from '$app/paths';
+	import { SvelteURLSearchParams } from 'svelte/reactivity';
 	import TripCard from '$lib/components/travel/TripCard.svelte';
 	import TripFilters from '$lib/components/travel/TripFilters.svelte';
 
@@ -33,12 +35,12 @@
 
 	// Keep URL in sync with filter state for bookmarkable/shareable links
 	$effect(() => {
-		const params = new URLSearchParams();
+		const params = new SvelteURLSearchParams();
 		if (selectedDestination) params.set('destination', selectedDestination);
 		if (selectedTags.length > 0) params.set('tags', selectedTags.join(','));
 		if (sortBy !== 'date') params.set('sort', sortBy);
 		const search = params.toString();
-		goto(search ? `/travel?${search}` : '/travel', {
+		goto(resolve(search ? (`/travel?${search}` as `/travel?${string}`) : '/travel'), {
 			replaceState: true,
 			keepFocus: true,
 			noScroll: true
