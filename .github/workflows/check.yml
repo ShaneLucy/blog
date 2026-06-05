@@ -22,10 +22,10 @@ jobs:
         run: bun install --ignore-scripts --frozen-lockfile
 
       - name: Format check
-        run: bunx prettier --check .
+        run: bun prettier --check .
 
       - name: Lint
-        run: bunx eslint .
+        run: bun eslint .
 
       - name: Type check
         run: bun run check

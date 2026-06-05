@@ -3,6 +3,8 @@ name: E2E Tests
 on:
   pull_request:
     branches: [main]
+  push:
+    branches: [main]
 
 jobs:
   e2e:
@@ -20,7 +22,7 @@ jobs:
         run: bun install --ignore-scripts --frozen-lockfile
 
       - name: Install Playwright browsers
-        run: bunx playwright install --with-deps chromium
+        run: bun playwright install --with-deps chromium
 
       - name: E2E tests
-        run: bunx playwright test
+        run: bun playwright test
