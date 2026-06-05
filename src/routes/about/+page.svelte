@@ -175,6 +175,7 @@
 		display: flex;
 		flex-direction: column;
 		gap: var(--space-4);
+
 		/* Left accent rule for visual rhythm */
 		padding-inline-start: var(--space-5);
 		border-inline-start: 2px solid var(--color-accent);
@@ -192,6 +193,7 @@
 		font-size: var(--text-base);
 		line-height: var(--leading-relaxed);
 		color: var(--color-text-secondary);
+
 		/* Remove the global p max-width — the narrow container constrains line length */
 		max-width: none;
 	}

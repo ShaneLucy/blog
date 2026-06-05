@@ -136,7 +136,7 @@
 		object-fit: cover;
 	}
 
-	@media (max-width: 640px) {
+	@media (width <= 640px) {
 		.trip-detail__hero {
 			aspect-ratio: 16 / 9;
 		}

@@ -67,9 +67,9 @@
 		height: 100%;
 		background: linear-gradient(
 			135deg,
-			oklch(25% 0.04 240) 0%,
-			oklch(18% 0.06 30) 50%,
-			oklch(22% 0.08 50) 100%
+			oklch(25% 0.04 240deg) 0%,
+			oklch(18% 0.06 30deg) 50%,
+			oklch(22% 0.08 50deg) 100%
 		);
 	}
 

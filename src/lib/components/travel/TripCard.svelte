@@ -112,7 +112,7 @@
 	.trip-card__image-fallback {
 		position: absolute;
 		inset: 0;
-		background: linear-gradient(135deg, oklch(30% 0.06 220) 0%, oklch(22% 0.04 50) 100%);
+		background: linear-gradient(135deg, oklch(30% 0.06 220deg) 0%, oklch(22% 0.04 50deg) 100%);
 		z-index: -1;
 	}
 

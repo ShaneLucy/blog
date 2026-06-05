@@ -4,42 +4,47 @@
 
 /* Inter — UI / body text (18pt optical size for ≤20px use) */
 @font-face {
-	font-family: 'Inter';
+	font-family: Inter;
 	src: url('/fonts/inter/Inter_18pt-Regular.ttf') format('truetype');
 	font-weight: 400;
 	font-style: normal;
 	font-display: swap;
 }
+
 @font-face {
-	font-family: 'Inter';
+	font-family: Inter;
 	src: url('/fonts/inter/Inter_18pt-Italic.ttf') format('truetype');
 	font-weight: 400;
 	font-style: italic;
 	font-display: swap;
 }
+
 @font-face {
-	font-family: 'Inter';
+	font-family: Inter;
 	src: url('/fonts/inter/Inter_18pt-Medium.ttf') format('truetype');
 	font-weight: 500;
 	font-style: normal;
 	font-display: swap;
 }
+
 @font-face {
-	font-family: 'Inter';
+	font-family: Inter;
 	src: url('/fonts/inter/Inter_18pt-MediumItalic.ttf') format('truetype');
 	font-weight: 500;
 	font-style: italic;
 	font-display: swap;
 }
+
 @font-face {
-	font-family: 'Inter';
+	font-family: Inter;
 	src: url('/fonts/inter/Inter_18pt-SemiBold.ttf') format('truetype');
 	font-weight: 600;
 	font-style: normal;
 	font-display: swap;
 }
+
 @font-face {
-	font-family: 'Inter';
+	font-family: Inter;
 	src: url('/fonts/inter/Inter_18pt-SemiBoldItalic.ttf') format('truetype');
 	font-weight: 600;
 	font-style: italic;
@@ -48,56 +53,63 @@
 
 /* Lora — serif headings */
 @font-face {
-	font-family: 'Lora';
+	font-family: Lora;
 	src: url('/fonts/lora/Lora-Regular.ttf') format('truetype');
 	font-weight: 400;
 	font-style: normal;
 	font-display: swap;
 }
+
 @font-face {
-	font-family: 'Lora';
+	font-family: Lora;
 	src: url('/fonts/lora/Lora-Italic.ttf') format('truetype');
 	font-weight: 400;
 	font-style: italic;
 	font-display: swap;
 }
+
 @font-face {
-	font-family: 'Lora';
+	font-family: Lora;
 	src: url('/fonts/lora/Lora-Medium.ttf') format('truetype');
 	font-weight: 500;
 	font-style: normal;
 	font-display: swap;
 }
+
 @font-face {
-	font-family: 'Lora';
+	font-family: Lora;
 	src: url('/fonts/lora/Lora-MediumItalic.ttf') format('truetype');
 	font-weight: 500;
 	font-style: italic;
 	font-display: swap;
 }
+
 @font-face {
-	font-family: 'Lora';
+	font-family: Lora;
 	src: url('/fonts/lora/Lora-SemiBold.ttf') format('truetype');
 	font-weight: 600;
 	font-style: normal;
 	font-display: swap;
 }
+
 @font-face {
-	font-family: 'Lora';
+	font-family: Lora;
 	src: url('/fonts/lora/Lora-SemiBoldItalic.ttf') format('truetype');
 	font-weight: 600;
 	font-style: italic;
 	font-display: swap;
 }
+
 @font-face {
-	font-family: 'Lora';
+	font-family: Lora;
 	src: url('/fonts/lora/Lora-Bold.ttf') format('truetype');
 	font-weight: 700;
 	font-style: normal;
 	font-display: swap;
 }
+
 @font-face {
-	font-family: 'Lora';
+	font-family: Lora;
 	src: url('/fonts/lora/Lora-BoldItalic.ttf') format('truetype');
 	font-weight: 700;
 	font-style: italic;
@@ -116,72 +128,67 @@
 	   ---------------------------------------------------------- */
 
 	/* Base surfaces */
-	--color-bg: oklch(98% 0.005 80);
-	--color-bg-subtle: oklch(95.5% 0.008 80);
-	--color-bg-muted: oklch(92% 0.01 80);
-	--color-surface: oklch(100% 0 0);
-	--color-surface-raised: oklch(99% 0.003 80);
+	--color-bg: oklch(98% 0.005 80deg);
+	--color-bg-subtle: oklch(95.5% 0.008 80deg);
+	--color-bg-muted: oklch(92% 0.01 80deg);
+	--color-surface: oklch(100% 0 0deg);
+	--color-surface-raised: oklch(99% 0.003 80deg);
 
 	/* Text */
-	--color-text-primary: oklch(22% 0.01 60);
-	--color-text-secondary: oklch(46% 0.012 60);
-	--color-text-tertiary: oklch(62% 0.01 60);
-	--color-text-inverse: oklch(98% 0.005 80);
+	--color-text-primary: oklch(22% 0.01 60deg);
+	--color-text-secondary: oklch(46% 0.012 60deg);
+	--color-text-tertiary: oklch(62% 0.01 60deg);
+	--color-text-inverse: oklch(98% 0.005 80deg);
 
 	/* Accent — Terracotta */
-	--color-accent: oklch(58% 0.13 42);
-	--color-accent-subtle: oklch(94% 0.025 42);
-	--color-accent-hover: oklch(52% 0.13 42);
-	--color-accent-active: oklch(46% 0.13 42);
+	--color-accent: oklch(58% 0.13 42deg);
+	--color-accent-subtle: oklch(94% 0.025 42deg);
+	--color-accent-hover: oklch(52% 0.13 42deg);
+	--color-accent-active: oklch(46% 0.13 42deg);
 
 	/* Accent — Deep Teal */
-	--color-teal: oklch(44% 0.08 195);
-	--color-teal-subtle: oklch(94% 0.02 195);
-	--color-teal-hover: oklch(38% 0.08 195);
+	--color-teal: oklch(44% 0.08 195deg);
+	--color-teal-subtle: oklch(94% 0.02 195deg);
+	--color-teal-hover: oklch(38% 0.08 195deg);
 
 	/* Borders */
-	--color-border: oklch(89% 0.01 80);
-	--color-border-strong: oklch(78% 0.015 80);
-	--color-border-focus: oklch(58% 0.13 42);
+	--color-border: oklch(89% 0.01 80deg);
+	--color-border-strong: oklch(78% 0.015 80deg);
+	--color-border-focus: oklch(58% 0.13 42deg);
 
 	/* Semantic states */
-	--color-error: oklch(52% 0.18 25);
-	--color-success: oklch(52% 0.13 155);
+	--color-error: oklch(52% 0.18 25deg);
+	--color-success: oklch(52% 0.13 155deg);
 
 	/* Overlays */
-	--color-overlay: oklch(10% 0 0 / 0.85);
-	--color-overlay-light: oklch(10% 0 0 / 0.4);
+	--color-overlay: oklch(10% 0 0deg / 85%);
+	--color-overlay-light: oklch(10% 0 0deg / 40%);
 
 	/* ----------------------------------------------------------
 	   COLOR — Dark Mode
 	   ---------------------------------------------------------- */
 	@media (prefers-color-scheme: dark) {
-		--color-bg: oklch(14% 0.008 60);
-		--color-bg-subtle: oklch(18% 0.01 60);
-		--color-bg-muted: oklch(22% 0.01 60);
-		--color-surface: oklch(18% 0.01 60);
-		--color-surface-raised: oklch(22% 0.012 60);
-
-		--color-text-primary: oklch(94% 0.008 80);
-		--color-text-secondary: oklch(72% 0.01 80);
-		--color-text-tertiary: oklch(64% 0.008 80);
-		--color-text-inverse: oklch(14% 0.008 60);
-
-		--color-accent: oklch(68% 0.13 42);
-		--color-accent-subtle: oklch(22% 0.04 42);
-		--color-accent-hover: oklch(74% 0.13 42);
-		--color-accent-active: oklch(78% 0.13 42);
-
-		--color-teal: oklch(60% 0.08 195);
-		--color-teal-subtle: oklch(20% 0.03 195);
-		--color-teal-hover: oklch(66% 0.08 195);
-
-		--color-border: oklch(28% 0.012 60);
-		--color-border-strong: oklch(38% 0.015 60);
-		--color-border-focus: oklch(68% 0.13 42);
-
-		--color-overlay: oklch(5% 0 0 / 0.9);
-		--color-overlay-light: oklch(5% 0 0 / 0.55);
+		--color-bg: oklch(14% 0.008 60deg);
+		--color-bg-subtle: oklch(18% 0.01 60deg);
+		--color-bg-muted: oklch(22% 0.01 60deg);
+		--color-surface: oklch(18% 0.01 60deg);
+		--color-surface-raised: oklch(22% 0.012 60deg);
+		--color-text-primary: oklch(94% 0.008 80deg);
+		--color-text-secondary: oklch(72% 0.01 80deg);
+		--color-text-tertiary: oklch(64% 0.008 80deg);
+		--color-text-inverse: oklch(14% 0.008 60deg);
+		--color-accent: oklch(68% 0.13 42deg);
+		--color-accent-subtle: oklch(22% 0.04 42deg);
+		--color-accent-hover: oklch(74% 0.13 42deg);
+		--color-accent-active: oklch(78% 0.13 42deg);
+		--color-teal: oklch(60% 0.08 195deg);
+		--color-teal-subtle: oklch(20% 0.03 195deg);
+		--color-teal-hover: oklch(66% 0.08 195deg);
+		--color-border: oklch(28% 0.012 60deg);
+		--color-border-strong: oklch(38% 0.015 60deg);
+		--color-border-focus: oklch(68% 0.13 42deg);
+		--color-overlay: oklch(5% 0 0deg / 90%);
+		--color-overlay-light: oklch(5% 0 0deg / 55%);
 	}
 
 	/* ----------------------------------------------------------
@@ -240,7 +247,6 @@
 	--space-20: 5rem;
 	--space-24: 6rem;
 	--space-32: 8rem;
-
 	--space-xs: var(--space-2);
 	--space-sm: var(--space-3);
 	--space-md: var(--space-4);
@@ -272,11 +278,11 @@
 	/* ----------------------------------------------------------
 	   SHADOWS
 	   ---------------------------------------------------------- */
-	--shadow-xs: 0 1px 2px oklch(10% 0 0 / 0.06);
-	--shadow-sm: 0 1px 4px oklch(10% 0 0 / 0.08), 0 1px 2px oklch(10% 0 0 / 0.05);
-	--shadow-md: 0 4px 12px oklch(10% 0 0 / 0.08), 0 2px 4px oklch(10% 0 0 / 0.05);
-	--shadow-lg: 0 8px 24px oklch(10% 0 0 / 0.1), 0 3px 8px oklch(10% 0 0 / 0.06);
-	--shadow-xl: 0 16px 48px oklch(10% 0 0 / 0.12), 0 6px 16px oklch(10% 0 0 / 0.07);
+	--shadow-xs: 0 1px 2px oklch(10% 0 0deg / 6%);
+	--shadow-sm: 0 1px 4px oklch(10% 0 0deg / 8%), 0 1px 2px oklch(10% 0 0deg / 5%);
+	--shadow-md: 0 4px 12px oklch(10% 0 0deg / 8%), 0 2px 4px oklch(10% 0 0deg / 5%);
+	--shadow-lg: 0 8px 24px oklch(10% 0 0deg / 10%), 0 3px 8px oklch(10% 0 0deg / 6%);
+	--shadow-xl: 0 16px 48px oklch(10% 0 0deg / 12%), 0 6px 16px oklch(10% 0 0deg / 7%);
 	--shadow-card: var(--shadow-sm);
 	--shadow-card-hover: var(--shadow-lg);
 
@@ -287,13 +293,11 @@
 	--duration-normal: 250ms;
 	--duration-slow: 400ms;
 	--duration-slower: 600ms;
-
 	--ease-default: cubic-bezier(0.16, 1, 0.3, 1);
 	--ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
 	--ease-in: cubic-bezier(0.4, 0, 1, 1);
 	--ease-out: cubic-bezier(0, 0, 0.2, 1);
 	--ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
-
 	--transition-color:
 		color var(--duration-fast) var(--ease-out),
 		background-color var(--duration-fast) var(--ease-out),
@@ -327,7 +331,7 @@
 }
 
 html {
-	-webkit-text-size-adjust: 100%;
+	text-size-adjust: 100%;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -465,23 +469,21 @@ p {
 	inset-block-start: 0;
 	z-index: var(--z-sticky);
 	background-color: var(--color-bg);
+	border-block-end: 1px solid var(--color-border);
+	transition: box-shadow var(--duration-normal) var(--ease-out);
 }
 
 @supports (backdrop-filter: blur(12px)) {
 	.site-header {
-		background-color: oklch(98% 0.005 80 / 0.85);
+		background-color: oklch(98% 0.005 80deg / 85%);
 		backdrop-filter: blur(12px) saturate(180%);
 	}
+
 	@media (prefers-color-scheme: dark) {
 		.site-header {
-			background-color: oklch(14% 0.008 60 / 0.85);
+			background-color: oklch(14% 0.008 60deg / 85%);
 		}
 	}
-}
-
-.site-header {
-	border-block-end: 1px solid var(--color-border);
-	transition: box-shadow var(--duration-normal) var(--ease-out);
 }
 
 .site-header.is-scrolled {
@@ -603,7 +605,7 @@ p {
 	display: block;
 	inline-size: 22px;
 	block-size: 2px;
-	background-color: currentColor;
+	background-color: currentcolor;
 	border-radius: var(--radius-pill);
 	transition:
 		transform var(--duration-normal) var(--ease-default),
@@ -613,10 +615,12 @@ p {
 .site-nav__hamburger[aria-expanded='true'] .hamburger-bar:nth-child(1) {
 	transform: translateY(7px) rotate(45deg);
 }
+
 .site-nav__hamburger[aria-expanded='true'] .hamburger-bar:nth-child(2) {
 	opacity: 0;
 	transform: scaleX(0);
 }
+
 .site-nav__hamburger[aria-expanded='true'] .hamburger-bar:nth-child(3) {
 	transform: translateY(-7px) rotate(-45deg);
 }
@@ -679,10 +683,11 @@ p {
 }
 
 /* ---- Responsive: show hamburger, hide desktop links on mobile ---- */
-@media (max-width: 767px) {
+@media (width <= 767px) {
 	.site-nav__links {
 		display: none;
 	}
+
 	.site-nav__hamburger {
 		display: flex;
 	}
@@ -777,14 +782,14 @@ p {
 	inset: 0;
 	background: linear-gradient(
 		to bottom,
-		oklch(10% 0 0 / 0.25) 0%,
-		oklch(10% 0 0 / 0.5) 50%,
-		oklch(10% 0 0 / 0.7) 100%
+		oklch(10% 0 0deg / 25%) 0%,
+		oklch(10% 0 0deg / 50%) 50%,
+		oklch(10% 0 0deg / 70%) 100%
 	);
 }
 
 .hero__scrim--bottom {
-	background: linear-gradient(to bottom, transparent 30%, oklch(10% 0 0 / 0.75) 100%);
+	background: linear-gradient(to bottom, transparent 30%, oklch(10% 0 0deg / 75%) 100%);
 }
 
 .hero__content {
@@ -801,7 +806,7 @@ p {
 	/* color-text-inverse flips to near-black in dark mode, making hero text
 	   invisible against the dark scrim. Force near-white regardless of scheme. */
 	.hero__content {
-		color: oklch(98% 0.005 80);
+		color: oklch(98% 0.005 80deg);
 	}
 }
 
@@ -833,7 +838,7 @@ p {
 	letter-spacing: var(--tracking-tight);
 	color: inherit;
 	margin: 0;
-	text-shadow: 0 2px 16px oklch(5% 0 0 / 0.4);
+	text-shadow: 0 2px 16px oklch(5% 0 0deg / 40%);
 }
 
 .hero__tagline {
@@ -844,7 +849,7 @@ p {
 	opacity: 0.92;
 	max-width: 52ch;
 	margin: 0;
-	text-shadow: 0 1px 8px oklch(5% 0 0 / 0.3);
+	text-shadow: 0 1px 8px oklch(5% 0 0deg / 30%);
 }
 
 .hero__meta {
@@ -867,6 +872,7 @@ p {
 	font-size: var(--text-sm);
 }
 
+/* stylelint-disable-next-line no-descending-specificity */
 .hero__breadcrumb a {
 	color: inherit;
 	text-decoration: underline;
@@ -968,6 +974,7 @@ p {
 	.btn {
 		transition: var(--transition-color);
 	}
+
 	.btn:hover {
 		transform: none;
 	}
@@ -1174,7 +1181,7 @@ p {
 	padding: 0;
 	margin: -1px;
 	overflow: hidden;
-	clip: rect(0, 0, 0, 0);
+	clip-path: inset(50%);
 	white-space: nowrap;
 	border: 0;
 }
@@ -1190,13 +1197,14 @@ p {
 	inset-block-start: var(--space-3);
 	inset-inline-start: var(--space-3);
 	z-index: calc(var(--z-sticky) + 1);
+
 	/* Hidden state — same technique as .sr-only */
 	width: 1px;
 	height: 1px;
 	padding: 0;
 	margin: -1px;
 	overflow: hidden;
-	clip: rect(0, 0, 0, 0);
+	clip-path: inset(50%);
 	white-space: nowrap;
 	border: 0;
 	text-decoration: none;
@@ -1209,8 +1217,9 @@ p {
 	padding: var(--space-3) var(--space-6);
 	margin: 0;
 	overflow: visible;
-	clip: auto;
+	clip-path: none;
 	white-space: normal;
+
 	/* Styled to match .btn--primary so it is unmistakably actionable */
 	background-color: var(--color-accent);
 	color: var(--color-text-inverse);
