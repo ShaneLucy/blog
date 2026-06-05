@@ -14,7 +14,7 @@ const config = {
 		prerender: {
 			handleHttpError: ({ path, referrer, message }) => {
 				// Trip detail pages added in Phase 4
-				if (path.match(/^\/travel\/.+/)) {
+				if (/^\/travel\/.+/.exec(path)) {
 					console.warn(`Prerender warning: ${message} (linked from ${referrer})`);
 					return;
 				}
