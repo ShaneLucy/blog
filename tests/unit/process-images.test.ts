@@ -173,7 +173,7 @@ describe('main', () => {
 	});
 
 	test('returns early and logs when content dir does not exist', async () => {
-		const logSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
+		const logSpy = vi.spyOn(console, 'info').mockImplementation(() => {});
 		await main('/nonexistent-dir-abc123', outputDir);
 		expect(logSpy).toHaveBeenCalledWith(
 			'No src/content/trips directory found. Nothing to process.'
@@ -183,7 +183,7 @@ describe('main', () => {
 
 	test('skips non-directory entries in content dir', async () => {
 		await writeFile(join(contentDir, 'not-a-dir.txt'), 'hello');
-		const logSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
+		const logSpy = vi.spyOn(console, 'info').mockImplementation(() => {});
 		await main(contentDir, outputDir);
 		expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('0 image(s) processed'));
 		logSpy.mockRestore();
@@ -191,7 +191,7 @@ describe('main', () => {
 
 	test('skips trip directories with no raw subdir', async () => {
 		await mkdir(join(contentDir, 'my-trip'));
-		const logSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
+		const logSpy = vi.spyOn(console, 'info').mockImplementation(() => {});
 		await main(contentDir, outputDir);
 		expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('0 image(s) processed'));
 		logSpy.mockRestore();
@@ -201,7 +201,7 @@ describe('main', () => {
 		const rawDir = join(contentDir, 'my-trip', 'raw');
 		await mkdir(rawDir, { recursive: true });
 		await writeFile(join(rawDir, 'notes.txt'), 'not an image');
-		const logSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
+		const logSpy = vi.spyOn(console, 'info').mockImplementation(() => {});
 		await main(contentDir, outputDir);
 		expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('Processing 0 image(s)'));
 		logSpy.mockRestore();
@@ -212,7 +212,7 @@ describe('main', () => {
 		await mkdir(rawDir, { recursive: true });
 		await makeTestJpeg(join(rawDir, 'photo.jpg'), { width: 300, height: 200 });
 
-		const logSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
+		const logSpy = vi.spyOn(console, 'info').mockImplementation(() => {});
 		await main(contentDir, outputDir);
 		logSpy.mockRestore();
 
@@ -225,7 +225,7 @@ describe('main', () => {
 		await mkdir(rawDir, { recursive: true });
 		await writeFile(join(rawDir, 'corrupt.jpg'), 'this is not an image');
 
-		const logSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
+		const logSpy = vi.spyOn(console, 'info').mockImplementation(() => {});
 		const errSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
 		const exitSpy = vi.spyOn(process, 'exit').mockImplementation(() => undefined as never);
 

@@ -137,11 +137,11 @@
 	/* Text */
 	--color-text-primary: oklch(22% 0.01 60deg);
 	--color-text-secondary: oklch(46% 0.012 60deg);
-	--color-text-tertiary: oklch(62% 0.01 60deg);
+	--color-text-tertiary: rgb(107 99 91);
 	--color-text-inverse: oklch(98% 0.005 80deg);
 
 	/* Accent — Terracotta */
-	--color-accent: oklch(58% 0.13 42deg);
+	--color-accent: rgb(174 57 10);
 	--color-accent-subtle: oklch(94% 0.025 42deg);
 	--color-accent-hover: oklch(52% 0.13 42deg);
 	--color-accent-active: oklch(46% 0.13 42deg);
