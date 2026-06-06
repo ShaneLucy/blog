@@ -10,7 +10,7 @@ export default defineConfig({
 			{ find: /^svelte$/, replacement: resolve('./node_modules/svelte/src/index-client.js') },
 			{ find: '$lib', replacement: resolve('./src/lib') },
 			{ find: '$app/paths', replacement: resolve('./tests/__mocks__/$app/paths.ts') },
-			{ find: '$app/stores', replacement: resolve('./tests/__mocks__/$app/stores.ts') }
+			{ find: '$app/state', replacement: resolve('./tests/__mocks__/$app/state.ts') }
 		]
 	},
 	test: {

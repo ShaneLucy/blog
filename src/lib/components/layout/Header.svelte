@@ -1,12 +1,11 @@
 <script lang="ts">
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 	import { resolve } from '$app/paths';
 
 	let menuOpen = $state(false);
 	let scrolled = $state(false);
 
-	// Derived current path from the page store
-	let currentPage = $derived($page.url.pathname);
+	let currentPage = $derived(page.url.pathname);
 
 	function toggleMenu() {
 		menuOpen = !menuOpen;

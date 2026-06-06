@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { PageData } from './$types';
 	import { goto } from '$app/navigation';
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 	import { browser } from '$app/environment';
 	import { resolve } from '$app/paths';
 	import { SvelteURLSearchParams } from 'svelte/reactivity';
@@ -13,14 +13,12 @@
 
 	// Initialise filter state from URL search params (enables shareable URLs).
 	// Guarded by `browser` so it doesn't run during static prerender.
-	let selectedDestination = $state(
-		browser ? ($page.url.searchParams.get('destination') ?? '') : ''
-	);
+	let selectedDestination = $state(browser ? (page.url.searchParams.get('destination') ?? '') : '');
 	let selectedTags = $state<string[]>(
-		browser ? ($page.url.searchParams.get('tags')?.split(',').filter(Boolean) ?? []) : []
+		browser ? (page.url.searchParams.get('tags')?.split(',').filter(Boolean) ?? []) : []
 	);
 	let sortBy = $state<'date' | 'destination'>(
-		browser ? (($page.url.searchParams.get('sort') as 'date' | 'destination') ?? 'date') : 'date'
+		browser ? ((page.url.searchParams.get('sort') as 'date' | 'destination') ?? 'date') : 'date'
 	);
 
 	let filteredTrips = $derived(

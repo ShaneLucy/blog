@@ -7,7 +7,7 @@ const firstPhoto = firstTrip.photos[0];
 const lastPhoto = firstTrip.photos[firstTrip.photos.length - 1];
 
 describe('photo detail entries()', () => {
-	const result = entries();
+	const result = entries() as Array<{ slug: string; photoSlug: string }>;
 
 	test('returns one entry per photo across all trips', () => {
 		const totalPhotos = allTrips.reduce((n, t) => n + t.photos.length, 0);
@@ -24,7 +24,9 @@ describe('photo detail entries()', () => {
 	});
 
 	test('all trip/photo slug pairs are valid', () => {
-		const photosByTrip = new Map(allTrips.map((t) => [t.slug, new Set(t.photos.map((p) => p.slug))]));
+		const photosByTrip = new Map(
+			allTrips.map((t) => [t.slug, new Set(t.photos.map((p) => p.slug))])
+		);
 		for (const entry of result) {
 			expect(photosByTrip.has(entry.slug)).toBe(true);
 			expect(photosByTrip.get(entry.slug)!.has(entry.photoSlug)).toBe(true);

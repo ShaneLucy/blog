@@ -3,7 +3,7 @@ import { entries, load } from '../../../src/routes/travel/[slug]/+page';
 import { allTrips } from '../../../src/lib/data/trips';
 
 describe('trip detail entries()', () => {
-	const result = entries();
+	const result = entries() as Array<{ slug: string }>;
 
 	test('returns one entry per trip', () => {
 		expect(result.length).toBe(allTrips.length);

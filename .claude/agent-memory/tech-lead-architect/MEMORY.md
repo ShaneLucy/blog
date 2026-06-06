@@ -1,33 +1,37 @@
 # Blog Project - Tech Lead Memory
 
-## Tech Stack (Confirmed)
-- **Framework**: SvelteKit 2 with Svelte 5 (runes mode enforced)
-- **Language**: TypeScript 6
-- **Build**: Vite 8, adapter-auto
-- **Package manager**: Bun (bun.lock present, .npmrc engine-strict)
-- **Linting/Formatting**: ESLint 10, Prettier with svelte plugin (tabs, single quotes, no trailing commas, 100 printWidth)
-- **Testing**: Playwright (e2e only, no unit test framework yet)
-- **Adapter**: @sveltejs/adapter-auto (no specific deploy target chosen yet)
+## Tech Stack (Confirmed, as of 2026-06-06)
+- **Framework**: SvelteKit 2 (2.57+) with Svelte 5 (runes mode enforced in svelte.config.js)
+- **Language**: TypeScript 6 (strict mode on)
+- **Build**: Vite 8, **@sveltejs/adapter-static** (static SSG; prerender via src/routes/+layout.ts `export const prerender = true`)
+- **Package manager**: Bun
+- **Image pipeline**: sharp + exifr (EXIF strip at build time, WebP, thumbnails)
+- **Testing**: Vitest (unit, `bun run test:unit`) + Playwright (e2e). package.json uses vitest, NOT `bun test`.
+- **CSS**: Pure CSS custom properties (oklch colors), NO Tailwind. Design tokens in src/app.css.
 
 ## Project Structure
-- Fresh SvelteKit scaffold, minimal customization
-- Demo routes exist at `/demo` and `/demo/playwright` (scaffolding artifacts)
-- `src/lib/` is empty (just index.ts placeholder)
-- `static/` contains only robots.txt
-- No CSS framework installed yet
-- No database or CMS configured
+- Trip data: TS files in `src/content/trips/<slug>/trip.ts`, aggregated by `src/lib/data/trips.ts`
+- Types: `src/lib/types/trip.ts` — `PhotoTag` enum (controlled vocab for photos); `Trip.tags` is free-form `string[]`
+- Routes: `/`, `/travel`, `/travel/[slug]`, `/travel/[slug]/[photoSlug]`, `+error.svelte`
+- `/about` is LINKED in Header/Footer but the route does NOT exist (prerender 404 silenced in svelte.config.js)
+- Image paths: `/images/trips/<slug>/<filename>` and `/thumbnails/` variant, hardcoded in 4+ files
 
-## Key Decisions Made
-- Svelte 5 runes mode enforced in svelte.config.js
-- Preload data on hover enabled in app.html
+## Known Issues / Tech Debt (from 2026-06-06 review)
+- `bun run check` FAILS: type errors in tests/__mocks__/$app/stores.ts (page.url union) and tests/unit/routes/*.test.ts (entries() RouteParams[]|Promise union)
+- `$app/stores` (deprecated in SK2) still used in Header, travel/+page, +error — migrate to `$app/state`
+- Image fallback logic (thumb->full->hide) DUPLICATED in TripCard, TripGallery, photo-detail — extract <TripImage>
+- norway-2026 trip.ts has placeholder alt text ("TODO...") and non-descriptive filenames (OIP.webp)
+- Unused design tokens: --z-lightbox, --z-toast, --color-overlay* (lightbox feature removed)
 
-## Architecture Decisions (Pending)
-- See implementation plan for image storage, EXIF stripping, trip data model
-- Adapter choice TBD based on deployment target
+## Patterns to Respect
+- Strong a11y discipline: skip link, focus mgmt, prefers-reduced-motion kill-switch, forced-colors fallbacks, 44px targets. Do not regress.
+- Svelte 5 deep $state proxy: keyed Record mutation (obj[key]=true) IS reactive (used in TripGallery).
+- All dynamic content rendered via auto-escaped {text} interpolation — no {@html} anywhere. Keep it that way.
+- EXIF/GPS stripping is privacy-critical; process-images.ts fails the build (exit 1) if metadata not stripped.
 
-## File Paths
-- Config: `C:/Users/shane/Documents/projects/blog/svelte.config.js`
-- Package: `C:/Users/shane/Documents/projects/blog/package.json`
-- Routes: `C:/Users/shane/Documents/projects/blog/src/routes/`
-- Lib: `C:/Users/shane/Documents/projects/blog/src/lib/`
-- Static: `C:/Users/shane/Documents/projects/blog/static/`
+## Key File Paths
+- Config: `svelte.config.js`, `tsconfig.json`, `package.json`
+- Design tokens: `src/app.css`
+- Trip types: `src/lib/types/trip.ts`
+- Image pipeline: `scripts/process-images.ts`
+- Routes: `src/routes/`

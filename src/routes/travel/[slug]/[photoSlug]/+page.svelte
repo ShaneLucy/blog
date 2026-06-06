@@ -3,6 +3,7 @@
 	import type { PageData } from './$types';
 	import { resolve } from '$app/paths';
 	import { SITE_NAME, SITE_URL } from '$lib/config';
+	import { tripImageSrc, tripThumbSrc } from '$lib/images';
 
 	let { data }: { data: PageData } = $props();
 	let trip = $derived(data.trip);
@@ -11,8 +12,8 @@
 	let nextPhoto = $derived(data.nextPhoto);
 	let photoIndex = $derived(data.photoIndex);
 
-	let imageSrc = $derived(`/images/trips/${trip.slug}/${photo.filename}`);
-	let thumbSrc = $derived(`/images/trips/${trip.slug}/thumbnails/${photo.filename}`);
+	let imageSrc = $derived(tripImageSrc(trip.slug, photo.filename));
+	let thumbSrc = $derived(tripThumbSrc(trip.slug, photo.filename));
 
 	let envelopeWidth = $derived(data.envelopeWidth);
 	let envelopeHeight = $derived(data.envelopeHeight);

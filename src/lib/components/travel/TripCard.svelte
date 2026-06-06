@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { Trip } from '$lib/types/trip';
 	import { resolve } from '$app/paths';
+	import { tripImageSrc, tripThumbSrc } from '$lib/images';
 
 	interface Props {
 		trip: Trip;
@@ -16,8 +17,8 @@
 			: `${startYear}–${endYear}`
 	);
 
-	let imageSrc = $derived(`/images/trips/${trip.slug}/${trip.coverPhoto}`);
-	let thumbSrc = $derived(`/images/trips/${trip.slug}/thumbnails/${trip.coverPhoto}`);
+	let imageSrc = $derived(tripImageSrc(trip.slug, trip.coverPhoto));
+	let thumbSrc = $derived(tripThumbSrc(trip.slug, trip.coverPhoto));
 	let thumbFailed = $state(false);
 	let imgFailed = $state(false);
 	let displaySrc = $derived(imgFailed ? null : thumbFailed ? imageSrc : thumbSrc);

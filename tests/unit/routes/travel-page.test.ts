@@ -25,7 +25,9 @@ describe('travel page load()', () => {
 	test('destinations is a non-empty sorted array', () => {
 		expect(Array.isArray(result.destinations)).toBe(true);
 		expect(result.destinations.length).toBeGreaterThan(0);
-		expect(result.destinations).toEqual([...result.destinations].sort((a, b) => a.localeCompare(b)));
+		expect(result.destinations).toEqual(
+			[...result.destinations].sort((a, b) => a.localeCompare(b))
+		);
 	});
 
 	test('tags is a non-empty sorted array', () => {

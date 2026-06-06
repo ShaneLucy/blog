@@ -1,19 +1,19 @@
 <script lang="ts">
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 	import { resolve } from '$app/paths';
 </script>
 
 <svelte:head>
-	<title>Error {$page.status} — Wandering Pages</title>
+	<title>Error {page.status} — Wandering Pages</title>
 </svelte:head>
 
 <div class="error-page container container--narrow">
 	<!-- aria-hidden: status code is already conveyed by the page <title> ("Error 404 — ...").
 	     The large number is decorative; hiding it prevents screen readers announcing it twice. -->
-	<p class="error-page__status" aria-hidden="true">{$page.status}</p>
+	<p class="error-page__status" aria-hidden="true">{page.status}</p>
 	<h1 class="error-page__title">There is a problem with this website</h1>
-	{#if $page.error?.message}
-		<p class="error-page__message">{$page.error.message}</p>
+	{#if page.error?.message}
+		<p class="error-page__message">{page.error.message}</p>
 	{/if}
 	<a href={resolve('/')} class="error-page__home">Go home</a>
 </div>

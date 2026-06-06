@@ -2,6 +2,7 @@
 	import type { TripPhoto } from '$lib/types/trip';
 	import type { PhotoTag } from '$lib/types/trip';
 	import { resolve } from '$app/paths';
+	import { tripImageSrc, tripThumbSrc } from '$lib/images';
 
 	interface Props {
 		photos: TripPhoto[];
@@ -31,11 +32,11 @@
 	}
 
 	function imageSrc(photo: TripPhoto) {
-		return `/images/trips/${slug}/${photo.filename}`;
+		return tripImageSrc(slug, photo.filename);
 	}
 
 	function thumbSrc(photo: TripPhoto) {
-		return `/images/trips/${slug}/thumbnails/${photo.filename}`;
+		return tripThumbSrc(slug, photo.filename);
 	}
 
 	let thumbFailed = $state<Record<string, boolean>>({});
