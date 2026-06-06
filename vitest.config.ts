@@ -3,7 +3,7 @@ import { svelte } from '@sveltejs/vite-plugin-svelte';
 import { resolve } from 'node:path';
 
 export default defineConfig({
-	plugins: [svelte({ compilerOptions: { generate: 'client' } })],
+	plugins: [svelte()],
 	resolve: {
 		alias: [
 			// Exact match: force svelte runtime to browser build (needed for mount() in jsdom)

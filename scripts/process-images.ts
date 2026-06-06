@@ -5,9 +5,10 @@ import { join, extname, basename } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parse as parseExif } from 'exifr';
 
-const ROOT = fileURLToPath(new URL('..', import.meta.url));
-const CONTENT_DIR = join(ROOT, 'src/content/trips');
-const OUTPUT_DIR = join(ROOT, 'static/images/trips');
+function projectRoot(): string {
+	return fileURLToPath(new URL('..', import.meta.url));
+}
+
 const MAX_FULL_WIDTH = 2400;
 const THUMBNAIL_WIDTH = 400;
 const SUPPORTED_EXTS = new Set([
@@ -183,10 +184,10 @@ export async function verifyNoExif(filePath: string): Promise<boolean> {
 	return !meta.exif && !meta.iptc && !meta.xmp;
 }
 
-export async function main(
-	contentDir: string = CONTENT_DIR,
-	outputDir: string = OUTPUT_DIR
-): Promise<void> {
+export async function main(contentDir?: string, outputDir?: string): Promise<void> {
+	const root = contentDir === undefined || outputDir === undefined ? projectRoot() : '';
+	contentDir ??= join(root, 'src/content/trips');
+	outputDir ??= join(root, 'static/images/trips');
 	if (!existsSync(contentDir)) {
 		console.info('No src/content/trips directory found. Nothing to process.');
 		return;
