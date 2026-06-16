@@ -46,6 +46,7 @@ yarn-error.log*
 
 .nyc_output/
 coverage/
+test-results
 
 # ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 # TOOL-SPECIFIC PATTERNS

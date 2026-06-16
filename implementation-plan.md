@@ -87,27 +87,27 @@ Add a unit test that processes a sample image with known GPS data and verifies t
 
 ```typescript
 export interface TripPhoto {
-	filename: string; // "beach-sunset.webp"
-	alt: string; // Accessibility description
-	caption?: string; // Optional display caption
-	width: number; // For layout / aspect ratio
-	height: number;
+  filename: string; // "beach-sunset.webp"
+  alt: string; // Accessibility description
+  caption?: string; // Optional display caption
+  width: number; // For layout / aspect ratio
+  height: number;
 }
 
 export interface Trip {
-	slug: string; // URL-friendly: "japan-2024"
-	title: string; // "Two Weeks in Japan"
-	destination: string;
-	region?: string; // Optional grouping, e.g. "East Asia"
-	dates: {
-		start: string; // "2024-03-15" ISO date
-		end: string; // "2024-03-29"
-	};
-	tags: string[]; // ["temples", "food", "hiking"]
-	coverPhoto: string; // filename of hero image
-	description: string;
-	body?: string; // Longer narrative
-	photos: TripPhoto[];
+  slug: string; // URL-friendly: "japan-2024"
+  title: string; // "Two Weeks in Japan"
+  destination: string;
+  region?: string; // Optional grouping, e.g. "East Asia"
+  dates: {
+    start: string; // "2024-03-15" ISO date
+    end: string; // "2024-03-29"
+  };
+  tags: string[]; // ["temples", "food", "hiking"]
+  coverPhoto: string; // filename of hero image
+  description: string;
+  body?: string; // Longer narrative
+  photos: TripPhoto[];
 }
 ```
 
@@ -117,23 +117,23 @@ export interface Trip {
 import type { Trip } from '$lib/types/trip';
 
 export const trip: Trip = {
-	slug: 'japan-2024',
-	title: 'Two Weeks in Japan',
-	destination: 'Japan',
-	region: 'East Asia',
-	dates: { start: '2024-03-15', end: '2024-03-29' },
-	tags: ['temples', 'food', 'hiking', 'cherry-blossoms'],
-	coverPhoto: 'fushimi-inari.webp',
-	description: 'Exploring Tokyo, Kyoto, and the Japanese Alps.',
-	photos: [
-		{
-			filename: 'fushimi-inari.webp',
-			alt: 'Fushimi Inari shrine gates',
-			width: 2400,
-			height: 1600
-		},
-		{ filename: 'ramen-shop.webp', alt: 'Bowl of tonkotsu ramen', width: 2400, height: 1800 }
-	]
+  slug: 'japan-2024',
+  title: 'Two Weeks in Japan',
+  destination: 'Japan',
+  region: 'East Asia',
+  dates: { start: '2024-03-15', end: '2024-03-29' },
+  tags: ['temples', 'food', 'hiking', 'cherry-blossoms'],
+  coverPhoto: 'fushimi-inari.webp',
+  description: 'Exploring Tokyo, Kyoto, and the Japanese Alps.',
+  photos: [
+    {
+      filename: 'fushimi-inari.webp',
+      alt: 'Fushimi Inari shrine gates',
+      width: 2400,
+      height: 1600
+    },
+    { filename: 'ramen-shop.webp', alt: 'Bowl of tonkotsu ramen', width: 2400, height: 1800 }
+  ]
 };
 ```
 
@@ -169,14 +169,12 @@ let selectedTags = $state<string[]>([]);
 let sortBy = $state<'date' | 'destination'>('date');
 
 let filteredTrips = $derived(
-	allTrips
-		.filter((t) => !selectedDestination || t.destination === selectedDestination)
-		.filter((t) => selectedTags.length === 0 || selectedTags.every((tag) => t.tags.includes(tag)))
-		.sort((a, b) =>
-			sortBy === 'date'
-				? new Date(b.dates.start).getTime() - new Date(a.dates.start).getTime()
-				: a.destination.localeCompare(b.destination)
-		)
+  allTrips
+    .filter((t) => !selectedDestination || t.destination === selectedDestination)
+    .filter((t) => selectedTags.length === 0 || selectedTags.every((tag) => t.tags.includes(tag)))
+    .sort((a, b) =>
+      sortBy === 'date' ? new Date(b.dates.start).getTime() - new Date(a.dates.start).getTime() : a.destination.localeCompare(b.destination)
+    )
 );
 ```
 
