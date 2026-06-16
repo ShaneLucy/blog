@@ -38,6 +38,8 @@
  * The above values will be the same _even if_ different values for `ENVIRONMENT` or `PUBLIC_BASE_URL` are set at runtime, as they are statically replaced in your code with their build time values.
  */
 declare module '$env/static/private' {
+	export const EFC_7548_2283032206: string;
+	export const EFC_7548_1592913036: string;
 	export const VSCODE_GIT_ASKPASS_NODE: string;
 	export const USERNAME: string;
 	export const npm_package_json: string;
@@ -47,18 +49,16 @@ declare module '$env/static/private' {
 	export const npm_package_name: string;
 	export const USERPROFILE: string;
 	export const VSCODE_NONCE: string;
-	export const EFC_19600_2283032206: string;
+	export const windir: string;
 	export const ComSpec: string;
 	export const PROCESSOR_LEVEL: string;
-	export const EFC_19600_1592913036: string;
-	export const EFC_19600_3789132940: string;
+	export const NODE: string;
 	export const LOCALAPPDATA: string;
 	export const CHROME_CRASHPAD_PIPE_NAME: string;
-	export const NODE: string;
 	export const npm_package_version: string;
+	export const ProgramData: string;
 	export const NODE_ENV: string;
 	export const npm_config_user_agent: string;
-	export const ProgramData: string;
 	export const USERDOMAIN: string;
 	export const COLORTERM: string;
 	export const npm_node_execpath: string;
@@ -66,25 +66,29 @@ declare module '$env/static/private' {
 	export const USERDOMAIN_ROAMINGPROFILE: string;
 	export const VS140COMNTOOLS: string;
 	export const VSCODE_A11Y_MODE: string;
-	export const windir: string;
 	export const VSCODE_GIT_IPC_HANDLE: string;
 	export const SystemRoot: string;
+	export const PROMPT: string;
 	export const npm_execpath: string;
 	export const TEMP: string;
+	export const EFC_7548_1262719628: string;
 	export const ProgramW6432: string;
 	export const PROCESSOR_ARCHITECTURE: string;
 	export const npm_lifecycle_event: string;
-	export const ProgramFiles: string;
 	export const PATHEXT: string;
+	export const FORCE_COLOR: string;
 	export const TERM_PROGRAM_VERSION: string;
 	export const OneDrive: string;
 	export const npm_lifecycle_script: string;
 	export const FPS_BROWSER_APP_PROFILE_STRING: string;
+	export const ProgramFiles: string;
 	export const DriverData: string;
 	export const NUMBER_OF_PROCESSORS: string;
 	export const CommonProgramW6432: string;
 	export const PROCESSOR_IDENTIFIER: string;
+	export const EFC_7548_3789132940: string;
 	export const VSCODE_INJECTION: string;
+	export const PLAYWRIGHT_TEST: string;
 	export const FPS_BROWSER_USER_PROFILE_STRING: string;
 	export const SystemDrive: string;
 	export const npm_command: string;
@@ -92,8 +96,11 @@ declare module '$env/static/private' {
 	export const CLAUDE_CODE_SSE_PORT: string;
 	export const Path: string;
 	export const VSCODE_STABLE: string;
+	export const EFC_7548_2775293581: string;
 	export const TERM_PROGRAM: string;
+	export const BROWSER: string;
 	export const npm_config_local_prefix: string;
+	export const PLAYWRIGHT_TEST_BASE_URL: string;
 	export const CommonProgramFiles: string;
 	export const VSCODE_GIT_ASKPASS_MAIN: string;
 	export const HOMEDRIVE: string;
@@ -101,15 +108,14 @@ declare module '$env/static/private' {
 	export const VSCODE_GIT_ASKPASS_EXTRA_ARGS: string;
 	export const LOGONSERVER: string;
 	export const TMP: string;
-	export const EFC_19600_2775293581: string;
+	export const SESSIONNAME: string;
 	export const APPDATA: string;
 	export const ALLUSERSPROFILE: string;
 	export const OS: string;
-	export const EFC_19600_1262719628: string;
+	export const DEBUG_COLORS: string;
 	export const PUBLIC: string;
 	export const PSModulePath: string;
 	export const COMPUTERNAME: string;
-	export const SESSIONNAME: string;
 	export const GIT_ASKPASS: string;
 }
 
@@ -197,6 +203,8 @@ declare module '$env/static/public' {
  */
 declare module '$env/dynamic/private' {
 	export const env: {
+		EFC_7548_2283032206: string;
+		EFC_7548_1592913036: string;
 		VSCODE_GIT_ASKPASS_NODE: string;
 		USERNAME: string;
 		npm_package_json: string;
@@ -206,18 +214,16 @@ declare module '$env/dynamic/private' {
 		npm_package_name: string;
 		USERPROFILE: string;
 		VSCODE_NONCE: string;
-		EFC_19600_2283032206: string;
+		windir: string;
 		ComSpec: string;
 		PROCESSOR_LEVEL: string;
-		EFC_19600_1592913036: string;
-		EFC_19600_3789132940: string;
+		NODE: string;
 		LOCALAPPDATA: string;
 		CHROME_CRASHPAD_PIPE_NAME: string;
-		NODE: string;
 		npm_package_version: string;
+		ProgramData: string;
 		NODE_ENV: string;
 		npm_config_user_agent: string;
-		ProgramData: string;
 		USERDOMAIN: string;
 		COLORTERM: string;
 		npm_node_execpath: string;
@@ -225,25 +231,29 @@ declare module '$env/dynamic/private' {
 		USERDOMAIN_ROAMINGPROFILE: string;
 		VS140COMNTOOLS: string;
 		VSCODE_A11Y_MODE: string;
-		windir: string;
 		VSCODE_GIT_IPC_HANDLE: string;
 		SystemRoot: string;
+		PROMPT: string;
 		npm_execpath: string;
 		TEMP: string;
+		EFC_7548_1262719628: string;
 		ProgramW6432: string;
 		PROCESSOR_ARCHITECTURE: string;
 		npm_lifecycle_event: string;
-		ProgramFiles: string;
 		PATHEXT: string;
+		FORCE_COLOR: string;
 		TERM_PROGRAM_VERSION: string;
 		OneDrive: string;
 		npm_lifecycle_script: string;
 		FPS_BROWSER_APP_PROFILE_STRING: string;
+		ProgramFiles: string;
 		DriverData: string;
 		NUMBER_OF_PROCESSORS: string;
 		CommonProgramW6432: string;
 		PROCESSOR_IDENTIFIER: string;
+		EFC_7548_3789132940: string;
 		VSCODE_INJECTION: string;
+		PLAYWRIGHT_TEST: string;
 		FPS_BROWSER_USER_PROFILE_STRING: string;
 		SystemDrive: string;
 		npm_command: string;
@@ -251,8 +261,11 @@ declare module '$env/dynamic/private' {
 		CLAUDE_CODE_SSE_PORT: string;
 		Path: string;
 		VSCODE_STABLE: string;
+		EFC_7548_2775293581: string;
 		TERM_PROGRAM: string;
+		BROWSER: string;
 		npm_config_local_prefix: string;
+		PLAYWRIGHT_TEST_BASE_URL: string;
 		CommonProgramFiles: string;
 		VSCODE_GIT_ASKPASS_MAIN: string;
 		HOMEDRIVE: string;
@@ -260,15 +273,14 @@ declare module '$env/dynamic/private' {
 		VSCODE_GIT_ASKPASS_EXTRA_ARGS: string;
 		LOGONSERVER: string;
 		TMP: string;
-		EFC_19600_2775293581: string;
+		SESSIONNAME: string;
 		APPDATA: string;
 		ALLUSERSPROFILE: string;
 		OS: string;
-		EFC_19600_1262719628: string;
+		DEBUG_COLORS: string;
 		PUBLIC: string;
 		PSModulePath: string;
 		COMPUTERNAME: string;
-		SESSIONNAME: string;
 		GIT_ASKPASS: string;
 		[key: `PUBLIC_${string}`]: undefined;
 		[key: `${string}`]: string | undefined;

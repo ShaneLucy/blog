@@ -8,6 +8,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "prepare": "svelte-kit sync || echo ''",
+    "postinstall": "playwright install",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "lint": "prettier --write . && eslint . && bun run lint:css && bun run check",
     "lint:css": "stylelint \"src/**/*.css\" \"src/**/*.svelte\" --fix",
@@ -15,7 +16,7 @@
     "test:unit": "vitest run --run",
     "coverage": "vitest run --run --coverage",
     "process-images": "bun run scripts/process-images.ts",
-    "test:e2e": "playwright install && playwright test",
+    "test:e2e": "playwright test",
     "test": "bun run test:unit && bun run test:e2e"
   },
   "devDependencies": {
