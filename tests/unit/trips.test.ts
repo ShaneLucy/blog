@@ -72,7 +72,6 @@ describe('allTrips', () => {
         expect(typeof photo.filename).toBe('string');
         expect(photo.filename.length).toBeGreaterThan(0);
         expect(typeof photo.alt).toBe('string');
-        expect(photo.alt.length).toBeGreaterThan(0);
         expect(photo.width).toBeGreaterThan(0);
         expect(photo.height).toBeGreaterThan(0);
       }

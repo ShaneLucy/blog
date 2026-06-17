@@ -1,7 +1,7 @@
 import { test, expect, describe, vi, beforeAll, afterAll, beforeEach, afterEach } from 'vitest';
 import sharp from 'sharp';
-import { processImage, verifyNoExif, main } from '../../scripts/process-images';
-import { mkdtemp, rm, mkdir, writeFile } from 'node:fs/promises';
+import { processImage, verifyNoExif, updateTripPhotos, main } from '../../scripts/process-images';
+import { mkdtemp, rm, mkdir, writeFile, readFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
@@ -133,6 +133,100 @@ test('verifyNoExif: returns false for a JPEG with EXIF metadata', async () => {
   await makeTestJpeg(input, { width: 200, height: 150, withMeta: true });
 
   expect(await verifyNoExif(input)).toBe(false);
+});
+
+// --- updateTripPhotos ---
+
+describe('updateTripPhotos', () => {
+  let dir: string;
+
+  beforeEach(async () => {
+    dir = await mkdtemp(join(tmpdir(), 'update-trip-'));
+  });
+
+  afterEach(async () => {
+    try {
+      await rm(dir, { recursive: true, force: true });
+    } catch {
+      // temp dir will be cleaned by the OS
+    }
+  });
+
+  test('does nothing when trip.ts does not exist', async () => {
+    await updateTripPhotos(join(dir, 'trip.ts'), [{ filename: 'photo.webp', width: 800, height: 600 }]);
+    expect(existsSync(join(dir, 'trip.ts'))).toBe(false);
+  });
+
+  test('does nothing when all photos are already in the array', async () => {
+    const tripTs = join(dir, 'trip.ts');
+    const original = `export const trip = { photos: [\n    { slug: 'photo', filename: 'photo.webp', alt: '', tags: [], width: 800, height: 600 }\n  ] };`;
+    await writeFile(tripTs, original, 'utf-8');
+
+    await updateTripPhotos(tripTs, [{ filename: 'photo.webp', width: 800, height: 600 }]);
+
+    expect(await readFile(tripTs, 'utf-8')).toBe(original);
+  });
+
+  test('appends new entries to a non-empty photos array', async () => {
+    const tripTs = join(dir, 'trip.ts');
+    await writeFile(
+      tripTs,
+      `export const trip = { photos: [\n    { slug: 'existing', filename: 'existing.webp', alt: '', tags: [], width: 100, height: 100 }\n  ] };`,
+      'utf-8'
+    );
+
+    await updateTripPhotos(tripTs, [{ filename: 'new-photo.webp', width: 1200, height: 800 }]);
+
+    const result = await readFile(tripTs, 'utf-8');
+    expect(result).toContain("filename: 'existing.webp'");
+    expect(result).toContain("filename: 'new-photo.webp'");
+    expect(result).toContain("slug: 'new-photo'");
+    expect(result).toContain('width: 1200');
+    expect(result).toContain('height: 800');
+    expect(result).toContain("tags: []");
+  });
+
+  test('inserts entries into an empty photos array', async () => {
+    const tripTs = join(dir, 'trip.ts');
+    await writeFile(tripTs, `export const trip = { photos: [] };`, 'utf-8');
+
+    await updateTripPhotos(tripTs, [{ filename: 'first.webp', width: 400, height: 300 }]);
+
+    const result = await readFile(tripTs, 'utf-8');
+    expect(result).toContain("filename: 'first.webp'");
+    expect(result).toContain("slug: 'first'");
+    expect(result).toContain('width: 400');
+    expect(result).toContain('height: 300');
+    expect(result).toContain("tags: []");
+  });
+
+  test('derives slug from filename — lowercase, non-alphanumeric chars become hyphens', async () => {
+    const tripTs = join(dir, 'trip.ts');
+    await writeFile(tripTs, `export const trip = { photos: [] };`, 'utf-8');
+
+    await updateTripPhotos(tripTs, [{ filename: 'My_Photo 01.webp', width: 100, height: 100 }]);
+
+    const result = await readFile(tripTs, 'utf-8');
+    expect(result).toContain("slug: 'my-photo-01'");
+  });
+
+  test('skips already-present filenames and only adds new ones', async () => {
+    const tripTs = join(dir, 'trip.ts');
+    await writeFile(
+      tripTs,
+      `export const trip = { photos: [\n    { slug: 'a', filename: 'a.webp', alt: '', tags: [], width: 100, height: 100 }\n  ] };`,
+      'utf-8'
+    );
+
+    await updateTripPhotos(tripTs, [
+      { filename: 'a.webp', width: 100, height: 100 },
+      { filename: 'b.webp', width: 200, height: 150 }
+    ]);
+
+    const result = await readFile(tripTs, 'utf-8');
+    expect(result).toContain("filename: 'b.webp'");
+    expect(result.match(/filename:/g)?.length).toBe(2);
+  });
 });
 
 // --- main ---
