@@ -8,7 +8,6 @@ function projectRoot(): string {
   return fileURLToPath(new URL('..', import.meta.url));
 }
 
-const MAX_FULL_WIDTH = 2400;
 const THUMBNAIL_WIDTH = 400;
 const SUPPORTED_EXTS = new Set(['.jpg', '.jpeg', '.png', '.tif', '.tiff', '.webp', '.avif']);
 
@@ -19,8 +18,7 @@ export async function processImage(
 ): Promise<{ width: number; height: number }> {
   const info = await sharp(inputPath)
     .rotate()
-    .resize({ width: MAX_FULL_WIDTH, withoutEnlargement: true })
-    .webp({ quality: 85 })
+    .webp({ quality: 100 })
     .toFile(outputPath);
 
   await sharp(inputPath).rotate().resize({ width: THUMBNAIL_WIDTH, withoutEnlargement: true }).webp({ quality: 80 }).toFile(thumbnailPath);

@@ -1,16 +1,12 @@
 #Requires -Version 5.1
 <#
 .SYNOPSIS
-    Recursively converts all HEIC images under src/content/trips to JPEG using ffmpeg.
+    Recursively converts all HEIC images under src/content/trips to WebP using ffmpeg.
 
 .DESCRIPTION
-    For each .heic / .HEIC file found, an equivalent .jpg file is written next to it.
-    JPEG is used as the intermediate format because ffmpeg reliably preserves EXIF
-    metadata in JPEG output; process-images.ts then handles the final WebP conversion.
+    For each .heic / .HEIC file found, an equivalent .webp file is written next to it
+    at maximum quality (100), avoiding the quality loss of an intermediate JPEG step.
     The original HEIC is left untouched unless -DeleteOriginals is passed.
-
-.PARAMETER Quality
-    JPEG quality (1-100). Default: 90.
 
 .PARAMETER DeleteOriginals
     If set, removes the source .heic file after a successful conversion.
@@ -19,9 +15,6 @@
     Print what would be converted without doing anything.
 #>
 param(
-    [ValidateRange(1, 100)]
-    [int]$Quality = 90,
-
     [switch]$DeleteOriginals,
 
     [switch]$DryRun
@@ -54,19 +47,16 @@ if ($heicFiles.Count -eq 0) {
 
 Write-Host "Found $($heicFiles.Count) HEIC file(s) under src/content/trips`n"
 
-# ffmpeg JPEG quality uses an inverted 1-31 scale (1=best); map from user's 1-100
-$jpegQ = [Math]::Max(1, [Math]::Min(31, [int](32 - ($Quality * 31.0 / 100.0))))
-
 $converted = 0
 $skipped   = 0
 $failed    = 0
 
 foreach ($file in $heicFiles) {
-    $dest = [System.IO.Path]::ChangeExtension($file.FullName, '.jpg')
+    $dest = [System.IO.Path]::ChangeExtension($file.FullName, '.webp')
     $rel  = $file.FullName.Substring($repoRoot.Length + 1)
 
     if (Test-Path $dest) {
-        Write-Host "SKIP  $rel  (JPEG already exists)"
+        Write-Host "SKIP  $rel  (WebP already exists)"
         $skipped++
         continue
     }
@@ -82,7 +72,7 @@ foreach ($file in $heicFiles) {
     $ffmpegArgs = @(
         '-y',
         '-i', $file.FullName,
-        '-q:v', $jpegQ,
+        '-quality', 100,
         '-loglevel', 'error',
         $dest
     )
@@ -107,7 +97,7 @@ foreach ($file in $heicFiles) {
 
 Write-Host ""
 if ($DryRun) {
-    Write-Host "Dry run: $converted file(s) would be converted, $skipped already have JPEG."
+    Write-Host "Dry run: $converted file(s) would be converted, $skipped already have WebP."
 } else {
     Write-Host "Done: $converted converted, $skipped skipped, $failed failed."
 }

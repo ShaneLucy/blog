@@ -63,26 +63,16 @@ test('strips all EXIF metadata from output', async () => {
   expect(outMeta.xmp).toBeUndefined();
 });
 
-test('resizes images wider than 2400px', async () => {
+test('preserves original dimensions for full-size output', async () => {
   const input = join(tempDir, 'large-input.jpg');
   const output = join(tempDir, 'large-output.webp');
   const thumb = join(tempDir, 'large-thumb.webp');
 
   await makeTestJpeg(input, { width: 4000, height: 3000 });
 
-  const { width } = await processImage(input, output, thumb);
-  expect(width).toBeLessThanOrEqual(2400);
-});
-
-test('does not upscale images narrower than 2400px', async () => {
-  const input = join(tempDir, 'small-input.jpg');
-  const output = join(tempDir, 'small-output.webp');
-  const thumb = join(tempDir, 'small-thumb.webp');
-
-  await makeTestJpeg(input, { width: 800, height: 600 });
-
-  const { width } = await processImage(input, output, thumb);
-  expect(width).toBe(800);
+  const { width, height } = await processImage(input, output, thumb);
+  expect(width).toBe(4000);
+  expect(height).toBe(3000);
 });
 
 test('generates thumbnail at most 400px wide', async () => {
