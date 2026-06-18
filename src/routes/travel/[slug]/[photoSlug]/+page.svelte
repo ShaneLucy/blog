@@ -22,7 +22,7 @@
   let thumbFailed = $state(false);
 
   // Issue 5: $derived replaces plain srcToUse() function
-  let currentSrc = $derived(imgFailed ? null : thumbFailed ? imageSrc : thumbSrc);
+  let currentSrc = $derived(imgFailed ? null : thumbFailed ? thumbSrc : imageSrc);
 
   // Issue 7: arrow-key navigation (progressive enhancement)
   function handleKeydown(e: KeyboardEvent) {
