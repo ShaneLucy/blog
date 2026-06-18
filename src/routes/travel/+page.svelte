@@ -8,6 +8,7 @@
   import TripCard from '$lib/components/travel/TripCard.svelte';
   import TripFilters from '$lib/components/travel/TripFilters.svelte';
   import { SITE_NAME, SITE_URL } from '$lib/config';
+  import { parseDMY } from '$lib/utils/dates';
 
   let { data }: { data: PageData } = $props();
 
@@ -23,7 +24,7 @@
       .filter((t) => selectedTags.length === 0 || selectedTags.every((tag) => t.tags.includes(tag)))
       .sort((a, b) =>
         sortBy === 'date'
-          ? new Date(b.dates.start).getTime() - new Date(a.dates.start).getTime()
+          ? parseDMY(b.dates.start).getTime() - parseDMY(a.dates.start).getTime()
           : a.destination.localeCompare(b.destination)
       )
   );

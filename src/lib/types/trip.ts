@@ -1,5 +1,10 @@
 export enum PhotoTag {
   Architecture = 'architecture',
+  Animals = 'animals',
+  Beer = 'beer',
+  Cocktail = 'cocktail',
+  Coffee = 'coffee',
+  Cafe = 'cafe',
   Landscape = 'landscape',
   Food = 'food',
   Night = 'night',
@@ -8,9 +13,12 @@ export enum PhotoTag {
   Detail = 'detail',
   Nature = 'nature',
   Water = 'water',
+  Harbour = 'harbour',
+  Mountain = 'mountain',
   Urban = 'urban',
   Interior = 'interior',
-  Transport = 'transport'
+  Transport = 'transport',
+  Sunset = 'sunset'
 }
 
 export interface TripPhoto {

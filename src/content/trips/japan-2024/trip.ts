@@ -6,7 +6,7 @@ export const trip: Trip = {
   title: 'Two Weeks in Japan',
   destination: 'Japan',
   region: 'East Asia',
-  dates: { start: '2024-03-15', end: '2024-03-29' },
+  dates: { start: '15-03-2024', end: '29-03-2024' },
   tags: ['temples', 'food', 'hiking', 'cherry-blossoms', 'cities'],
   coverPhoto: 'fushimi-inari.webp',
   description: 'Exploring Tokyo, Kyoto, and the Japanese Alps during cherry blossom season.',

@@ -2,6 +2,7 @@
   import type { Trip } from '$lib/types/trip';
   import { resolve } from '$app/paths';
   import { tripImageSrc, tripThumbSrc } from '$lib/images';
+  import { parseDMY } from '$lib/utils/dates';
 
   interface Props {
     trip: Trip;
@@ -9,11 +10,13 @@
 
   let { trip }: Props = $props();
 
-  let startYear = $derived(trip.dates.start.slice(0, 4));
-  let endYear = $derived(trip.dates.end.slice(0, 4));
+  let startDate = $derived(parseDMY(trip.dates.start));
+  let endDate = $derived(parseDMY(trip.dates.end));
+  let startYear = $derived(startDate.getFullYear().toString());
+  let endYear = $derived(endDate.getFullYear().toString());
   let dateLabel = $derived(
     startYear === endYear
-      ? new Date(trip.dates.start).toLocaleDateString('en-GB', { month: 'short', year: 'numeric' })
+      ? startDate.toLocaleDateString('en-GB', { month: 'short', year: 'numeric' })
       : `${startYear}–${endYear}`
   );
 
@@ -51,7 +54,7 @@
     <p class="trip-card__desc">{trip.description}</p>
     {#if trip.tags.length > 0}
       <ul class="trip-card__tags" role="list" aria-label="Tags">
-        {#each trip.tags.slice(0, 4) as tag (tag)}
+        {#each trip.tags as tag (tag)}
           <li class="tag-pill">{tag}</li>
         {/each}
       </ul>

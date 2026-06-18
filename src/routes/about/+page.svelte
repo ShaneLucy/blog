@@ -1,12 +1,13 @@
 <script lang="ts">
   import { resolve } from '$app/paths';
   import { allTrips } from '$lib/data/trips';
+  import { parseDMY } from '$lib/utils/dates';
 
   const destinations = [...allTrips]
-    .sort((a, b) => b.dates.start.localeCompare(a.dates.start))
+    .sort((a, b) => parseDMY(b.dates.start).getTime() - parseDMY(a.dates.start).getTime())
     .map((t) => ({
       name: t.destination,
-      year: t.dates.start.slice(0, 4),
+      year: t.dates.start.slice(6),
       slug: t.slug,
       description: t.description
     }));

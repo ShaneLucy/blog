@@ -3,6 +3,7 @@
   import TripGallery from '$lib/components/travel/TripGallery.svelte';
   import { resolve } from '$app/paths';
   import { SITE_NAME, SITE_URL } from '$lib/config';
+  import { parseDMY, dmyToIso } from '$lib/utils/dates';
 
   let { data }: { data: PageData } = $props();
   let trip = $derived(data.trip);
@@ -11,8 +12,8 @@
   let coverPhoto = $derived(trip.photos.find((p) => p.filename === trip.coverPhoto));
 
   function formatDateRange(start: string, end: string): string {
-    const s = new Date(start);
-    const e = new Date(end);
+    const s = parseDMY(start);
+    const e = parseDMY(end);
     const locale = 'en-GB';
     if (s.getFullYear() === e.getFullYear()) {
       if (s.getMonth() === e.getMonth()) {
@@ -35,7 +36,7 @@
   <meta property="og:description" content={trip.description} />
   <meta property="og:image" content={`${SITE_URL}${coverSrc}`} />
   <meta property="og:url" content={`${SITE_URL}/travel/${trip.slug}`} />
-  <meta property="article:published_time" content={trip.dates.start} />
+  <meta property="article:published_time" content={dmyToIso(trip.dates.start)} />
   {#each trip.tags as tag (tag)}
     <meta property="article:tag" content={tag} />
   {/each}
@@ -74,7 +75,7 @@
     <span class="eyebrow">{trip.destination}{trip.region ? ` · ${trip.region}` : ''}</span>
     <h1 id="trip-title">{trip.title}</h1>
     <p class="trip-detail__dates">
-      <time datetime={trip.dates.start}>{dateRange}</time>
+      <time datetime={dmyToIso(trip.dates.start)}>{dateRange}</time>
     </p>
     {#if trip.tags.length > 0}
       <ul class="trip-detail__tags" role="list" aria-label="Tags">
