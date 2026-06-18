@@ -11,7 +11,7 @@ const photos: TripPhoto[] = [
     alt: 'Mount Fuji at sunrise',
     width: 1600,
     height: 1067,
-    tags: [PhotoTag.Landscape, PhotoTag.Nature]
+    tags: new Set([PhotoTag.Landscape, PhotoTag.Nature])
   },
   {
     slug: 'photo-2',
@@ -19,7 +19,7 @@ const photos: TripPhoto[] = [
     alt: 'Traditional temple gate',
     width: 1200,
     height: 800,
-    tags: [PhotoTag.Architecture]
+    tags: new Set([PhotoTag.Architecture])
   }
 ];
 
@@ -43,7 +43,7 @@ describe('TripGallery', () => {
   });
 
   test('no filter bar when no photos have tags', () => {
-    const noTagPhotos: TripPhoto[] = photos.map((p) => ({ ...p, tags: [] }));
+    const noTagPhotos: TripPhoto[] = photos.map((p) => ({ ...p, tags: new Set<PhotoTag>() }));
     const { queryByRole } = render(TripGallery, {
       props: { photos: noTagPhotos, slug: 'japan-2024' }
     });

@@ -1,8 +1,9 @@
 import { describe, test, expect } from 'vitest';
 import { allTrips, allDestinations, allTags, allPhotoTags } from '../../src/lib/data/trips';
 import { PhotoTag } from '../../src/lib/types/trip';
+import { parseDMY } from '../../src/lib/utils/dates';
 
-const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
+const DMY_DATE = /^\d{2}-\d{2}-\d{4}$/;
 
 describe('allTrips', () => {
   test('is a non-empty array', () => {
@@ -18,8 +19,8 @@ describe('allTrips', () => {
       expect(trip.title.length).toBeGreaterThan(0);
       expect(typeof trip.destination).toBe('string');
       expect(trip.destination.length).toBeGreaterThan(0);
-      expect(typeof trip.coverPhoto).toBe('string');
-      expect(trip.coverPhoto.length).toBeGreaterThan(0);
+      expect(typeof trip.coverPhoto.filename).toBe('string');
+      expect(trip.coverPhoto.filename.length).toBeGreaterThan(0);
       expect(typeof trip.description).toBe('string');
       expect(trip.description.length).toBeGreaterThan(0);
     }
@@ -30,23 +31,23 @@ describe('allTrips', () => {
     expect(new Set(slugs).size).toBe(slugs.length);
   });
 
-  test('each trip has valid ISO date strings', () => {
+  test('each trip has valid DD-MM-YYYY date strings', () => {
     for (const trip of allTrips) {
-      expect(trip.dates.start).toMatch(ISO_DATE);
-      expect(trip.dates.end).toMatch(ISO_DATE);
+      expect(trip.dates.start).toMatch(DMY_DATE);
+      expect(trip.dates.end).toMatch(DMY_DATE);
     }
   });
 
   test('each trip start date is before or equal to end date', () => {
     for (const trip of allTrips) {
-      expect(new Date(trip.dates.start).getTime() <= new Date(trip.dates.end).getTime()).toBe(true);
+      expect(parseDMY(trip.dates.start).getTime() <= parseDMY(trip.dates.end).getTime()).toBe(true);
     }
   });
 
   test('each trip has at least one tag', () => {
     for (const trip of allTrips) {
-      expect(Array.isArray(trip.tags)).toBe(true);
-      expect(trip.tags.length).toBeGreaterThan(0);
+      expect(trip.tags instanceof Set).toBe(true);
+      expect(trip.tags.size).toBeGreaterThan(0);
     }
   });
 

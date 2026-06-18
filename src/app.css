@@ -2,8 +2,8 @@
    FONTS — Fontsource variable fonts (WOFF2, bundled by Vite)
    ============================================================ */
 
-@import '@fontsource-variable/inter';
-@import '@fontsource-variable/lora';
+@import url('@fontsource-variable/inter');
+@import url('@fontsource-variable/lora');
 
 /* ============================================================
    GLOBAL CSS CUSTOM PROPERTIES

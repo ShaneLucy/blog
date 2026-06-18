@@ -1,12 +1,13 @@
 import { describe, test, expect } from 'vitest';
 import { allTrips } from '../../src/lib/data/trips';
+import { parseDMY } from '../../src/lib/utils/dates';
 
 // Mirrors the transformation on the about page
 const destinations = [...allTrips]
-  .sort((a, b) => b.dates.start.localeCompare(a.dates.start))
+  .sort((a, b) => parseDMY(b.dates.start).getTime() - parseDMY(a.dates.start).getTime())
   .map((t) => ({
     name: t.destination,
-    year: t.dates.start.slice(0, 4),
+    year: t.dates.start.slice(6),
     slug: t.slug,
     description: t.description
   }));
@@ -20,7 +21,7 @@ describe('about page destinations list', () => {
     for (let i = 0; i < destinations.length - 1; i++) {
       const curr = allTrips.find((t) => t.slug === destinations[i].slug)!;
       const next = allTrips.find((t) => t.slug === destinations[i + 1].slug)!;
-      expect(curr.dates.start.localeCompare(next.dates.start) >= 0).toBe(true);
+      expect(parseDMY(curr.dates.start).getTime() >= parseDMY(next.dates.start).getTime()).toBe(true);
     }
   });
 
@@ -31,10 +32,10 @@ describe('about page destinations list', () => {
     }
   });
 
-  test('year is the first four characters of dates.start', () => {
+  test('year is the last four characters of dates.start (YYYY in DD-MM-YYYY)', () => {
     for (const dest of destinations) {
       const trip = allTrips.find((t) => t.slug === dest.slug)!;
-      expect(dest.year).toBe(trip.dates.start.slice(0, 4));
+      expect(dest.year).toBe(trip.dates.start.slice(6));
     }
   });
 

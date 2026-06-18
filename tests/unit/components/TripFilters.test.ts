@@ -1,9 +1,10 @@
 import { describe, test, expect } from 'vitest';
 import { render, fireEvent } from '@testing-library/svelte';
 import TripFilters from '../../../src/lib/components/travel/TripFilters.svelte';
+import type { TripTag } from '../../../src/lib/types/trip';
 
 const destinations = ['Japan', 'Norway'];
-const tags = ['adventure', 'culture', 'food'];
+const tags = ['adventure', 'culture', 'food'] as TripTag[];
 
 describe('TripFilters', () => {
   test('renders destination select with all-destinations option and each destination', () => {
