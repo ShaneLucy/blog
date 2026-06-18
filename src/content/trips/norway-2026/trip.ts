@@ -20,7 +20,9 @@ export const trip: Trip = {
   ]),
   coverPhoto: {
     filename: 'Fjord-Cruise-4.webp',
-    alt: 'Calm fjord waters stretching into the distance with steep mountain slope rising into the clouds'
+    alt: 'Calm fjord waters stretching into the distance with steep mountain slope rising into the clouds',
+    width: 4032,
+    height: 3024
   },
   description: 'Five nights exploring Bergen, Ålesund, Fjords while sampling delicious food and drink along the way',
   body: `Spring in Norway means the sun barely sets. Sixe days of golden light, impossibly blue fjords, and trails that wind above the clouds.`,

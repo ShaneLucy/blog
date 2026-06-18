@@ -23,6 +23,9 @@
 - norway-2026 trip.ts has placeholder alt text ("TODO...") and non-descriptive filenames (OIP.webp)
 - Unused design tokens: --z-lightbox, --z-toast, --color-overlay* (lightbox feature removed)
 
+## Architecture Decisions
+- [Gallery lazy-loading strategy](decision_gallery_lazy_loading.md) — rejected "load-all on DCL" (regresses hero LCP); prefer declarative eager rows + optional IntersectionObserver action that keeps no-JS baseline
+
 ## Patterns to Respect
 - Strong a11y discipline: skip link, focus mgmt, prefers-reduced-motion kill-switch, forced-colors fallbacks, 44px targets. Do not regress.
 - Svelte 5 deep $state proxy: keyed Record mutation (obj[key]=true) IS reactive (used in TripGallery).

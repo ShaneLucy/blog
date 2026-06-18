@@ -55,7 +55,7 @@
 {/if}
 
 <ul class="gallery" aria-label="Trip photos">
-  {#each filteredPhotos as photo (photo.slug)}
+  {#each filteredPhotos as photo, i (photo.slug)}
     <li class="gallery__item">
       <a
         href={resolve('/travel/[slug]/[photoSlug]', { slug, photoSlug: photo.slug })}
@@ -68,7 +68,8 @@
             alt={photo.alt}
             width={photo.width}
             height={photo.height}
-            loading="lazy"
+            loading={i < 8 ? 'eager' : 'lazy'}
+            fetchpriority={i < 8 ? 'low' : 'auto'}
             decoding="async"
             onerror={() => {
               if (!thumbFailed[photo.slug]) thumbFailed[photo.slug] = true;

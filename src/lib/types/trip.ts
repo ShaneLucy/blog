@@ -59,6 +59,8 @@ export interface Trip {
   coverPhoto: {
     filename: string;
     alt: string;
+    width: number;
+    height: number
   };
   description: string;
   body?: string;
