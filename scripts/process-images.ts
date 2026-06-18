@@ -16,10 +16,7 @@ export async function processImage(
   outputPath: string,
   thumbnailPath: string
 ): Promise<{ width: number; height: number }> {
-  const info = await sharp(inputPath)
-    .rotate()
-    .webp({ quality: 100 })
-    .toFile(outputPath);
+  const info = await sharp(inputPath).rotate().webp({ quality: 100 }).toFile(outputPath);
 
   await sharp(inputPath).rotate().resize({ width: THUMBNAIL_WIDTH, withoutEnlargement: true }).webp({ quality: 80 }).toFile(thumbnailPath);
 
@@ -39,9 +36,7 @@ export async function updateTripPhotos(
 
   const source = await readFile(tripTsPath, 'utf-8');
 
-  const existingFilenames = new Set(
-    [...source.matchAll(/filename:\s*['"]([^'"]+)['"]/g)].map((m) => m[1])
-  );
+  const existingFilenames = new Set([...source.matchAll(/filename:\s*['"]([^'"]+)['"]/g)].map((m) => m[1]));
 
   const toAdd = newPhotos.filter((p) => !existingFilenames.has(p.filename));
   if (toAdd.length === 0) return;
@@ -60,7 +55,7 @@ export async function updateTripPhotos(
       `      tags: [],`,
       `      width: ${p.width},`,
       `      height: ${p.height}`,
-      `    }`,
+      `    }`
     ].join('\n');
   });
 

@@ -13,7 +13,7 @@ export const trip: Trip = {
   body: `Spring in Norway means the sun barely sets. Sixe days of golden light, impossibly blue fjords, and trails that wind above the clouds.`,
   photos: [
     {
-      slug: 'fjord-cruise-4',
+      slug: 'calm-fjord-waters-mountain-clouds',
       filename: 'Fjord-Cruise-4.webp',
       alt: 'Calm fjord waters stretching into the distance with steep mountain slope rising into the clouds',
       tags: [PhotoTag.Landscape, PhotoTag.Nature, PhotoTag.Water],
@@ -21,15 +21,15 @@ export const trip: Trip = {
       height: 3024
     },
     {
-      slug: 'bergen-church',
+      slug: 'bergen-church-above-rooftops',
       filename: 'Bergen-Church.webp',
-      alt: 'A historic church  rising above the rooftops of Bergen city centre',
+      alt: 'A historic church rising above the rooftops of Bergen city centre',
       tags: [PhotoTag.Architecture, PhotoTag.Urban],
       width: 3024,
       height: 4032
     },
     {
-      slug: 'bergen-fountain',
+      slug: 'bergen-city-centre-fountain-mountain-backdrop',
       filename: 'Bergen-Fountain.webp',
       alt: 'A decorative fountain in Bergen city centre surrounded by mountains with houses littered throughout',
       tags: [PhotoTag.Landscape, PhotoTag.Architecture, PhotoTag.Urban],
@@ -37,23 +37,23 @@ export const trip: Trip = {
       height: 3024
     },
     {
-      slug: 'bergen-harbour-mountain-view',
+      slug: 'bergen-harbour-from-mountain-lookout',
       filename: 'Bergen-Harbour.webp',
-      alt: 'Looking down on bergen harbour from a nearby mountain',
+      alt: 'Looking down on Bergen harbour from a nearby mountain',
       tags: [PhotoTag.Landscape, PhotoTag.Architecture, PhotoTag.Urban, PhotoTag.Water, PhotoTag.Harbour],
       width: 4032,
       height: 3024
     },
     {
-      slug: 'bergen-streets-2',
+      slug: 'bergen-colourful-houses-tree-lined-street',
       filename: 'Bergen-Streets-2.webp',
-      alt: 'A  Bergen street lined with colourful houses, leafy trees and mountain views',
+      alt: 'A Bergen street lined with colourful houses, leafy trees and mountain views',
       tags: [PhotoTag.Urban, PhotoTag.Nature, PhotoTag.Street],
       width: 3024,
       height: 4032
     },
     {
-      slug: 'bergen-streets',
+      slug: 'bergen-cobblestone-street-colourful-buildings',
       filename: 'Bergen-Streets.webp',
       alt: 'A quiet cobblestone street in Bergen with colourful buildings on either side and a mountain view in the background',
       tags: [PhotoTag.Urban, PhotoTag.Nature, PhotoTag.Street],
@@ -61,7 +61,7 @@ export const trip: Trip = {
       height: 4032
     },
     {
-      slug: 'bergen-tree-archway',
+      slug: 'bergen-tree-canopy-walkway',
       filename: 'Bergen-Tree-Archway.webp',
       alt: 'A canopy of leafy trees forming a natural archway over a Bergen walkway',
       tags: [PhotoTag.Urban, PhotoTag.Nature, PhotoTag.Street],
@@ -69,7 +69,7 @@ export const trip: Trip = {
       height: 4032
     },
     {
-      slug: 'butter-chicken',
+      slug: 'butter-chicken-curry-with-beer',
       filename: 'Butter-Chicken.webp',
       alt: 'A plate of butter chicken curry served with a cold beer',
       tags: [PhotoTag.Food, PhotoTag.Beer],
@@ -77,7 +77,7 @@ export const trip: Trip = {
       height: 3024
     },
     {
-      slug: 'church-view-from-mountain',
+      slug: 'bergen-church-view-from-mountainside',
       filename: 'Church-View-From-Mountain.webp',
       alt: 'Looking down over Bergen from the mountainside, focusing on the historic church',
       tags: [PhotoTag.Architecture, PhotoTag.Urban],
@@ -85,15 +85,15 @@ export const trip: Trip = {
       height: 4032
     },
     {
-      slug: 'elven-whiskey-cocktail',
+      slug: 'elven-bar-whiskey-cocktail',
       filename: 'Elven-Whiskey-Cocktail.webp',
-      alt: 'A whiskey cocktail with garnish at  Elven bar',
+      alt: 'A whiskey cocktail with garnish at Elven bar',
       tags: [PhotoTag.Cocktail],
       width: 3024,
       height: 4032
     },
     {
-      slug: 'even-more-sunset-bergen-harbour-2',
+      slug: 'bergen-harbour-golden-sunset-reflection',
       filename: 'Even-More-Sunset-Bergen-Harbour-2.webp',
       alt: 'Golden sunset light reflecting off the still water of Bergen harbour',
       tags: [PhotoTag.Sunset, PhotoTag.Harbour, PhotoTag.Water],
@@ -101,7 +101,7 @@ export const trip: Trip = {
       height: 4032
     },
     {
-      slug: 'even-more-sunset-bergen-harbour',
+      slug: 'bergen-harbour-orange-pink-sunset',
       filename: 'Even-More-Sunset-Bergen-Harbour.webp',
       alt: 'Bergen harbour bathed in warm orange and pink sunset colours',
       tags: [PhotoTag.Sunset, PhotoTag.Harbour, PhotoTag.Water],
@@ -109,7 +109,7 @@ export const trip: Trip = {
       height: 4032
     },
     {
-      slug: 'fjord-cruise-1',
+      slug: 'wide-bay-mountain-view-fjord-approach',
       filename: 'Fjord-Cruise-1.webp',
       alt: 'Mountain view from a wide bay before entering the fjord',
       tags: [PhotoTag.Landscape, PhotoTag.Nature, PhotoTag.Water, PhotoTag.Mountain],
@@ -117,7 +117,7 @@ export const trip: Trip = {
       height: 3024
     },
     {
-      slug: 'fjord-cruise-10',
+      slug: 'norwegian-village-at-fjord-mountain-foot',
       filename: 'Fjord-Cruise-10.webp',
       alt: 'A small Norwegian village nestled at the foot of steep fjord mountains',
       tags: [PhotoTag.Landscape, PhotoTag.Nature, PhotoTag.Water, PhotoTag.Mountain],
@@ -125,7 +125,7 @@ export const trip: Trip = {
       height: 3024
     },
     {
-      slug: 'fjord-cruise-11',
+      slug: 'deep-fjord-panorama-snow-capped-mountains',
       filename: 'Fjord-Cruise-11.webp',
       alt: 'Panoramic view of a deep Norwegian fjord with snow topped mountains in the background',
       tags: [PhotoTag.Landscape, PhotoTag.Nature, PhotoTag.Water, PhotoTag.Mountain],
@@ -133,7 +133,7 @@ export const trip: Trip = {
       height: 8064
     },
     {
-      slug: 'fjord-cruise-12',
+      slug: 'lush-green-slopes-descending-to-fjord',
       filename: 'Fjord-Cruise-12.webp',
       alt: 'Lush green mountain slopes descending to the calm fjord waters below',
       tags: [PhotoTag.Landscape, PhotoTag.Nature, PhotoTag.Water, PhotoTag.Mountain],
@@ -141,15 +141,15 @@ export const trip: Trip = {
       height: 3024
     },
     {
-      slug: 'fjord-cruise-13',
+      slug: 'cruise-ship-traversing-fjord',
       filename: 'Fjord-Cruise-13.webp',
-      alt: 'A cruise ship under the fjord',
+      alt: 'A cruise ship traversing the fjord',
       tags: [PhotoTag.Landscape, PhotoTag.Nature, PhotoTag.Water, PhotoTag.Mountain],
       width: 3024,
       height: 4032
     },
     {
-      slug: 'fjord-cruise-14',
+      slug: 'fjord-cliff-waterfall-cascade',
       filename: 'Fjord-Cruise-14.webp',
       alt: 'A waterfall cascading down the fjord cliffs into the water below',
       tags: [PhotoTag.Landscape, PhotoTag.Nature, PhotoTag.Water, PhotoTag.Mountain],
@@ -157,7 +157,7 @@ export const trip: Trip = {
       height: 4032
     },
     {
-      slug: 'fjord-cruise-15',
+      slug: 'wide-fjord-vista-snowy-mountains-spring',
       filename: 'Fjord-Cruise-15.webp',
       alt: 'Wide fjord vista with snowy mountains receding into the distance on a spring day',
       tags: [PhotoTag.Landscape, PhotoTag.Nature, PhotoTag.Water, PhotoTag.Mountain],
@@ -165,7 +165,7 @@ export const trip: Trip = {
       height: 3024
     },
     {
-      slug: 'fjord-cruise-16',
+      slug: 'fjord-snowy-mountain-panorama-spring',
       filename: 'Fjord-Cruise-16.webp',
       alt: 'Wide fjord vista with snowy mountains receding into the distance on a spring day',
       tags: [PhotoTag.Landscape, PhotoTag.Nature, PhotoTag.Water, PhotoTag.Mountain],
@@ -173,7 +173,7 @@ export const trip: Trip = {
       height: 3024
     },
     {
-      slug: 'fjord-cruise-2',
+      slug: 'fjord-entrance-mountain-ridge-clouds',
       filename: 'Fjord-Cruise-2.webp',
       alt: 'Entrance to the fjord with a massive mountain ridge stretching into the clouds',
       tags: [PhotoTag.Landscape, PhotoTag.Nature, PhotoTag.Water, PhotoTag.Mountain],
@@ -181,7 +181,7 @@ export const trip: Trip = {
       height: 3024
     },
     {
-      slug: 'fjord-cruise-3',
+      slug: 'fjord-cruise-snow-mountains-scattered-villages',
       filename: 'Fjord-Cruise-3.webp',
       alt: 'Fjord scenery during the cruise with snow topped mountains and houses littered throughout the scene',
       tags: [PhotoTag.Landscape, PhotoTag.Nature, PhotoTag.Water, PhotoTag.Mountain],
@@ -189,15 +189,15 @@ export const trip: Trip = {
       height: 3024
     },
     {
-      slug: 'fjord-cruise-5',
+      slug: 'fjord-shore-village-between-mountain-peaks',
       filename: 'Fjord-Cruise-5.webp',
-      alt: 'A village on the shore in a walley between two mountain peaks',
+      alt: 'A village on the shore in a valley between two mountain peaks',
       tags: [PhotoTag.Landscape, PhotoTag.Nature, PhotoTag.Water, PhotoTag.Mountain],
       width: 3024,
       height: 4032
     },
     {
-      slug: 'fjord-cruise-6',
+      slug: 'fjord-ragged-cliff-face-waterfalls',
       filename: 'Fjord-Cruise-6.webp',
       alt: 'Ragged, steep cliff face with waterfalls running into the fjord',
       tags: [PhotoTag.Landscape, PhotoTag.Nature, PhotoTag.Water, PhotoTag.Mountain],
@@ -205,7 +205,7 @@ export const trip: Trip = {
       height: 3024
     },
     {
-      slug: 'fjord-cruise-7',
+      slug: 'spring-fjord-landscape-distant-snow-peaks',
       filename: 'Fjord-Cruise-7.webp',
       alt: 'Spring fjord landscape with snow still visible on the distant mountain peaks',
       tags: [PhotoTag.Landscape, PhotoTag.Nature, PhotoTag.Water, PhotoTag.Mountain],
@@ -213,7 +213,7 @@ export const trip: Trip = {
       height: 3024
     },
     {
-      slug: 'fjord-cruise-8',
+      slug: 'wide-fjord-passage-towering-cliffs',
       filename: 'Fjord-Cruise-8.webp',
       alt: 'A wide fjord passage with towering cliffs rising steeply on both sides',
       tags: [PhotoTag.Landscape, PhotoTag.Nature, PhotoTag.Water, PhotoTag.Mountain],
@@ -221,7 +221,7 @@ export const trip: Trip = {
       height: 4032
     },
     {
-      slug: 'fjord-cruise-9',
+      slug: 'fjord-passage-steep-cliffs-both-sides',
       filename: 'Fjord-Cruise-9.webp',
       alt: 'A wide fjord passage with towering cliffs rising steeply on both sides',
       tags: [PhotoTag.Landscape, PhotoTag.Nature, PhotoTag.Water, PhotoTag.Mountain],
@@ -229,7 +229,7 @@ export const trip: Trip = {
       height: 3024
     },
     {
-      slug: 'flying-alesund-oslo',
+      slug: 'alesund-to-oslo-flight-snow-mountain-ranges',
       filename: 'Flying-Alesund-Oslo.webp',
       alt: 'Snow-covered Norwegian mountain ranges viewed from the plane window on the flight from Ålesund to Oslo',
       tags: [PhotoTag.Landscape, PhotoTag.Nature, PhotoTag.Mountain, PhotoTag.Transport],
@@ -237,7 +237,7 @@ export const trip: Trip = {
       height: 4032
     },
     {
-      slug: 'hotdog-and-beer',
+      slug: 'norwegian-hotdog-with-cold-beer',
       filename: 'Hotdog-And-Beer.webp',
       alt: 'A loaded Norwegian hotdog served alongside a cold beer',
       tags: [PhotoTag.Beer, PhotoTag.Food],
@@ -245,7 +245,7 @@ export const trip: Trip = {
       height: 4032
     },
     {
-      slug: 'more-sunset-bergen-harbour',
+      slug: 'bergen-harbour-warm-sunset-hues',
       filename: 'More-Sunset-Bergen-Harbour.webp',
       alt: 'Warm sunset hues washing over Bergen harbour and the surrounding hills',
       tags: [],
@@ -253,7 +253,7 @@ export const trip: Trip = {
       height: 3024
     },
     {
-      slug: 'oat-latte-and-espresso-cafe-mash',
+      slug: 'cafe-mash-oat-latte-and-espresso',
       filename: 'Oat-Latte-And-Espresso-Cafe-Mash.webp',
       alt: 'An oat milk latte and espresso on a table at Café Mash in Bergen',
       tags: [PhotoTag.Cafe, PhotoTag.Coffee],
@@ -261,7 +261,7 @@ export const trip: Trip = {
       height: 4032
     },
     {
-      slug: 'royk-bby-brisket',
+      slug: 'royk-bby-smoked-brisket-with-sides',
       filename: 'Røyk BBY Brisket.webp',
       alt: 'Smoked brisket with sides at Røyk BBY restaurant in Bergen',
       tags: [PhotoTag.Food, PhotoTag.Beer],
@@ -269,7 +269,7 @@ export const trip: Trip = {
       height: 4032
     },
     {
-      slug: 'spanish-norwegian-infusion-tapas',
+      slug: 'spanish-norwegian-fusion-tapas-spread',
       filename: 'Spanish-Norwegian-Infusion-Tapas.webp',
       alt: 'A spread of Spanish-Norwegian fusion tapas dishes',
       tags: [PhotoTag.Food, PhotoTag.Beer],
@@ -277,7 +277,7 @@ export const trip: Trip = {
       height: 3024
     },
     {
-      slug: 'sunset-bergen-harbour',
+      slug: 'bergen-harbour-sunset-golden-shimmer',
       filename: 'Sunset-Bergen-Harbour.webp',
       alt: 'Bergen harbour at sunset with golden light shimmering on the water',
       tags: [PhotoTag.Water, PhotoTag.Sunset, PhotoTag.Harbour],
@@ -285,7 +285,7 @@ export const trip: Trip = {
       height: 4032
     },
     {
-      slug: 'vinyl-draught-beers',
+      slug: 'vinyl-bar-craft-beers-on-draught',
       filename: 'Vinyl-Draught-Beers.webp',
       alt: 'Large selection of craft beers on draught',
       tags: [PhotoTag.Beer],
@@ -293,7 +293,7 @@ export const trip: Trip = {
       height: 3024
     },
     {
-      slug: 'alesund-microbrewery-3',
+      slug: 'alesund-microbrewery-baby-bird-taproom',
       filename: 'Ålesund -Microbrewery-3.webp',
       alt: 'A baby bird relaxing at the Ålesund microbrewery taproom',
       tags: [PhotoTag.Animals],
@@ -301,7 +301,7 @@ export const trip: Trip = {
       height: 4032
     },
     {
-      slug: 'alesund-microbrewery',
+      slug: 'alesund-microbrewery-craft-beer-glass',
       filename: 'Ålesund -Microbrewery.webp',
       alt: 'A glass of craft beer at the Ålesund microbrewery',
       tags: [PhotoTag.Beer],
@@ -309,7 +309,7 @@ export const trip: Trip = {
       height: 4032
     },
     {
-      slug: 'alesund-microbrewery-2',
+      slug: 'alesund-microbrewery-craft-beer-pint',
       filename: 'Ålesund-Microbrewery-2.webp',
       alt: 'A glass of craft beer at the Ålesund microbrewery',
       tags: [PhotoTag.Beer],
@@ -317,7 +317,7 @@ export const trip: Trip = {
       height: 4032
     },
     {
-      slug: 'alesund-microbrewery-4',
+      slug: 'alesund-microbrewery-craft-beer-pour',
       filename: 'Ålesund-Microbrewery-4.webp',
       alt: 'A glass of craft beer at the Ålesund microbrewery',
       tags: [PhotoTag.Beer],

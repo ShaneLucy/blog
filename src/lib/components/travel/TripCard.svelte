@@ -15,9 +15,7 @@
   let startYear = $derived(startDate.getFullYear().toString());
   let endYear = $derived(endDate.getFullYear().toString());
   let dateLabel = $derived(
-    startYear === endYear
-      ? startDate.toLocaleDateString('en-GB', { month: 'short', year: 'numeric' })
-      : `${startYear}–${endYear}`
+    startYear === endYear ? startDate.toLocaleDateString('en-GB', { month: 'short', year: 'numeric' }) : `${startYear}–${endYear}`
   );
 
   let imageSrc = $derived(tripImageSrc(trip.slug, trip.coverPhoto));

@@ -183,7 +183,7 @@ describe('updateTripPhotos', () => {
     expect(result).toContain("slug: 'new-photo'");
     expect(result).toContain('width: 1200');
     expect(result).toContain('height: 800');
-    expect(result).toContain("tags: []");
+    expect(result).toContain('tags: []');
   });
 
   test('inserts entries into an empty photos array', async () => {
@@ -197,7 +197,7 @@ describe('updateTripPhotos', () => {
     expect(result).toContain("slug: 'first'");
     expect(result).toContain('width: 400');
     expect(result).toContain('height: 300');
-    expect(result).toContain("tags: []");
+    expect(result).toContain('tags: []');
   });
 
   test('derives slug from filename — lowercase, non-alphanumeric chars become hyphens', async () => {
