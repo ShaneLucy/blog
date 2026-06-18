@@ -320,9 +320,13 @@ blog/
     - Updated `--font-sans` → `'Inter Variable'` and `--font-serif` → `'Lora Variable'`
     - Deleted `static/fonts/` directory
     - Vite bundles and hashes the WOFF2 files; `<link rel="preload">` not needed (browser-hint via CSS)
-  - **5.3b — Add `<meta name="theme-color">`** to `src/app.html`
-  - **5.3e — Run Lighthouse** and measure baseline after font changes
-  - **5.3c — Add `<link rel="prefetch">` for `/travel`** on homepage `<svelte:head>`
+  - **5.3b ✅ — Add `<meta name="theme-color">`** to `src/app.html` (light `#faf9f8` / dark `#231f1c`)
+  - **5.3e ✅ — Run Lighthouse** — Landing: 98/100/100/100, Travel: 97/100/100/100
+    - Fixed: favicon 404 (added `static/favicon.svg` + `<link rel="icon">` in app.html) → best-practices 96→100
+    - Fixed: heading-order H1→H3 skip in TripCard (changed to H2) → a11y 98→100 on travel
+    - Fixed: first trip card had `loading=lazy` — added `priority` prop (eager + fetchpriority=high)
+    - Remaining: FCP ~1.9s (just above 1.8s threshold) from CSS→font loading chain; render-blocking CSS is inherent to SvelteKit; both non-actionable at this stage
+  - **5.3c ✅ — Add `<link rel="prefetch">` for `/travel`** on homepage `<svelte:head>`
   - **5.3d — Pre-compression** (deferred — implement after deployment target is chosen)
 - [ ] Write Playwright e2e tests (landing, travel index filtering, trip detail)
 - [ ] Cross-browser check (Chrome, Firefox, Safari)

@@ -86,9 +86,9 @@
     <!-- Trip grid -->
     {#if filteredTrips.length > 0}
       <ul class="trip-grid" role="list" aria-label="Trips">
-        {#each filteredTrips as trip (trip.slug)}
+        {#each filteredTrips as trip, i (trip.slug)}
           <li>
-            <TripCard {trip} />
+            <TripCard {trip} priority={i === 0} />
           </li>
         {/each}
       </ul>

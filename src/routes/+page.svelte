@@ -15,6 +15,7 @@
   <meta property="og:url" content={`${SITE_URL}/`} />
   <meta name="twitter:card" content="summary" />
   <link rel="canonical" href={`${SITE_URL}/`} />
+  <link rel="prefetch" href={resolve('/travel')} />
 </svelte:head>
 
 <!-- Hero -->

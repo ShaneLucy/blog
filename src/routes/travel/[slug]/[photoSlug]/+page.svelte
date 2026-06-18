@@ -52,6 +52,7 @@
   <meta name="twitter:description" content={photo.caption ?? photo.alt} />
   <meta name="twitter:image" content={`${SITE_URL}${imageSrc}`} />
   <link rel="canonical" href={`${SITE_URL}/travel/${trip.slug}/${photo.slug}`} />
+  <link rel="preload" as="image" href={imageSrc} />
 </svelte:head>
 
 <!-- Issue 10: aria-labelledby names the article landmark -->

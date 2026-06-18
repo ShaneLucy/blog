@@ -6,9 +6,10 @@
 
   interface Props {
     trip: Trip;
+    priority?: boolean;
   }
 
-  let { trip }: Props = $props();
+  let { trip, priority = false }: Props = $props();
 
   let startDate = $derived(parseDMY(trip.dates.start));
   let endDate = $derived(parseDMY(trip.dates.end));
@@ -33,7 +34,8 @@
         alt=""
         width="400"
         height="267"
-        loading="lazy"
+        loading={priority ? 'eager' : 'lazy'}
+        fetchpriority={priority ? 'high' : undefined}
         decoding="async"
         onerror={() => {
           if (!thumbFailed) thumbFailed = true;
@@ -48,7 +50,7 @@
       <span class="trip-card__destination">{trip.destination}</span>
       <span class="trip-card__date"><span class="sr-only">Dates: </span>{dateLabel}</span>
     </div>
-    <h3 class="trip-card__title">{trip.title}</h3>
+    <h2 class="trip-card__title">{trip.title}</h2>
     <p class="trip-card__desc">{trip.description}</p>
     {#if trip.tags.size > 0}
       <ul class="trip-card__tags" role="list" aria-label="Tags">

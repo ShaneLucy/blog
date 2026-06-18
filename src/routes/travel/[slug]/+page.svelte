@@ -45,6 +45,7 @@
   <meta name="twitter:description" content={trip.description} />
   <meta name="twitter:image" content={`${SITE_URL}${coverSrc}`} />
   <link rel="canonical" href={`${SITE_URL}/travel/${trip.slug}`} />
+  <link rel="preload" as="image" href={coverSrc} />
 </svelte:head>
 
 <article class="trip-detail" aria-labelledby="trip-title">
