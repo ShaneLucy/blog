@@ -7,6 +7,7 @@
   import { SvelteURLSearchParams } from 'svelte/reactivity';
   import TripCard from '$lib/components/travel/TripCard.svelte';
   import TripFilters from '$lib/components/travel/TripFilters.svelte';
+  import type { TripTag } from '$lib/types/trip';
   import { SITE_NAME, SITE_URL } from '$lib/config';
   import { parseDMY } from '$lib/utils/dates';
 
@@ -15,13 +16,13 @@
   // Initialise filter state from URL search params (enables shareable URLs).
   // Guarded by `browser` so it doesn't run during static prerender.
   let selectedDestination = $state(browser ? (page.url.searchParams.get('destination') ?? '') : '');
-  let selectedTags = $state<string[]>(browser ? (page.url.searchParams.get('tags')?.split(',').filter(Boolean) ?? []) : []);
+  let selectedTags = $state<TripTag[]>(browser ? ((page.url.searchParams.get('tags')?.split(',').filter(Boolean) ?? []) as TripTag[]) : []);
   let sortBy = $state<'date' | 'destination'>(browser ? ((page.url.searchParams.get('sort') as 'date' | 'destination') ?? 'date') : 'date');
 
   let filteredTrips = $derived(
     data.trips
       .filter((t) => !selectedDestination || t.destination === selectedDestination)
-      .filter((t) => selectedTags.length === 0 || selectedTags.every((tag) => t.tags.includes(tag)))
+      .filter((t) => selectedTags.length === 0 || selectedTags.every((tag) => t.tags.has(tag)))
       .sort((a, b) =>
         sortBy === 'date'
           ? parseDMY(b.dates.start).getTime() - parseDMY(a.dates.start).getTime()

@@ -18,8 +18,8 @@
     startYear === endYear ? startDate.toLocaleDateString('en-GB', { month: 'short', year: 'numeric' }) : `${startYear}–${endYear}`
   );
 
-  let imageSrc = $derived(tripImageSrc(trip.slug, trip.coverPhoto));
-  let thumbSrc = $derived(tripThumbSrc(trip.slug, trip.coverPhoto));
+  let imageSrc = $derived(tripImageSrc(trip.slug, trip.coverPhoto.filename));
+  let thumbSrc = $derived(tripThumbSrc(trip.slug, trip.coverPhoto.filename));
   let thumbFailed = $state(false);
   let imgFailed = $state(false);
   let displaySrc = $derived(imgFailed ? null : thumbFailed ? imageSrc : thumbSrc);
@@ -50,7 +50,7 @@
     </div>
     <h3 class="trip-card__title">{trip.title}</h3>
     <p class="trip-card__desc">{trip.description}</p>
-    {#if trip.tags.length > 0}
+    {#if trip.tags.size > 0}
       <ul class="trip-card__tags" role="list" aria-label="Tags">
         {#each trip.tags as tag (tag)}
           <li class="tag-pill">{tag}</li>

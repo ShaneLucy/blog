@@ -1,9 +1,11 @@
 <script lang="ts">
+  import type { TripTag } from '$lib/types/trip';
+
   interface Props {
     destinations: string[];
-    tags: string[];
+    tags: TripTag[];
     selectedDestination?: string;
-    selectedTags?: string[];
+    selectedTags?: TripTag[];
     sortBy?: 'date' | 'destination';
   }
 
@@ -11,13 +13,13 @@
     destinations,
     tags,
     selectedDestination = $bindable(''),
-    selectedTags = $bindable<string[]>([]),
+    selectedTags = $bindable<TripTag[]>([]),
     sortBy = $bindable<'date' | 'destination'>('date')
   }: Props = $props();
 
   let activeFilterCount = $derived((selectedDestination ? 1 : 0) + selectedTags.length);
 
-  function toggleTag(tag: string) {
+  function toggleTag(tag: TripTag) {
     if (selectedTags.includes(tag)) {
       selectedTags = selectedTags.filter((t) => t !== tag);
     } else {

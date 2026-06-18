@@ -13,9 +13,9 @@
 
   let selectedTags = $state<PhotoTag[]>([]);
 
-  let availableTags = $derived([...new Set(photos.flatMap((p) => p.tags ?? []))].sort() as PhotoTag[]);
+  let availableTags = $derived([...new Set(photos.flatMap((p) => (p.tags ? [...p.tags] : [])))].sort() as PhotoTag[]);
 
-  let filteredPhotos = $derived(selectedTags.length === 0 ? photos : photos.filter((p) => p.tags?.some((t) => selectedTags.includes(t))));
+  let filteredPhotos = $derived(selectedTags.length === 0 ? photos : photos.filter((p) => selectedTags.some((t) => p.tags?.has(t))));
 
   function toggleTag(tag: PhotoTag) {
     if (selectedTags.includes(tag)) {

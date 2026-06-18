@@ -94,7 +94,7 @@
       <p class="photo-detail__description">{photo.alt}</p>
     {/if}
     <!-- Issue 9: margin-block-start separates tags from title/description -->
-    {#if photo.tags && photo.tags.length > 0}
+    {#if photo.tags && photo.tags.size > 0}
       <ul class="photo-detail__tags" role="list" aria-label="Photo tags">
         {#each photo.tags as tag (tag)}
           <li class="tag-pill">{tag}</li>

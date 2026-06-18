@@ -21,12 +21,27 @@ export enum PhotoTag {
   Sunset = 'sunset'
 }
 
+export enum TripTag {
+  Beer = 'beer',
+  CherryBlossoms = 'cherry-blossoms',
+  Cities = 'cities',
+  CityBreak = 'city-break',
+  Cocktails = 'cocktails',
+  Fjords = 'fjords',
+  Food = 'food',
+  Hiking = 'hiking',
+  MidnightSun = 'midnight-sun',
+  Temples = 'temples',
+  Villages = 'villages',
+  Wilderness = 'wilderness'
+}
+
 export interface TripPhoto {
   slug: string;
   filename: string;
   alt: string;
   caption?: string;
-  tags?: PhotoTag[];
+  tags?: ReadonlySet<PhotoTag>;
   width: number;
   height: number;
 }
@@ -40,8 +55,11 @@ export interface Trip {
     start: string;
     end: string;
   };
-  tags: string[];
-  coverPhoto: string;
+  tags: ReadonlySet<TripTag>;
+  coverPhoto: {
+    filename: string;
+    alt: string;
+  };
   description: string;
   body?: string;
   photos: TripPhoto[];

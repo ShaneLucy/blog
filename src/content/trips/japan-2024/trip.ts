@@ -1,5 +1,5 @@
 import type { Trip } from '$lib/types/trip';
-import { PhotoTag } from '$lib/types/trip';
+import { PhotoTag, TripTag } from '$lib/types/trip';
 
 export const trip: Trip = {
   slug: 'japan-2024',
@@ -7,8 +7,8 @@ export const trip: Trip = {
   destination: 'Japan',
   region: 'East Asia',
   dates: { start: '15-03-2024', end: '29-03-2024' },
-  tags: ['temples', 'food', 'hiking', 'cherry-blossoms', 'cities'],
-  coverPhoto: 'fushimi-inari.webp',
+  tags: new Set([TripTag.Temples, TripTag.Food, TripTag.Hiking, TripTag.CherryBlossoms, TripTag.Cities]),
+  coverPhoto: { filename: 'fushimi-inari.webp', alt: 'Rows of vermilion torii gates at Fushimi Inari shrine' },
   description: 'Exploring Tokyo, Kyoto, and the Japanese Alps during cherry blossom season.',
   body: `Two weeks in Japan during hanami season turned out to be everything I'd hoped for and more. Starting in Tokyo, working south through Kyoto, then escaping to the mountains of Hakuba.`,
   photos: [
@@ -16,7 +16,7 @@ export const trip: Trip = {
       slug: 'fushimi-inari',
       filename: 'fushimi-inari.webp',
       alt: 'Rows of vermilion torii gates at Fushimi Inari shrine',
-      tags: [PhotoTag.Architecture, PhotoTag.Nature],
+      tags: new Set([PhotoTag.Architecture, PhotoTag.Nature]),
       width: 2400,
       height: 1600
     },
@@ -24,7 +24,7 @@ export const trip: Trip = {
       slug: 'tokyo-shibuya',
       filename: 'tokyo-shibuya.webp',
       alt: 'Shibuya crossing at night from above',
-      tags: [PhotoTag.Urban, PhotoTag.Night, PhotoTag.Street],
+      tags: new Set([PhotoTag.Urban, PhotoTag.Night, PhotoTag.Street]),
       width: 2400,
       height: 1600
     },
@@ -32,7 +32,7 @@ export const trip: Trip = {
       slug: 'ramen-shop',
       filename: 'ramen-shop.webp',
       alt: 'Bowl of tonkotsu ramen with soft egg',
-      tags: [PhotoTag.Food, PhotoTag.Interior],
+      tags: new Set([PhotoTag.Food, PhotoTag.Interior]),
       width: 2400,
       height: 1800
     },
@@ -40,7 +40,7 @@ export const trip: Trip = {
       slug: 'hakuba-alps',
       filename: 'hakuba-alps.webp',
       alt: 'Snow-capped Japanese Alps above Hakuba village',
-      tags: [PhotoTag.Landscape, PhotoTag.Nature],
+      tags: new Set([PhotoTag.Landscape, PhotoTag.Nature]),
       width: 2400,
       height: 1350
     }

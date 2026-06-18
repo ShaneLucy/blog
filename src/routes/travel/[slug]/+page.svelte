@@ -8,8 +8,8 @@
   let { data }: { data: PageData } = $props();
   let trip = $derived(data.trip);
 
-  let coverSrc = $derived(`/images/trips/${trip.slug}/${trip.coverPhoto}`);
-  let coverPhoto = $derived(trip.photos.find((p) => p.filename === trip.coverPhoto));
+  let coverSrc = $derived(`/images/trips/${trip.slug}/${trip.coverPhoto.filename}`);
+  let coverPhoto = $derived(trip.photos.find((p) => p.filename === trip.coverPhoto.filename));
 
   function formatDateRange(start: string, end: string): string {
     const s = parseDMY(start);
@@ -77,7 +77,7 @@
     <p class="trip-detail__dates">
       <time datetime={dmyToIso(trip.dates.start)}>{dateRange}</time>
     </p>
-    {#if trip.tags.length > 0}
+    {#if trip.tags.size > 0}
       <ul class="trip-detail__tags" role="list" aria-label="Tags">
         {#each trip.tags as tag (tag)}
           <li class="tag-pill">{tag}</li>
