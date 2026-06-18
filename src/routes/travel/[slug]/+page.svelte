@@ -62,7 +62,7 @@
   <div class="trip-detail__hero" aria-hidden="true">
     <img
       src={coverSrc}
-      alt=""
+      alt={coverPhoto?.alt}
       width={coverPhoto?.width ?? 2400}
       height={coverPhoto?.height ?? 1350}
       fetchpriority="high"
