@@ -60,7 +60,7 @@ export interface Trip {
     filename: string;
     alt: string;
     width: number;
-    height: number
+    height: number;
   };
   description: string;
   body?: string;
