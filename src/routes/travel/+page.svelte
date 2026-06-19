@@ -1,30 +1,30 @@
 <script lang="ts">
-  import type { PageData } from './$types';
-  import { goto } from '$app/navigation';
-  import { page } from '$app/state';
-  import { browser } from '$app/environment';
-  import { resolve } from '$app/paths';
-  import { SvelteURLSearchParams } from 'svelte/reactivity';
-  import TripCard from '$lib/components/travel/TripCard.svelte';
-  import TripFilters from '$lib/components/travel/TripFilters.svelte';
-  import type { TripTag } from '$lib/types/trip';
-  import { SITE_NAME, SITE_URL } from '$lib/config';
-  import { parseDMY } from '$lib/utils/dates';
+  import type { PageData } from "./$types";
+  import { goto } from "$app/navigation";
+  import { page } from "$app/state";
+  import { browser } from "$app/environment";
+  import { resolve } from "$app/paths";
+  import { SvelteURLSearchParams } from "svelte/reactivity";
+  import TripCard from "$lib/components/travel/TripCard.svelte";
+  import TripFilters from "$lib/components/travel/TripFilters.svelte";
+  import type { TripTag } from "$lib/types/trip";
+  import { SITE_NAME, SITE_URL } from "$lib/config";
+  import { parseDMY } from "$lib/utils/dates";
 
   let { data }: { data: PageData } = $props();
 
   // Initialise filter state from URL search params (enables shareable URLs).
   // Guarded by `browser` so it doesn't run during static prerender.
-  let selectedDestination = $state(browser ? (page.url.searchParams.get('destination') ?? '') : '');
-  let selectedTags = $state<TripTag[]>(browser ? ((page.url.searchParams.get('tags')?.split(',').filter(Boolean) ?? []) as TripTag[]) : []);
-  let sortBy = $state<'date' | 'destination'>(browser ? ((page.url.searchParams.get('sort') as 'date' | 'destination') ?? 'date') : 'date');
+  let selectedDestination = $state(browser ? (page.url.searchParams.get("destination") ?? "") : "");
+  let selectedTags = $state<TripTag[]>(browser ? ((page.url.searchParams.get("tags")?.split(",").filter(Boolean) ?? []) as TripTag[]) : []);
+  let sortBy = $state<"date" | "destination">(browser ? ((page.url.searchParams.get("sort") as "date" | "destination") ?? "date") : "date");
 
   let filteredTrips = $derived(
     data.trips
       .filter((t) => !selectedDestination || t.destination === selectedDestination)
       .filter((t) => selectedTags.length === 0 || selectedTags.every((tag) => t.tags.has(tag)))
       .sort((a, b) =>
-        sortBy === 'date'
+        sortBy === "date"
           ? parseDMY(b.dates.start).getTime() - parseDMY(a.dates.start).getTime()
           : a.destination.localeCompare(b.destination)
       )
@@ -33,11 +33,11 @@
   // Keep URL in sync with filter state for bookmarkable/shareable links
   $effect(() => {
     const params = new SvelteURLSearchParams();
-    if (selectedDestination) params.set('destination', selectedDestination);
-    if (selectedTags.length > 0) params.set('tags', selectedTags.join(','));
-    if (sortBy !== 'date') params.set('sort', sortBy);
+    if (selectedDestination) params.set("destination", selectedDestination);
+    if (selectedTags.length > 0) params.set("tags", selectedTags.join(","));
+    if (sortBy !== "date") params.set("sort", sortBy);
     const search = params.toString();
-    goto(resolve(search ? (`/travel?${search}` as `/travel?${string}`) : '/travel'), {
+    goto(resolve(search ? (`/travel?${search}` as `/travel?${string}`) : "/travel"), {
       replaceState: true,
       keepFocus: true,
       noScroll: true
@@ -77,9 +77,9 @@
     <!-- Results count -->
     <p class="travel-page__count" aria-live="polite" aria-atomic="true">
       {#if filteredTrips.length === data.trips.length}
-        {data.trips.length} trip{data.trips.length === 1 ? '' : 's'}
+        {data.trips.length} trip{data.trips.length === 1 ? "" : "s"}
       {:else}
-        {filteredTrips.length} of {data.trips.length} trip{data.trips.length === 1 ? '' : 's'}
+        {filteredTrips.length} of {data.trips.length} trip{data.trips.length === 1 ? "" : "s"}
       {/if}
     </p>
 
@@ -99,9 +99,9 @@
           type="button"
           class="btn btn--secondary"
           onclick={() => {
-            selectedDestination = '';
+            selectedDestination = "";
             selectedTags = [];
-            sortBy = 'date';
+            sortBy = "date";
           }}
         >
           Clear filters

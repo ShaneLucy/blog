@@ -1,15 +1,15 @@
-import sharp from 'sharp';
-import { readdir, mkdir, readFile, writeFile } from 'node:fs/promises';
-import { existsSync } from 'node:fs';
-import { join, extname, basename } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import sharp from "sharp";
+import { readdir, mkdir, readFile, writeFile } from "node:fs/promises";
+import { existsSync } from "node:fs";
+import { join, extname, basename } from "node:path";
+import { fileURLToPath } from "node:url";
 
 function projectRoot(): string {
-  return fileURLToPath(new URL('..', import.meta.url));
+  return fileURLToPath(new URL("..", import.meta.url));
 }
 
 const THUMBNAIL_WIDTH = 400;
-const SUPPORTED_EXTS = new Set(['.jpg', '.jpeg', '.png', '.tif', '.tiff', '.webp', '.avif']);
+const SUPPORTED_EXTS = new Set([".jpg", ".jpeg", ".png", ".tif", ".tiff", ".webp", ".avif"]);
 
 export async function processImage(
   inputPath: string,
@@ -34,7 +34,7 @@ export async function updateTripPhotos(
 ): Promise<void> {
   if (!existsSync(tripTsPath)) return;
 
-  const source = await readFile(tripTsPath, 'utf-8');
+  const source = await readFile(tripTsPath, "utf-8");
 
   const existingFilenames = new Set([...source.matchAll(/filename:\s*['"]([^'"]+)['"]/g)].map((m) => m[1]));
 
@@ -43,10 +43,10 @@ export async function updateTripPhotos(
 
   const newEntries = toAdd.map((p) => {
     const slug = p.filename
-      .replace(/\.webp$/, '')
+      .replace(/\.webp$/, "")
       .toLowerCase()
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/^-|-$/g, '');
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-|-$/g, "");
     return [
       `    {`,
       `      slug: '${slug}',`,
@@ -56,18 +56,18 @@ export async function updateTripPhotos(
       `      width: ${p.width},`,
       `      height: ${p.height}`,
       `    }`
-    ].join('\n');
+    ].join("\n");
   });
 
-  const photosIdx = source.indexOf('photos: [');
+  const photosIdx = source.indexOf("photos: [");
   if (photosIdx === -1) return;
 
-  const openBracket = source.indexOf('[', photosIdx);
+  const openBracket = source.indexOf("[", photosIdx);
   let depth = 1;
   let i = openBracket + 1;
   while (i < source.length && depth > 0) {
-    if (source[i] === '[') depth++;
-    else if (source[i] === ']') depth--;
+    if (source[i] === "[") depth++;
+    else if (source[i] === "]") depth--;
     i++;
   }
   const closingIdx = i - 1;
@@ -75,21 +75,21 @@ export async function updateTripPhotos(
   const arrayContent = source.slice(openBracket + 1, closingIdx).trim();
   const needsComma = arrayContent.length > 0;
   const beforeClose = source.slice(0, closingIdx);
-  const leadingWhitespace = beforeClose.match(/(\s*)$/)?.[1] ?? '';
+  const leadingWhitespace = beforeClose.match(/(\s*)$/)?.[1] ?? "";
   const trimmedBeforeClose = beforeClose.slice(0, beforeClose.length - leadingWhitespace.length);
-  const insertion = (needsComma ? ',\n' : '\n') + newEntries.join(',\n') + '\n' + leadingWhitespace;
+  const insertion = (needsComma ? ",\n" : "\n") + newEntries.join(",\n") + "\n" + leadingWhitespace;
   const updated = trimmedBeforeClose + insertion + source.slice(closingIdx);
 
-  await writeFile(tripTsPath, updated, 'utf-8');
+  await writeFile(tripTsPath, updated, "utf-8");
   console.info(`  → Updated ${basename(tripTsPath)} with ${toAdd.length} new photo(s)`);
 }
 
 export async function main(contentDir?: string, outputDir?: string): Promise<void> {
-  const root = contentDir === undefined || outputDir === undefined ? projectRoot() : '';
-  contentDir ??= join(root, 'src/content/trips');
-  outputDir ??= join(root, 'static/images/trips');
+  const root = contentDir === undefined || outputDir === undefined ? projectRoot() : "";
+  contentDir ??= join(root, "src/content/trips");
+  outputDir ??= join(root, "static/images/trips");
   if (!existsSync(contentDir)) {
-    console.info('No src/content/trips directory found. Nothing to process.');
+    console.info("No src/content/trips directory found. Nothing to process.");
     return;
   }
 
@@ -100,11 +100,11 @@ export async function main(contentDir?: string, outputDir?: string): Promise<voi
   for (const entry of tripDirs) {
     if (!entry.isDirectory()) continue;
 
-    const rawDir = join(contentDir, entry.name, 'raw');
+    const rawDir = join(contentDir, entry.name, "raw");
     if (!existsSync(rawDir)) continue;
 
     const outDir = join(outputDir, entry.name);
-    const thumbDir = join(outDir, 'thumbnails');
+    const thumbDir = join(outDir, "thumbnails");
     await mkdir(outDir, { recursive: true });
     await mkdir(thumbDir, { recursive: true });
 
@@ -125,7 +125,7 @@ export async function main(contentDir?: string, outputDir?: string): Promise<voi
       try {
         const { width, height } = await processImage(inputPath, outputPath, thumbnailPath);
         const clean = await verifyNoExif(outputPath);
-        const icon = clean ? '✓' : '⚠ EXIF NOT STRIPPED';
+        const icon = clean ? "✓" : "⚠ EXIF NOT STRIPPED";
         console.info(`  ${icon}  ${outFile}  (${width}×${height})`);
         if (!clean) errors++;
         else {
@@ -138,7 +138,7 @@ export async function main(contentDir?: string, outputDir?: string): Promise<voi
       }
     }
 
-    await updateTripPhotos(join(contentDir, entry.name, 'trip.ts'), tripPhotos);
+    await updateTripPhotos(join(contentDir, entry.name, "trip.ts"), tripPhotos);
   }
 
   console.info(`\nDone. ${processed} image(s) processed, ${errors} error(s).`);
@@ -147,7 +147,7 @@ export async function main(contentDir?: string, outputDir?: string): Promise<voi
 
 if (import.meta.main) {
   main().catch((err: Error) => {
-    console.error('Fatal:', err);
+    console.error("Fatal:", err);
     process.exit(1);
   });
 }

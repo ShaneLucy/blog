@@ -1,9 +1,9 @@
 <script lang="ts">
-  import { goto } from '$app/navigation';
-  import type { PageData } from './$types';
-  import { resolve } from '$app/paths';
-  import { SITE_NAME, SITE_URL } from '$lib/config';
-  import { tripImageSrc, tripThumbSrc } from '$lib/images';
+  import { goto } from "$app/navigation";
+  import type { PageData } from "./$types";
+  import { resolve } from "$app/paths";
+  import { SITE_NAME, SITE_URL } from "$lib/config";
+  import { tripImageSrc, tripThumbSrc } from "$lib/images";
 
   let { data }: { data: PageData } = $props();
   let trip = $derived(data.trip);
@@ -27,11 +27,11 @@
   // Issue 7: arrow-key navigation (progressive enhancement)
   function handleKeydown(e: KeyboardEvent) {
     const target = e.target as Element;
-    if (target.matches('input, textarea, select, [contenteditable]')) return;
-    if (e.key === 'ArrowLeft' && prevPhoto) {
-      goto(resolve('/travel/[slug]/[photoSlug]', { slug: trip.slug, photoSlug: prevPhoto.slug }));
-    } else if (e.key === 'ArrowRight' && nextPhoto) {
-      goto(resolve('/travel/[slug]/[photoSlug]', { slug: trip.slug, photoSlug: nextPhoto.slug }));
+    if (target.matches("input, textarea, select, [contenteditable]")) return;
+    if (e.key === "ArrowLeft" && prevPhoto) {
+      goto(resolve("/travel/[slug]/[photoSlug]", { slug: trip.slug, photoSlug: prevPhoto.slug }));
+    } else if (e.key === "ArrowRight" && nextPhoto) {
+      goto(resolve("/travel/[slug]/[photoSlug]", { slug: trip.slug, photoSlug: nextPhoto.slug }));
     }
   }
 </script>
@@ -59,7 +59,7 @@
 <article class="photo-detail" aria-labelledby="photo-title">
   <!-- Issue 3: breadcrumb contains location link only — no next link -->
   <nav class="photo-detail__breadcrumb container container--narrow" aria-label="Breadcrumb">
-    <a href={resolve('/travel/[slug]', { slug: trip.slug })} class="back-link">
+    <a href={resolve("/travel/[slug]", { slug: trip.slug })} class="back-link">
       <svg aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="none">
         <path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
       </svg>
@@ -112,7 +112,7 @@
     <div class="photo-nav">
       {#if prevPhoto}
         <a
-          href={resolve('/travel/[slug]/[photoSlug]', {
+          href={resolve("/travel/[slug]/[photoSlug]", {
             slug: trip.slug,
             photoSlug: prevPhoto.slug
           })}
@@ -134,7 +134,7 @@
 
       {#if nextPhoto}
         <a
-          href={resolve('/travel/[slug]/[photoSlug]', {
+          href={resolve("/travel/[slug]/[photoSlug]", {
             slug: trip.slug,
             photoSlug: nextPhoto.slug
           })}

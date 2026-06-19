@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { resolve } from '$app/paths';
-  import { SITE_NAME, SITE_URL } from '$lib/config';
+  import { resolve } from "$app/paths";
+  import { SITE_NAME, SITE_URL } from "$lib/config";
 
-  const description = 'A personal travel journal — field notes, photographs, and stories from the road.';
+  const description = "A personal travel journal — field notes, photographs, and stories from the road.";
 </script>
 
 <svelte:head>
@@ -15,7 +15,7 @@
   <meta property="og:url" content={`${SITE_URL}/`} />
   <meta name="twitter:card" content="summary" />
   <link rel="canonical" href={`${SITE_URL}/`} />
-  <link rel="prefetch" href={resolve('/travel')} />
+  <link rel="prefetch" href={resolve("/travel")} />
 </svelte:head>
 
 <!-- Hero -->
@@ -29,7 +29,7 @@
     <span class="eyebrow">A personal travel journal</span>
     <h1 class="hero__title">Wandering Pages</h1>
     <p class="hero__tagline">Field notes, photographs, and stories from the road.</p>
-    <a href={resolve('/travel')} class="btn btn--primary">
+    <a href={resolve("/travel")} class="btn btn--primary">
       Explore Trips
       <svg aria-hidden="true" focusable="false" width="16" height="16" viewBox="0 0 16 16">
         <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none" />
@@ -46,7 +46,7 @@
       This is where I document my travels — the places, the people, and the moments that stick with you long after you've come home. Part
       photo journal, part field notes, all wandering.
     </p>
-    <a href={resolve('/travel')} class="btn btn--primary" style="margin-block-start: var(--space-6)">See all trips</a>
+    <a href={resolve("/travel")} class="btn btn--primary" style="margin-block-start: var(--space-6)">See all trips</a>
   </div>
 </section>
 

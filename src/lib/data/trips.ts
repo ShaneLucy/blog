@@ -1,7 +1,7 @@
-import type { Trip } from '$lib/types/trip';
-import { PhotoTag } from '$lib/types/trip';
-import type { TripTag } from '$lib/types/trip';
-import { trip as norway2026 } from '../../content/trips/norway-2026/trip';
+import type { Trip } from "$lib/types/trip";
+import { PhotoTag } from "$lib/types/trip";
+import type { TripTag } from "$lib/types/trip";
+import { trip as norway2026 } from "../../content/trips/norway-2026/trip";
 
 export const allTrips: Trip[] = [norway2026];
 

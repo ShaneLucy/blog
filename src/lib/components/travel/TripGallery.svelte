@@ -1,8 +1,8 @@
 <script lang="ts">
-  import type { TripPhoto } from '$lib/types/trip';
-  import type { PhotoTag } from '$lib/types/trip';
-  import { resolve } from '$app/paths';
-  import { tripImageSrc, tripThumbSrc } from '$lib/images';
+  import type { TripPhoto } from "$lib/types/trip";
+  import type { PhotoTag } from "$lib/types/trip";
+  import { resolve } from "$app/paths";
+  import { tripImageSrc, tripThumbSrc } from "$lib/images";
 
   interface Props {
     photos: TripPhoto[];
@@ -58,7 +58,7 @@
   {#each filteredPhotos as photo, i (photo.slug)}
     <li class="gallery__item">
       <a
-        href={resolve('/travel/[slug]/[photoSlug]', { slug, photoSlug: photo.slug })}
+        href={resolve("/travel/[slug]/[photoSlug]", { slug, photoSlug: photo.slug })}
         class="gallery__link"
         aria-label="View photo: {photo.alt}"
       >
@@ -68,8 +68,8 @@
             alt={photo.alt}
             width={photo.width}
             height={photo.height}
-            loading={i < 8 ? 'eager' : 'lazy'}
-            fetchpriority={i < 8 ? 'low' : 'auto'}
+            loading={i < 8 ? "eager" : "lazy"}
+            fetchpriority={i < 8 ? "low" : "auto"}
             decoding="async"
             onerror={() => {
               if (!thumbFailed[photo.slug]) thumbFailed[photo.slug] = true;

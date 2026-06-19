@@ -1,8 +1,8 @@
 <script lang="ts">
-  import type { Trip } from '$lib/types/trip';
-  import { resolve } from '$app/paths';
-  import { tripImageSrc, tripThumbSrc } from '$lib/images';
-  import { parseDMY } from '$lib/utils/dates';
+  import type { Trip } from "$lib/types/trip";
+  import { resolve } from "$app/paths";
+  import { tripImageSrc, tripThumbSrc } from "$lib/images";
+  import { parseDMY } from "$lib/utils/dates";
 
   interface Props {
     trip: Trip;
@@ -16,7 +16,7 @@
   let startYear = $derived(startDate.getFullYear().toString());
   let endYear = $derived(endDate.getFullYear().toString());
   let dateLabel = $derived(
-    startYear === endYear ? startDate.toLocaleDateString('en-GB', { month: 'short', year: 'numeric' }) : `${startYear}–${endYear}`
+    startYear === endYear ? startDate.toLocaleDateString("en-GB", { month: "short", year: "numeric" }) : `${startYear}–${endYear}`
   );
 
   let imageSrc = $derived(tripImageSrc(trip.slug, trip.coverPhoto.filename));
@@ -26,7 +26,7 @@
   let displaySrc = $derived(imgFailed ? null : thumbFailed ? imageSrc : thumbSrc);
 </script>
 
-<a href={resolve('/travel/[slug]', { slug: trip.slug })} class="trip-card">
+<a href={resolve("/travel/[slug]", { slug: trip.slug })} class="trip-card">
   <div class="trip-card__image" aria-hidden="true">
     {#if displaySrc}
       <img
@@ -34,8 +34,8 @@
         alt=""
         width="400"
         height="267"
-        loading={priority ? 'eager' : 'lazy'}
-        fetchpriority={priority ? 'high' : undefined}
+        loading={priority ? "eager" : "lazy"}
+        fetchpriority={priority ? "high" : undefined}
         decoding="async"
         onerror={() => {
           if (!thumbFailed) thumbFailed = true;

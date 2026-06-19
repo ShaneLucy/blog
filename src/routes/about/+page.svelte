@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { resolve } from '$app/paths';
-  import { allTrips } from '$lib/data/trips';
-  import { parseDMY } from '$lib/utils/dates';
+  import { resolve } from "$app/paths";
+  import { allTrips } from "$lib/data/trips";
+  import { parseDMY } from "$lib/utils/dates";
 
   const destinations = [...allTrips]
     .sort((a, b) => parseDMY(b.dates.start).getTime() - parseDMY(a.dates.start).getTime())
@@ -112,7 +112,7 @@
         <p class="about-cta__body">
           Every destination has its own page — photographs, field notes, and the stories that didn't quite fit anywhere else.
         </p>
-        <a href={resolve('/travel')} class="btn btn--primary">
+        <a href={resolve("/travel")} class="btn btn--primary">
           Browse all travel
           <!-- Decorative arrow — the link text is already complete without it -->
           <span aria-hidden="true">&rarr;</span>

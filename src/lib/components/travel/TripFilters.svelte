@@ -1,20 +1,20 @@
 <script lang="ts">
-  import type { TripTag } from '$lib/types/trip';
+  import type { TripTag } from "$lib/types/trip";
 
   interface Props {
     destinations: string[];
     tags: TripTag[];
     selectedDestination?: string;
     selectedTags?: TripTag[];
-    sortBy?: 'date' | 'destination';
+    sortBy?: "date" | "destination";
   }
 
   let {
     destinations,
     tags,
-    selectedDestination = $bindable(''),
+    selectedDestination = $bindable(""),
     selectedTags = $bindable<TripTag[]>([]),
-    sortBy = $bindable<'date' | 'destination'>('date')
+    sortBy = $bindable<"date" | "destination">("date")
   }: Props = $props();
 
   let activeFilterCount = $derived((selectedDestination ? 1 : 0) + selectedTags.length);
@@ -28,9 +28,9 @@
   }
 
   function clearFilters() {
-    selectedDestination = '';
+    selectedDestination = "";
     selectedTags = [];
-    sortBy = 'date';
+    sortBy = "date";
   }
 </script>
 
@@ -54,18 +54,18 @@
         <button
           type="button"
           class="filters__sort-btn"
-          class:is-active={sortBy === 'date'}
-          onclick={() => (sortBy = 'date')}
-          aria-pressed={sortBy === 'date'}
+          class:is-active={sortBy === "date"}
+          onclick={() => (sortBy = "date")}
+          aria-pressed={sortBy === "date"}
         >
           Newest
         </button>
         <button
           type="button"
           class="filters__sort-btn"
-          class:is-active={sortBy === 'destination'}
-          onclick={() => (sortBy = 'destination')}
-          aria-pressed={sortBy === 'destination'}
+          class:is-active={sortBy === "destination"}
+          onclick={() => (sortBy = "destination")}
+          aria-pressed={sortBy === "destination"}
         >
           A–Z
         </button>

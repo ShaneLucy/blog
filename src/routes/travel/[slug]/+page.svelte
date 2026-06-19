@@ -1,9 +1,9 @@
 <script lang="ts">
-  import type { PageData } from './$types';
-  import TripGallery from '$lib/components/travel/TripGallery.svelte';
-  import { resolve } from '$app/paths';
-  import { SITE_NAME, SITE_URL } from '$lib/config';
-  import { parseDMY, dmyToIso } from '$lib/utils/dates';
+  import type { PageData } from "./$types";
+  import TripGallery from "$lib/components/travel/TripGallery.svelte";
+  import { resolve } from "$app/paths";
+  import { SITE_NAME, SITE_URL } from "$lib/config";
+  import { parseDMY, dmyToIso } from "$lib/utils/dates";
 
   let { data }: { data: PageData } = $props();
   let trip = $derived(data.trip);
@@ -14,14 +14,14 @@
   function formatDateRange(start: string, end: string): string {
     const s = parseDMY(start);
     const e = parseDMY(end);
-    const locale = 'en-GB';
+    const locale = "en-GB";
     if (s.getFullYear() === e.getFullYear()) {
       if (s.getMonth() === e.getMonth()) {
-        return `${s.getDate()}–${e.toLocaleDateString(locale, { day: 'numeric', month: 'long', year: 'numeric' })}`;
+        return `${s.getDate()}–${e.toLocaleDateString(locale, { day: "numeric", month: "long", year: "numeric" })}`;
       }
-      return `${s.toLocaleDateString(locale, { day: 'numeric', month: 'long' })} – ${e.toLocaleDateString(locale, { day: 'numeric', month: 'long', year: 'numeric' })}`;
+      return `${s.toLocaleDateString(locale, { day: "numeric", month: "long" })} – ${e.toLocaleDateString(locale, { day: "numeric", month: "long", year: "numeric" })}`;
     }
-    return `${s.toLocaleDateString(locale, { day: 'numeric', month: 'long', year: 'numeric' })} – ${e.toLocaleDateString(locale, { day: 'numeric', month: 'long', year: 'numeric' })}`;
+    return `${s.toLocaleDateString(locale, { day: "numeric", month: "long", year: "numeric" })} – ${e.toLocaleDateString(locale, { day: "numeric", month: "long", year: "numeric" })}`;
   }
 
   let dateRange = $derived(formatDateRange(trip.dates.start, trip.dates.end));
@@ -51,7 +51,7 @@
 <article class="trip-detail" aria-labelledby="trip-title">
   <!-- Back navigation -->
   <nav class="trip-detail__breadcrumb container container--narrow" aria-label="Breadcrumb">
-    <a href={resolve('/travel')} class="back-link">
+    <a href={resolve("/travel")} class="back-link">
       <svg aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="none">
         <path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
       </svg>
@@ -73,7 +73,7 @@
 
   <!-- Trip header -->
   <header class="trip-detail__header container container--narrow">
-    <span class="eyebrow">{trip.destination}{trip.region ? ` · ${trip.region}` : ''}</span>
+    <span class="eyebrow">{trip.destination}{trip.region ? ` · ${trip.region}` : ""}</span>
     <h1 id="trip-title">{trip.title}</h1>
     <p class="trip-detail__dates">
       <time datetime={dmyToIso(trip.dates.start)}>{dateRange}</time>

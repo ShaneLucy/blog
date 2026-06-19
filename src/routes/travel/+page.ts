@@ -1,4 +1,4 @@
-import { allTrips, allDestinations, allTags } from '$lib/data/trips';
+import { allTrips, allDestinations, allTags } from "$lib/data/trips";
 
 export function load() {
   return {

@@ -2,8 +2,8 @@
    FONTS — Fontsource variable fonts (WOFF2, bundled by Vite)
    ============================================================ */
 
-@import url('@fontsource-variable/inter');
-@import url('@fontsource-variable/lora');
+@import url("@fontsource-variable/inter");
+@import url("@fontsource-variable/lora");
 
 /* ============================================================
    GLOBAL CSS CUSTOM PROPERTIES
@@ -84,9 +84,9 @@
 	   TYPOGRAPHY
 	   ---------------------------------------------------------- */
 
-  --font-serif: 'Lora Variable', 'Georgia', 'Times New Roman', serif;
-  --font-sans: 'Inter Variable', 'system-ui', '-apple-system', 'Segoe UI', sans-serif;
-  --font-mono: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+  --font-serif: "Lora Variable", "Georgia", "Times New Roman", serif;
+  --font-sans: "Inter Variable", "system-ui", "-apple-system", "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", "Fira Code", "Consolas", monospace;
 
   /* Type scale — fluid */
   --text-xs: clamp(0.694rem, 0.67rem + 0.12vw, 0.75rem);
@@ -431,7 +431,7 @@ p {
 }
 
 .site-nav__link::after {
-  content: '';
+  content: "";
   position: absolute;
   inset-block-end: -2px;
   inset-inline: 0;
@@ -450,11 +450,11 @@ p {
 
 .site-nav__link:hover::after,
 .site-nav__link:focus-visible::after,
-.site-nav__link[aria-current='page']::after {
+.site-nav__link[aria-current="page"]::after {
   transform: scaleX(1);
 }
 
-.site-nav__link[aria-current='page'] {
+.site-nav__link[aria-current="page"] {
   color: var(--color-text-primary);
   font-weight: var(--weight-semibold);
 }
@@ -500,16 +500,16 @@ p {
     opacity var(--duration-fast) var(--ease-out);
 }
 
-.site-nav__hamburger[aria-expanded='true'] .hamburger-bar:nth-child(1) {
+.site-nav__hamburger[aria-expanded="true"] .hamburger-bar:nth-child(1) {
   transform: translateY(7px) rotate(45deg);
 }
 
-.site-nav__hamburger[aria-expanded='true'] .hamburger-bar:nth-child(2) {
+.site-nav__hamburger[aria-expanded="true"] .hamburger-bar:nth-child(2) {
   opacity: 0;
   transform: scaleX(0);
 }
 
-.site-nav__hamburger[aria-expanded='true'] .hamburger-bar:nth-child(3) {
+.site-nav__hamburger[aria-expanded="true"] .hamburger-bar:nth-child(3) {
   transform: translateY(-7px) rotate(-45deg);
 }
 
@@ -565,7 +565,7 @@ p {
 }
 
 /* Active page indicator in mobile menu — mirrors desktop link treatment */
-.site-nav__mobile-link[aria-current='page'] {
+.site-nav__mobile-link[aria-current="page"] {
   color: var(--color-accent);
   font-weight: var(--weight-semibold);
 }
@@ -642,7 +642,7 @@ p {
 .hero {
   position: relative;
   display: grid;
-  grid-template-areas: 'stack';
+  grid-template-areas: "stack";
   overflow: hidden;
   isolation: isolate;
 }
@@ -960,7 +960,7 @@ p {
 }
 
 .tag-pill--toggle.is-active,
-.tag-pill--toggle[aria-pressed='true'] {
+.tag-pill--toggle[aria-pressed="true"] {
   background: var(--color-accent);
   color: var(--color-text-inverse);
   border-color: var(--color-accent);
