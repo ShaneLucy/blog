@@ -55,15 +55,15 @@ bun run dev
 
 ## Scripts
 
-| Command | Description |
-|---|---|
-| `bun run dev` | Start development server |
-| `bun run build` | Production build |
-| `bun run preview` | Preview production build locally |
-| `bun run lint` | Prettier, ESLint, Stylelint, svelte-check |
-| `bun run test:unit` | Run unit tests (Vitest) |
-| `bun run coverage` | Unit tests with coverage report |
-| `bun run process-images` | Strip EXIF + convert images to WebP |
+| Command                  | Description                               |
+| ------------------------ | ----------------------------------------- |
+| `bun run dev`            | Start development server                  |
+| `bun run build`          | Production build                          |
+| `bun run preview`        | Preview production build locally          |
+| `bun run lint`           | Prettier, ESLint, Stylelint, svelte-check |
+| `bun run test:unit`      | Run unit tests (Vitest)                   |
+| `bun run coverage`       | Unit tests with coverage report           |
+| `bun run process-images` | Strip EXIF + convert images to WebP       |
 
 ## Image pipeline
 
