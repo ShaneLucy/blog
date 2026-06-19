@@ -27,7 +27,9 @@
   // Issue 7: arrow-key navigation (progressive enhancement)
   function handleKeydown(e: KeyboardEvent) {
     const target = e.target as Element;
-    if (target.matches("input, textarea, select, [contenteditable]")) return;
+    if (target.matches("input, textarea, select, [contenteditable]")) {
+      return;
+    }
     if (e.key === "ArrowLeft" && prevPhoto) {
       goto(resolve("/travel/[slug]/[photoSlug]", { slug: trip.slug, photoSlug: prevPhoto.slug }));
     } else if (e.key === "ArrowRight" && nextPhoto) {
@@ -81,8 +83,11 @@
         fetchpriority="high"
         decoding="async"
         onerror={() => {
-          if (!thumbFailed) thumbFailed = true;
-          else imgFailed = true;
+          if (!thumbFailed) {
+            thumbFailed = true;
+          } else {
+            imgFailed = true;
+          }
         }}
       />
     {/if}

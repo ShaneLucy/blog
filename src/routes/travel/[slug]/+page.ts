@@ -8,6 +8,8 @@ export const entries: EntryGenerator = () => {
 
 export function load({ params }) {
   const trip = allTrips.find((t) => t.slug === params.slug);
-  if (!trip) error(404, "Trip not found");
+  if (!trip) {
+    error(404, "Trip not found");
+  }
   return { trip };
 }

@@ -67,13 +67,11 @@ bun run dev
 
 ## Image pipeline
 
-Place raw photos (JPEG, HEIC, PNG, etc.) in `static/images/trips/<trip-slug>/` then run:
+Place raw photos (JPEG, PNG, etc.) in `static/images/trips/<trip-slug>/` then run:
 
 ```sh
 bun run process-images
 ```
-
-The pipeline extracts EXIF metadata (description, date, GPS), reverse-geocodes GPS coordinates via Nominatim, strips all EXIF from the output, and writes WebP files with descriptive filenames.
 
 ## Trip data
 

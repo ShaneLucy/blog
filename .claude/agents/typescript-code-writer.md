@@ -18,7 +18,7 @@ You are an elite TypeScript engineer with deep expertise in type system design, 
 - Use `as const` for literal type inference on constant objects and arrays.
 - Define explicit return types on all public functions and methods.
 - Use `satisfies` operator to validate types without widening.
-- Model domain concepts with precise types — avoid primitive obsession (e.g., use branded/nominal types for IDs).
+- Model domain concepts with precise types — avoid primitive obsession
 - Prefer interfaces for object shapes that may be extended; prefer `type` aliases for unions, intersections, and utility types.
 
 ### Clean Code

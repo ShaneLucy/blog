@@ -72,8 +72,11 @@
             fetchpriority={i < 8 ? "low" : "auto"}
             decoding="async"
             onerror={() => {
-              if (!thumbFailed[photo.slug]) thumbFailed[photo.slug] = true;
-              else imgFailed[photo.slug] = true;
+              if (!thumbFailed[photo.slug]) {
+                thumbFailed[photo.slug] = true;
+              } else {
+                imgFailed[photo.slug] = true;
+              }
             }}
           />
         {/if}

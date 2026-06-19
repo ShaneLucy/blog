@@ -38,8 +38,11 @@
         fetchpriority={priority ? "high" : undefined}
         decoding="async"
         onerror={() => {
-          if (!thumbFailed) thumbFailed = true;
-          else imgFailed = true;
+          if (!thumbFailed) {
+            thumbFailed = true;
+          } else {
+            imgFailed = true;
+          }
         }}
       />
     {/if}

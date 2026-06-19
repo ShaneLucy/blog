@@ -33,9 +33,15 @@
   // Keep URL in sync with filter state for bookmarkable/shareable links
   $effect(() => {
     const params = new SvelteURLSearchParams();
-    if (selectedDestination) params.set("destination", selectedDestination);
-    if (selectedTags.length > 0) params.set("tags", selectedTags.join(","));
-    if (sortBy !== "date") params.set("sort", sortBy);
+    if (selectedDestination) {
+      params.set("destination", selectedDestination);
+    }
+    if (selectedTags.length > 0) {
+      params.set("tags", selectedTags.join(","));
+    }
+    if (sortBy !== "date") {
+      params.set("sort", sortBy);
+    }
     const search = params.toString();
     goto(resolve(search ? (`/travel?${search}` as `/travel?${string}`) : "/travel"), {
       replaceState: true,

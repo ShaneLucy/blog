@@ -2,6 +2,7 @@ import prettier from "eslint-config-prettier";
 import path from "node:path";
 import js from "@eslint/js";
 import svelte from "eslint-plugin-svelte";
+import sonarjs from "eslint-plugin-sonarjs";
 import { defineConfig, includeIgnoreFile } from "eslint/config";
 import globals from "globals";
 import ts from "typescript-eslint";
@@ -16,6 +17,7 @@ export default defineConfig(
   svelte.configs.recommended,
   prettier,
   svelte.configs.prettier,
+  sonarjs.configs.recommended,
   {
     languageOptions: { globals: { ...globals.browser, ...globals.node } },
     rules: {
@@ -38,6 +40,12 @@ export default defineConfig(
   {
     // Override or add rule settings here, such as:
     // 'svelte/button-has-type': 'error'
-    rules: {}
+    rules: {
+      curly: ["error", "all"],
+      "prefer-template": "error",
+      "no-continue": "error",
+      "sonarjs/cognitive-complexity": ["error", 15],
+      "sonarjs/elseif-without-else": "error"
+    }
   }
 );

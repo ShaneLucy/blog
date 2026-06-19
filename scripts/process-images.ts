@@ -1,6 +1,6 @@
 import sharp from "sharp";
 import { readdir, mkdir, readFile, writeFile } from "node:fs/promises";
-import { existsSync } from "node:fs";
+import { existsSync, type Dirent } from "node:fs";
 import { join, extname, basename } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -32,14 +32,18 @@ export async function updateTripPhotos(
   tripTsPath: string,
   newPhotos: Array<{ filename: string; width: number; height: number }>
 ): Promise<void> {
-  if (!existsSync(tripTsPath)) return;
+  if (!existsSync(tripTsPath)) {
+    return;
+  }
 
   const source = await readFile(tripTsPath, "utf-8");
 
   const existingFilenames = new Set([...source.matchAll(/filename:\s*['"]([^'"]+)['"]/g)].map((m) => m[1]));
 
   const toAdd = newPhotos.filter((p) => !existingFilenames.has(p.filename));
-  if (toAdd.length === 0) return;
+  if (toAdd.length === 0) {
+    return;
+  }
 
   const newEntries = toAdd.map((p) => {
     const slug = p.filename
@@ -60,14 +64,21 @@ export async function updateTripPhotos(
   });
 
   const photosIdx = source.indexOf("photos: [");
-  if (photosIdx === -1) return;
+  if (photosIdx === -1) {
+    return;
+  }
 
   const openBracket = source.indexOf("[", photosIdx);
   let depth = 1;
   let i = openBracket + 1;
   while (i < source.length && depth > 0) {
-    if (source[i] === "[") depth++;
-    else if (source[i] === "]") depth--;
+    if (source[i] === "[") {
+      depth++;
+    } else if (source[i] === "]") {
+      depth--;
+    } else {
+      /* not a bracket */
+    }
     i++;
   }
   const closingIdx = i - 1;
@@ -75,13 +86,60 @@ export async function updateTripPhotos(
   const arrayContent = source.slice(openBracket + 1, closingIdx).trim();
   const needsComma = arrayContent.length > 0;
   const beforeClose = source.slice(0, closingIdx);
-  const leadingWhitespace = beforeClose.match(/(\s*)$/)?.[1] ?? "";
-  const trimmedBeforeClose = beforeClose.slice(0, beforeClose.length - leadingWhitespace.length);
-  const insertion = (needsComma ? ",\n" : "\n") + newEntries.join(",\n") + "\n" + leadingWhitespace;
+  const trimmedBeforeClose = beforeClose.trimEnd();
+  const leadingWhitespace = beforeClose.slice(trimmedBeforeClose.length);
+  const insertion = `${(needsComma ? ",\n" : "\n") + newEntries.join(",\n")}\n${leadingWhitespace}`;
   const updated = trimmedBeforeClose + insertion + source.slice(closingIdx);
 
   await writeFile(tripTsPath, updated, "utf-8");
   console.info(`  → Updated ${basename(tripTsPath)} with ${toAdd.length} new photo(s)`);
+}
+
+async function processTrip(entry: Dirent, contentDir: string, outputDir: string): Promise<{ processed: number; errors: number }> {
+  const rawDir = join(contentDir, entry.name, "raw");
+  if (!existsSync(rawDir)) {
+    return { processed: 0, errors: 0 };
+  }
+
+  const outDir = join(outputDir, entry.name);
+  const thumbDir = join(outDir, "thumbnails");
+  await mkdir(outDir, { recursive: true });
+  await mkdir(thumbDir, { recursive: true });
+
+  const files = await readdir(rawDir);
+  const images = files.filter((f) => SUPPORTED_EXTS.has(extname(f).toLowerCase()));
+  console.info(`\n[${entry.name}] Processing ${images.length} image(s)…`);
+
+  const tripPhotos: Array<{ filename: string; width: number; height: number }> = [];
+  let processed = 0;
+  let errors = 0;
+
+  for (const file of images) {
+    const inputPath = join(rawDir, file);
+    const stem = basename(file, extname(file));
+    const outFile = `${stem}.webp`;
+    const outputPath = join(outDir, outFile);
+    const thumbnailPath = join(thumbDir, outFile);
+
+    try {
+      const { width, height } = await processImage(inputPath, outputPath, thumbnailPath);
+      const clean = await verifyNoExif(outputPath);
+      const icon = clean ? "✓" : "⚠ EXIF NOT STRIPPED";
+      console.info(`  ${icon}  ${outFile}  (${width}×${height})`);
+      if (!clean) {
+        errors++;
+      } else {
+        processed++;
+        tripPhotos.push({ filename: outFile, width, height });
+      }
+    } catch (err) {
+      console.error(`  ✗  ${file}:`, (err as Error).message);
+      errors++;
+    }
+  }
+
+  await updateTripPhotos(join(contentDir, entry.name, "trip.ts"), tripPhotos);
+  return { processed, errors };
 }
 
 export async function main(contentDir?: string, outputDir?: string): Promise<void> {
@@ -98,51 +156,17 @@ export async function main(contentDir?: string, outputDir?: string): Promise<voi
   let errors = 0;
 
   for (const entry of tripDirs) {
-    if (!entry.isDirectory()) continue;
-
-    const rawDir = join(contentDir, entry.name, "raw");
-    if (!existsSync(rawDir)) continue;
-
-    const outDir = join(outputDir, entry.name);
-    const thumbDir = join(outDir, "thumbnails");
-    await mkdir(outDir, { recursive: true });
-    await mkdir(thumbDir, { recursive: true });
-
-    const files = await readdir(rawDir);
-    const images = files.filter((f) => SUPPORTED_EXTS.has(extname(f).toLowerCase()));
-
-    console.info(`\n[${entry.name}] Processing ${images.length} image(s)…`);
-
-    const tripPhotos: Array<{ filename: string; width: number; height: number }> = [];
-
-    for (const file of images) {
-      const inputPath = join(rawDir, file);
-      const stem = basename(file, extname(file));
-      const outFile = `${stem}.webp`;
-      const outputPath = join(outDir, outFile);
-      const thumbnailPath = join(thumbDir, outFile);
-
-      try {
-        const { width, height } = await processImage(inputPath, outputPath, thumbnailPath);
-        const clean = await verifyNoExif(outputPath);
-        const icon = clean ? "✓" : "⚠ EXIF NOT STRIPPED";
-        console.info(`  ${icon}  ${outFile}  (${width}×${height})`);
-        if (!clean) errors++;
-        else {
-          processed++;
-          tripPhotos.push({ filename: outFile, width, height });
-        }
-      } catch (err) {
-        console.error(`  ✗  ${file}:`, (err as Error).message);
-        errors++;
-      }
+    if (entry.isDirectory()) {
+      const result = await processTrip(entry, contentDir, outputDir);
+      processed += result.processed;
+      errors += result.errors;
     }
-
-    await updateTripPhotos(join(contentDir, entry.name, "trip.ts"), tripPhotos);
   }
 
   console.info(`\nDone. ${processed} image(s) processed, ${errors} error(s).`);
-  if (errors > 0) process.exit(1);
+  if (errors > 0) {
+    process.exit(1);
+  }
 }
 
 if (import.meta.main) {
