@@ -25,7 +25,7 @@ export const trip: Trip = {
     height: 3024
   },
   description: 'Five nights exploring Bergen, Ålesund, Fjords while sampling delicious food and drink along the way',
-  body: `Spring in Norway means the sun barely sets. Sixe days of golden light, impossibly blue fjords, and trails that wind above the clouds.`,
+  body: `Spring in Norway means the sun barely sets. Six days of golden light, impossibly blue fjords, and trails that wind above the clouds.`,
   photos: [
     {
       slug: 'calm-fjord-waters-mountain-clouds',
