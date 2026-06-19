@@ -46,7 +46,7 @@ describe("allTrips", () => {
 
   test("each trip has at least one tag", () => {
     for (const trip of allTrips) {
-      expect(trip.tags instanceof Set).toBe(true);
+      expect(trip.tags).toBeInstanceOf(Set);
       expect(trip.tags.size).toBeGreaterThan(0);
     }
   });
@@ -128,7 +128,7 @@ describe("allTags", () => {
 describe("allPhotoTags", () => {
   test("contains all PhotoTag enum values", () => {
     const enumValues = Object.values(PhotoTag);
-    expect(allPhotoTags.length).toBe(enumValues.length);
+    expect(allPhotoTags).toHaveLength(enumValues.length);
     for (const val of enumValues) {
       expect(allPhotoTags).toContain(val);
     }

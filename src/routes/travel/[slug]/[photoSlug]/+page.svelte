@@ -21,8 +21,8 @@
   let imgFailed = $state(false);
   let thumbFailed = $state(false);
 
-  // Issue 5: $derived replaces plain srcToUse() function
-  let currentSrc = $derived(imgFailed ? null : thumbFailed ? thumbSrc : imageSrc);
+  let activeSrc = $derived(thumbFailed ? thumbSrc : imageSrc);
+  let currentSrc = $derived(imgFailed ? null : activeSrc);
 
   // Issue 7: arrow-key navigation (progressive enhancement)
   function handleKeydown(e: KeyboardEvent) {
@@ -32,7 +32,9 @@
     }
     if (e.key === "ArrowLeft" && prevPhoto) {
       goto(resolve("/travel/[slug]/[photoSlug]", { slug: trip.slug, photoSlug: prevPhoto.slug }));
-    } else if (e.key === "ArrowRight" && nextPhoto) {
+      return;
+    }
+    if (e.key === "ArrowRight" && nextPhoto) {
       goto(resolve("/travel/[slug]/[photoSlug]", { slug: trip.slug, photoSlug: nextPhoto.slug }));
     }
   }

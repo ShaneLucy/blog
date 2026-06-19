@@ -23,7 +23,8 @@
   let thumbSrc = $derived(tripThumbSrc(trip.slug, trip.coverPhoto.filename));
   let thumbFailed = $state(false);
   let imgFailed = $state(false);
-  let displaySrc = $derived(imgFailed ? null : thumbFailed ? imageSrc : thumbSrc);
+  let fallbackSrc = $derived(thumbFailed ? imageSrc : thumbSrc);
+  let displaySrc = $derived(imgFailed ? null : fallbackSrc);
 </script>
 
 <a href={resolve("/travel/[slug]", { slug: trip.slug })} class="trip-card">

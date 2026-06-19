@@ -14,7 +14,7 @@ const destinations = [...allTrips]
 
 describe("about page destinations list", () => {
   test("includes every trip", () => {
-    expect(destinations.length).toBe(allTrips.length);
+    expect(destinations).toHaveLength(allTrips.length);
   });
 
   test("is sorted by start date descending (most recent first)", () => {

@@ -6,7 +6,7 @@ describe("trip detail entries()", () => {
   const result = entries() as Array<{ slug: string }>;
 
   test("returns one entry per trip", () => {
-    expect(result.length).toBe(allTrips.length);
+    expect(result).toHaveLength(allTrips.length);
   });
 
   test("each entry has a slug matching a trip", () => {

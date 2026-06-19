@@ -21,7 +21,7 @@ describe("TripFilters", () => {
     const { getByRole } = render(TripFilters, { props: { destinations, tags } });
     const group = getByRole("group", { name: /filter by tag/i });
     const buttons = group.querySelectorAll("button");
-    expect(buttons.length).toBe(tags.length);
+    expect(buttons).toHaveLength(tags.length);
   });
 
   test("Newest sort button is pressed by default", () => {

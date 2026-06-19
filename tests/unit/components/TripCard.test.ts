@@ -65,6 +65,6 @@ describe("TripCard", () => {
     };
     const { getByRole } = render(TripCard, { props: { trip: manyTagTrip } });
     const items = getByRole("list", { name: /tags/i }).querySelectorAll("li");
-    expect(items.length).toEqual(5);
+    expect(items).toHaveLength(5);
   });
 });

@@ -11,7 +11,7 @@ describe("photo detail entries()", () => {
 
   test("returns one entry per photo across all trips", () => {
     const totalPhotos = allTrips.reduce((n, t) => n + t.photos.length, 0);
-    expect(result.length).toBe(totalPhotos);
+    expect(result).toHaveLength(totalPhotos);
   });
 
   test("each entry has slug and photoSlug", () => {

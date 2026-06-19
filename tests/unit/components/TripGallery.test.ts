@@ -27,7 +27,7 @@ describe("TripGallery", () => {
   test("renders all photos in the gallery list", () => {
     const { getByRole } = render(TripGallery, { props: { photos, slug: "japan-2024" } });
     const gallery = getByRole("list", { name: /trip photos/i });
-    expect(gallery.querySelectorAll("li").length).toBe(photos.length);
+    expect(gallery.querySelectorAll("li")).toHaveLength(photos.length);
   });
 
   test("each photo links to the correct detail URL", () => {
@@ -54,7 +54,7 @@ describe("TripGallery", () => {
     const { getByRole } = render(TripGallery, { props: { photos, slug: "japan-2024" } });
     await fireEvent.click(getByRole("button", { name: /architecture/i }));
     const gallery = getByRole("list", { name: /trip photos/i });
-    expect(gallery.querySelectorAll("li").length).toBe(1);
+    expect(gallery.querySelectorAll("li")).toHaveLength(1);
   });
 
   test("deselecting a tag restores all photos", async () => {
@@ -63,7 +63,7 @@ describe("TripGallery", () => {
     await fireEvent.click(btn);
     await fireEvent.click(btn);
     const gallery = getByRole("list", { name: /trip photos/i });
-    expect(gallery.querySelectorAll("li").length).toBe(photos.length);
+    expect(gallery.querySelectorAll("li")).toHaveLength(photos.length);
   });
 
   test("OR logic: selecting two tags shows photos matching either", async () => {
@@ -72,6 +72,6 @@ describe("TripGallery", () => {
     await fireEvent.click(getByRole("button", { name: /architecture/i }));
     const gallery = getByRole("list", { name: /trip photos/i });
     // photo-1 has landscape, photo-2 has architecture — both should show
-    expect(gallery.querySelectorAll("li").length).toBe(2);
+    expect(gallery.querySelectorAll("li")).toHaveLength(2);
   });
 });
