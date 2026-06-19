@@ -58,13 +58,13 @@ describe("TripCard", () => {
     expect(container).toHaveTextContent("2024");
   });
 
-  test("shows at most 4 tags", () => {
+  test("shows all tags", () => {
     const manyTagTrip: Trip = {
       ...mockTrip,
       tags: new Set([TripTag.Beer, TripTag.Cities, TripTag.Food, TripTag.Hiking, TripTag.Temples])
     };
     const { getByRole } = render(TripCard, { props: { trip: manyTagTrip } });
     const items = getByRole("list", { name: /tags/i }).querySelectorAll("li");
-    expect(items.length).toBeLessThanOrEqual(4);
+    expect(items.length).toEqual(5);
   });
 });

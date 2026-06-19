@@ -54,7 +54,7 @@
     <p class="trip-card__desc">{trip.description}</p>
     {#if trip.tags.size > 0}
       <ul class="trip-card__tags" role="list" aria-label="Tags">
-        {#each [...trip.tags].slice(0, 4) as tag (tag)}
+        {#each [...trip.tags] as tag (tag)}
           <li class="tag-pill">{tag}</li>
         {/each}
       </ul>
