@@ -1,42 +1,80 @@
-# sv
+# blog
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+A personal travel blog built with SvelteKit 5 (runes mode) and statically generated via `@sveltejs/adapter-static`.
 
-## Creating a project
+## Stack
 
-If you're seeing this, you've probably already done this step. Congrats!
+- **SvelteKit 2 + Svelte 5** (runes mode)
+- **TypeScript 6**, **Vite 8**
+- **Bun** — package manager and runtime
+- **Vitest** — unit tests
+- **Pure CSS** with custom properties (no Tailwind)
+- **sharp + exifr** — image processing (EXIF extraction, strip, WebP conversion)
+- **@fontsource-variable/inter** + **@fontsource-variable/lora** — bundled variable fonts
 
-```sh
-# create a new project
-npx sv create my-app
+## Project structure
+
+```
+src/
+  app.css                   # Design tokens, reset, global styles
+  routes/
+    +layout.svelte          # Root layout (imports app.css)
+    +layout.ts              # export const prerender = true
+    +error.svelte           # Error page
+    +page.svelte            # Landing page
+    about/                  # About page
+    travel/
+      +page.svelte          # Trip listing with filters
+      +page.ts
+      [slug]/               # Trip detail page
+        +page.svelte
+        +page.ts
+        [photoSlug]/        # Photo detail page
+          +page.svelte
+          +page.ts
+  lib/
+    types/trip.ts           # PhotoTag enum, Trip + TripPhoto interfaces
+    data/trips.ts           # Trip registry (allTrips, allDestinations, allTags)
+    components/
+      layout/               # Header, Footer
+      travel/               # TripCard, TripFilters, TripGallery
+      shared/
+  content/trips/            # Per-trip TypeScript data files
+scripts/
+  process-images.ts         # EXIF strip + WebP pipeline
+static/
+  images/trips/             # Static trip photos (processed)
 ```
 
-To recreate this project with the same configuration:
+## Getting started
 
 ```sh
-# recreate this project
-bun x sv@0.15.3 create --template minimal --types ts --add prettier eslint playwright --install bun blog
+bun install
+bun run dev
 ```
 
-## Developing
+## Scripts
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+| Command | Description |
+|---|---|
+| `bun run dev` | Start development server |
+| `bun run build` | Production build |
+| `bun run preview` | Preview production build locally |
+| `bun run lint` | Prettier, ESLint, Stylelint, svelte-check |
+| `bun run test:unit` | Run unit tests (Vitest) |
+| `bun run coverage` | Unit tests with coverage report |
+| `bun run process-images` | Strip EXIF + convert images to WebP |
+
+## Image pipeline
+
+Place raw photos (JPEG, HEIC, PNG, etc.) in `static/images/trips/<trip-slug>/` then run:
 
 ```sh
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
+bun run process-images
 ```
 
-## Building
+The pipeline extracts EXIF metadata (description, date, GPS), reverse-geocodes GPS coordinates via Nominatim, strips all EXIF from the output, and writes WebP files with descriptive filenames.
 
-To create a production version of your app:
+## Trip data
 
-```sh
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+Trips are defined as TypeScript files in `src/content/trips/<slug>/trip.ts` and aggregated in `src/lib/data/trips.ts`. No CMS or database is involved — everything is type-checked at build time.
