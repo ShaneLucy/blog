@@ -1,6 +1,12 @@
-import { describe, test, expect } from "vitest";
+import { describe, test, expect, vi } from "vitest";
 import { render, fireEvent } from "@testing-library/svelte";
 import Header from "../../../src/lib/components/layout/Header.svelte";
+
+vi.mock("$app/state", () => ({
+  page: { url: new URL("http://localhost/") },
+  navigating: null,
+  updated: false
+}));
 
 describe("Header", () => {
   test("renders the site logo text", () => {

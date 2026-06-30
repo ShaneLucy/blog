@@ -1,6 +1,7 @@
 import { describe, test, expect } from "vitest";
 import { entries, load } from "../../../src/routes/travel/[slug]/+page";
 import { allTrips } from "../../../src/lib/data/trips";
+import { HTTP_NOT_FOUND } from "../../../src/lib/config";
 
 describe("trip detail entries()", () => {
   const result = entries() as Array<{ slug: string }>;
@@ -42,6 +43,6 @@ describe("trip detail load()", () => {
     } catch (e) {
       thrown = e;
     }
-    expect((thrown as { status: number }).status).toBe(404);
+    expect((thrown as { status: number }).status).toBe(HTTP_NOT_FOUND);
   });
 });

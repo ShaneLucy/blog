@@ -1,16 +1,13 @@
 import { defineConfig } from "vitest/config";
-import { svelte } from "@sveltejs/vite-plugin-svelte";
+import { sveltekit } from "@sveltejs/kit/vite";
 import { resolve } from "node:path";
 
 export default defineConfig({
-  plugins: [svelte()],
+  plugins: [sveltekit()],
   resolve: {
     alias: [
-      // Exact match: force svelte runtime to browser build (needed for mount() in jsdom)
-      { find: /^svelte$/, replacement: resolve("./node_modules/svelte/src/index-client.js") },
-      { find: "$lib", replacement: resolve("./src/lib") },
-      { find: "$app/paths", replacement: resolve("./tests/__mocks__/$app/paths.ts") },
-      { find: "$app/state", replacement: resolve("./tests/__mocks__/$app/state.ts") }
+      // Force Svelte's browser build so mount() works in jsdom
+      { find: /^svelte$/, replacement: resolve("./node_modules/svelte/src/index-client.js") }
     ]
   },
   test: {
@@ -20,7 +17,7 @@ export default defineConfig({
     coverage: {
       provider: "istanbul",
       reporter: ["text", "lcov"],
-      include: ["src/**/*.ts"],
+      include: ["src/**/*.ts", "src/**/*.svelte"],
       exclude: ["src/**/*.d.ts"]
     }
   }

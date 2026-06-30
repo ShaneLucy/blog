@@ -1,4 +1,5 @@
 import { allTrips } from "$lib/data/trips";
+import { HTTP_NOT_FOUND } from "$lib/config";
 import { error } from "@sveltejs/kit";
 import type { EntryGenerator } from "./$types";
 
@@ -9,7 +10,7 @@ export const entries: EntryGenerator = () => {
 export function load({ params }: { params: { slug: string } }) {
   const trip = allTrips.find((t) => t.slug === params.slug);
   if (!trip) {
-    error(404, "Trip not found");
+    error(HTTP_NOT_FOUND, "Trip not found");
   }
   return { trip };
 }

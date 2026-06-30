@@ -1,6 +1,7 @@
 import { describe, test, expect } from "vitest";
 import { entries, load } from "../../../src/routes/travel/[slug]/[photoSlug]/+page";
 import { allTrips } from "../../../src/lib/data/trips";
+import { HTTP_NOT_FOUND } from "../../../src/lib/config";
 
 const firstTrip = allTrips[0];
 const firstPhoto = firstTrip.photos[0];
@@ -88,7 +89,7 @@ describe("photo detail load()", () => {
     } catch (e) {
       thrown = e;
     }
-    expect((thrown as { status: number }).status).toBe(404);
+    expect((thrown as { status: number }).status).toBe(HTTP_NOT_FOUND);
   });
 
   test("thrown photo error has status 404", () => {
@@ -98,6 +99,6 @@ describe("photo detail load()", () => {
     } catch (e) {
       thrown = e;
     }
-    expect((thrown as { status: number }).status).toBe(404);
+    expect((thrown as { status: number }).status).toBe(HTTP_NOT_FOUND);
   });
 });

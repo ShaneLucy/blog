@@ -32,7 +32,7 @@ export default defineConfig(
       "no-magic-numbers": [
         "error",
         {
-          ignore: [-1, 0, 1, 2, 3, 100, 404],
+          ignore: [-1, 0, 1, 2, 3],
           ignoreArrayIndexes: true,
           ignoreDefaultValues: true,
           enforceConst: true

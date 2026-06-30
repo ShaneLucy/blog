@@ -1,4 +1,5 @@
 import { allTrips } from "$lib/data/trips";
+import { HTTP_NOT_FOUND } from "$lib/config";
 import { error } from "@sveltejs/kit";
 import type { EntryGenerator } from "./$types";
 
@@ -14,12 +15,12 @@ export const entries: EntryGenerator = () => {
 export function load({ params }: { params: { slug: string; photoSlug: string } }) {
   const trip = allTrips.find((t) => t.slug === params.slug);
   if (!trip) {
-    error(404, "Trip not found");
+    error(HTTP_NOT_FOUND, "Trip not found");
   }
 
   const photoIndex = trip.photos.findIndex((p) => p.slug === params.photoSlug);
   if (photoIndex === -1) {
-    error(404, "Photo not found");
+    error(HTTP_NOT_FOUND, "Photo not found");
   }
 
   const photo = trip.photos[photoIndex];
