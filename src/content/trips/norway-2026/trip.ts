@@ -1,5 +1,4 @@
-import type { Trip } from "$lib/types/trip";
-import { PhotoTag, TripTag } from "$lib/types/trip";
+import { type Trip, PhotoTag, TripTag } from "$lib/types/trip";
 
 export const trip: Trip = {
   slug: "norway-2026",
@@ -325,7 +324,7 @@ export const trip: Trip = {
     {
       slug: "alesund-microbrewery-craft-beer-pint",
       filename: "Ålesund-Microbrewery-2.webp",
-      alt: "A glass of craft beer at the Ålesund microbrewery",
+      alt: "A glass of Molo Abbey craft beer",
       tags: new Set([PhotoTag.Beer]),
       width: 3024,
       height: 4032
@@ -333,7 +332,7 @@ export const trip: Trip = {
     {
       slug: "alesund-microbrewery-craft-beer-pour",
       filename: "Ålesund-Microbrewery-4.webp",
-      alt: "A glass of craft beer at the Ålesund microbrewery",
+      alt: "A pint of wheat beer",
       tags: new Set([PhotoTag.Beer]),
       width: 3024,
       height: 4032

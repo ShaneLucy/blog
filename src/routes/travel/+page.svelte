@@ -43,7 +43,7 @@
       params.set("sort", sortBy);
     }
     const search = params.toString();
-    goto(resolve(search ? (`/travel?${search}` as `/travel?${string}`) : "/travel"), {
+    goto(resolve(search ? `/travel?${search}` : "/travel"), {
       replaceState: true,
       keepFocus: true,
       noScroll: true

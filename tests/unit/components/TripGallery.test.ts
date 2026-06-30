@@ -1,8 +1,7 @@
 import { describe, test, expect } from "vitest";
 import { render, fireEvent } from "@testing-library/svelte";
 import TripGallery from "../../../src/lib/components/travel/TripGallery.svelte";
-import type { TripPhoto } from "../../../src/lib/types/trip";
-import { PhotoTag } from "../../../src/lib/types/trip";
+import { type TripPhoto, PhotoTag } from "../../../src/lib/types/trip";
 
 const photos: TripPhoto[] = [
   {

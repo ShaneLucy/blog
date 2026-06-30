@@ -10,6 +10,8 @@ import svelteConfig from "./svelte.config.js";
 
 const gitignorePath = path.resolve(import.meta.dirname, ".gitignore");
 
+const COGNITIVE_COMPLEXITY_LIMIT = 15;
+
 export default defineConfig(
   includeIgnoreFile(gitignorePath),
   js.configs.recommended,
@@ -23,7 +25,33 @@ export default defineConfig(
     rules: {
       // typescript-eslint strongly recommend that you do not use the no-undef lint rule on TypeScript projects.
       // see: https://typescript-eslint.io/troubleshooting/faqs/eslint/#i-get-errors-from-the-no-undef-rule-about-global-variables-not-being-defined-even-though-there-are-no-typescript-errors
-      "no-undef": "off"
+      "no-undef": "off",
+      "no-console": "error", // S106
+      "no-duplicate-imports": "error", // S3863
+      "@typescript-eslint/no-non-null-assertion": "error", // S2966
+      "no-magic-numbers": [
+        "error",
+        {
+          ignore: [-1, 0, 1, 2, 3, 100, 404],
+          ignoreArrayIndexes: true,
+          ignoreDefaultValues: true,
+          enforceConst: true
+        }
+      ] // S109
+    }
+  },
+  {
+    // Type-aware rules for plain TypeScript files
+    files: ["**/*.ts"],
+    languageOptions: {
+      parserOptions: {
+        projectService: {
+          allowDefaultProject: ["vitest.config.ts"]
+        }
+      }
+    },
+    rules: {
+      "@typescript-eslint/no-unnecessary-type-assertion": "error" // S4325
     }
   },
   {
@@ -35,16 +63,25 @@ export default defineConfig(
         parser: ts.parser,
         svelteConfig
       }
+    },
+    rules: {
+      "@typescript-eslint/no-unnecessary-type-assertion": "error" // S4325
     }
   },
   {
-    // Override or add rule settings here, such as:
-    // 'svelte/button-has-type': 'error'
+    // CLI scripts: console output and numeric literals are intentional
+    files: ["scripts/**"],
+    rules: {
+      "no-console": "off",
+      "no-magic-numbers": "off"
+    }
+  },
+  {
     rules: {
       curly: ["error", "all"],
       "prefer-template": "error",
       "no-continue": "error",
-      "sonarjs/cognitive-complexity": ["error", 15],
+      "sonarjs/cognitive-complexity": ["error", COGNITIVE_COMPLEXITY_LIMIT],
       "sonarjs/elseif-without-else": "error"
     }
   }

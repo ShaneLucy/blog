@@ -1,8 +1,7 @@
 import { describe, test, expect } from "vitest";
 import { render } from "@testing-library/svelte";
 import TripCard from "../../../src/lib/components/travel/TripCard.svelte";
-import type { Trip } from "../../../src/lib/types/trip";
-import { PhotoTag, TripTag } from "../../../src/lib/types/trip";
+import { type Trip, PhotoTag, TripTag } from "../../../src/lib/types/trip";
 
 const mockTrip: Trip = {
   slug: "japan-2024",
@@ -59,12 +58,10 @@ describe("TripCard", () => {
   });
 
   test("shows all tags", () => {
-    const manyTagTrip: Trip = {
-      ...mockTrip,
-      tags: new Set([TripTag.Beer, TripTag.Cities, TripTag.Food, TripTag.Hiking, TripTag.Temples])
-    };
+    const allTags = [TripTag.Beer, TripTag.Cities, TripTag.Food, TripTag.Hiking, TripTag.Temples];
+    const manyTagTrip: Trip = { ...mockTrip, tags: new Set(allTags) };
     const { getByRole } = render(TripCard, { props: { trip: manyTagTrip } });
     const items = getByRole("list", { name: /tags/i }).querySelectorAll("li");
-    expect(items).toHaveLength(5);
+    expect(items).toHaveLength(allTags.length);
   });
 });

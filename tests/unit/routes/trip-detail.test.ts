@@ -27,18 +27,18 @@ describe("trip detail load()", () => {
   const firstTrip = allTrips[0];
 
   test("returns the matching trip for a valid slug", () => {
-    const result = load({ params: { slug: firstTrip.slug } } as never);
+    const result = load({ params: { slug: firstTrip.slug } });
     expect(result.trip).toBe(firstTrip);
   });
 
   test("throws 404 for an unknown slug", () => {
-    expect(() => load({ params: { slug: "does-not-exist" } } as never)).toThrow();
+    expect(() => load({ params: { slug: "does-not-exist" } })).toThrow();
   });
 
   test("thrown error has status 404", () => {
     let thrown: unknown;
     try {
-      load({ params: { slug: "does-not-exist" } } as never);
+      load({ params: { slug: "does-not-exist" } });
     } catch (e) {
       thrown = e;
     }

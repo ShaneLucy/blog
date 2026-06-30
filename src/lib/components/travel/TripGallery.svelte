@@ -1,8 +1,9 @@
 <script lang="ts">
-  import type { TripPhoto } from "$lib/types/trip";
-  import type { PhotoTag } from "$lib/types/trip";
+  import type { TripPhoto, PhotoTag } from "$lib/types/trip";
   import { resolve } from "$app/paths";
   import { tripImageSrc, tripThumbSrc } from "$lib/images";
+
+  const EAGER_LOAD_LIMIT = 8;
 
   interface Props {
     photos: TripPhoto[];
@@ -13,9 +14,7 @@
 
   let selectedTags = $state<PhotoTag[]>([]);
 
-  let availableTags = $derived(
-    [...new Set(photos.flatMap((p) => (p.tags ? [...p.tags] : [])))].sort((a, b) => a.localeCompare(b)) as PhotoTag[]
-  );
+  let availableTags = $derived([...new Set(photos.flatMap((p) => (p.tags ? [...p.tags] : [])))].sort((a, b) => a.localeCompare(b)));
 
   let filteredPhotos = $derived(selectedTags.length === 0 ? photos : photos.filter((p) => selectedTags.some((t) => p.tags?.has(t))));
 
@@ -70,8 +69,8 @@
             alt={photo.alt}
             width={photo.width}
             height={photo.height}
-            loading={i < 8 ? "eager" : "lazy"}
-            fetchpriority={i < 8 ? "low" : "auto"}
+            loading={i < EAGER_LOAD_LIMIT ? "eager" : "lazy"}
+            fetchpriority={i < EAGER_LOAD_LIMIT ? "low" : "auto"}
             decoding="async"
             onerror={() => {
               if (!thumbFailed[photo.slug]) {

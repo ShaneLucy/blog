@@ -6,6 +6,11 @@ import { existsSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 
+const RGB_CHANNELS = 3 as const;
+const FULL_SIZE_WIDTH = 4000;
+const FULL_SIZE_HEIGHT = 3000;
+const THUMB_MAX_WIDTH = 400;
+
 let tempDir: string;
 
 beforeAll(async () => {
@@ -26,7 +31,7 @@ async function makeTestJpeg(path: string, opts: { width: number; height: number;
     create: {
       width: opts.width,
       height: opts.height,
-      channels: 3 as const,
+      channels: RGB_CHANNELS,
       background: { r: 128, g: 64, b: 32 }
     }
   }).jpeg();
@@ -71,8 +76,8 @@ test("preserves original dimensions for full-size output", async () => {
   await makeTestJpeg(input, { width: 4000, height: 3000 });
 
   const { width, height } = await processImage(input, output, thumb);
-  expect(width).toBe(4000);
-  expect(height).toBe(3000);
+  expect(width).toBe(FULL_SIZE_WIDTH);
+  expect(height).toBe(FULL_SIZE_HEIGHT);
 });
 
 test("generates thumbnail at most 400px wide", async () => {
@@ -84,7 +89,7 @@ test("generates thumbnail at most 400px wide", async () => {
   await processImage(input, output, thumb);
 
   const thumbMeta = await sharp(thumb).metadata();
-  expect(thumbMeta.width).toBeLessThanOrEqual(400);
+  expect(thumbMeta.width).toBeLessThanOrEqual(THUMB_MAX_WIDTH);
 });
 
 test("outputs valid WebP files", async () => {

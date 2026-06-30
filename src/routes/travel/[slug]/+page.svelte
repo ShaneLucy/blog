@@ -8,6 +8,9 @@
   let { data }: { data: PageData } = $props();
   let trip = $derived(data.trip);
 
+  const FALLBACK_COVER_WIDTH = 2400;
+  const FALLBACK_COVER_HEIGHT = 1350;
+
   let coverSrc = $derived(`/images/trips/${trip.slug}/${trip.coverPhoto.filename}`);
   let coverPhoto = $derived(trip.photos.find((p) => p.filename === trip.coverPhoto.filename));
 
@@ -64,8 +67,8 @@
     <img
       src={coverSrc}
       alt={coverPhoto?.alt}
-      width={coverPhoto?.width ?? 2400}
-      height={coverPhoto?.height ?? 1350}
+      width={coverPhoto?.width ?? FALLBACK_COVER_WIDTH}
+      height={coverPhoto?.height ?? FALLBACK_COVER_HEIGHT}
       fetchpriority="high"
       decoding="async"
     />

@@ -3,11 +3,13 @@
   import { allTrips } from "$lib/data/trips";
   import { parseDMY } from "$lib/utils/dates";
 
+  const DMY_YEAR_OFFSET = 6;
+
   const destinations = [...allTrips]
     .sort((a, b) => parseDMY(b.dates.start).getTime() - parseDMY(a.dates.start).getTime())
     .map((t) => ({
       name: t.destination,
-      year: t.dates.start.slice(6),
+      year: t.dates.start.slice(DMY_YEAR_OFFSET),
       slug: t.slug,
       description: t.description
     }));
