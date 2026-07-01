@@ -2,7 +2,7 @@ import { describe, test, expect, vi, beforeEach } from "vitest";
 import { render, fireEvent } from "@testing-library/svelte";
 import { entries, load } from "../../../src/routes/travel/[slug]/[photoSlug]/+page";
 import { allTrips } from "../../../src/lib/data/trips";
-import { HTTP_NOT_FOUND, SITE_URL } from "../../../src/lib/config";
+import { HTTP_NOT_FOUND, SITE_NAME, SITE_URL } from "../../../src/lib/config";
 import PhotoDetailPage from "../../../src/routes/travel/[slug]/[photoSlug]/+page.svelte";
 
 const mockGoto = vi.hoisted(() => vi.fn());
@@ -181,6 +181,67 @@ describe("photo detail page component", () => {
     render(PhotoDetailPage, { props: { data: lastPhotoData } });
     await fireEvent.keyDown(document.body, { key: "ArrowLeft" });
     expect(mockGoto).toHaveBeenCalledWith(expect.stringContaining(photo.slug));
+  });
+
+  test("title includes photo caption and trip title", () => {
+    render(PhotoDetailPage, { props: { data: firstPhotoData } });
+    expect(document.title).toBe(`${photo.caption ?? photo.alt} — ${trip.title} — Wandering Pages`);
+  });
+
+  test("meta description is the photo caption or alt", () => {
+    render(PhotoDetailPage, { props: { data: firstPhotoData } });
+    expect(document.head.querySelector('meta[name="description"]')?.getAttribute("content")).toBe(photo.caption ?? photo.alt);
+  });
+
+  test("og:type is article", () => {
+    render(PhotoDetailPage, { props: { data: firstPhotoData } });
+    expect(document.head.querySelector('meta[property="og:type"]')?.getAttribute("content")).toBe("article");
+  });
+
+  test("og:site_name is the site name", () => {
+    render(PhotoDetailPage, { props: { data: firstPhotoData } });
+    expect(document.head.querySelector('meta[property="og:site_name"]')?.getAttribute("content")).toBe(SITE_NAME);
+  });
+
+  test("og:title is caption/alt — trip title", () => {
+    render(PhotoDetailPage, { props: { data: firstPhotoData } });
+    const expected = `${photo.caption ?? photo.alt} — ${trip.title}`;
+    expect(document.head.querySelector('meta[property="og:title"]')?.getAttribute("content")).toBe(expected);
+  });
+
+  test("og:description is the photo caption or alt", () => {
+    render(PhotoDetailPage, { props: { data: firstPhotoData } });
+    expect(document.head.querySelector('meta[property="og:description"]')?.getAttribute("content")).toBe(photo.caption ?? photo.alt);
+  });
+
+  test("og:url is the photo detail page URL", () => {
+    render(PhotoDetailPage, { props: { data: firstPhotoData } });
+    expect(document.head.querySelector('meta[property="og:url"]')?.getAttribute("content")).toBe(
+      `${SITE_URL}/travel/${trip.slug}/${photo.slug}`
+    );
+  });
+
+  test("twitter:card is summary_large_image", () => {
+    render(PhotoDetailPage, { props: { data: firstPhotoData } });
+    expect(document.head.querySelector('meta[name="twitter:card"]')?.getAttribute("content")).toBe("summary_large_image");
+  });
+
+  test("twitter:title is caption/alt — trip title", () => {
+    render(PhotoDetailPage, { props: { data: firstPhotoData } });
+    const expected = `${photo.caption ?? photo.alt} — ${trip.title}`;
+    expect(document.head.querySelector('meta[name="twitter:title"]')?.getAttribute("content")).toBe(expected);
+  });
+
+  test("twitter:description is the photo caption or alt", () => {
+    render(PhotoDetailPage, { props: { data: firstPhotoData } });
+    expect(document.head.querySelector('meta[name="twitter:description"]')?.getAttribute("content")).toBe(photo.caption ?? photo.alt);
+  });
+
+  test("canonical link points to the photo detail page URL", () => {
+    render(PhotoDetailPage, { props: { data: firstPhotoData } });
+    expect(document.head.querySelector('link[rel="canonical"]')?.getAttribute("href")).toBe(
+      `${SITE_URL}/travel/${trip.slug}/${photo.slug}`
+    );
   });
 
   test("og:image uses the thumbnail url", () => {

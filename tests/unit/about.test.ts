@@ -79,6 +79,20 @@ describe("about page destinations list", () => {
   });
 });
 
+describe("about page head", () => {
+  test("title is About — Wandering Pages", () => {
+    render(AboutPage);
+    expect(document.title).toBe("About — Wandering Pages");
+  });
+
+  test("meta description mentions Shane and the site", () => {
+    render(AboutPage);
+    const meta = document.head.querySelector('meta[name="description"]');
+    expect(meta?.getAttribute("content")).toContain("Shane");
+    expect(meta?.getAttribute("content")).toContain("Wandering Pages");
+  });
+});
+
 describe("about page component", () => {
   test("renders the main heading with site owner name", () => {
     const { getByRole } = render(AboutPage);

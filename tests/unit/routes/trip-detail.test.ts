@@ -2,8 +2,8 @@ import { describe, test, expect } from "vitest";
 import { render } from "@testing-library/svelte";
 import { entries, load } from "../../../src/routes/travel/[slug]/+page";
 import { allTrips } from "../../../src/lib/data/trips";
-import { HTTP_NOT_FOUND, SITE_URL } from "../../../src/lib/config";
-import { parseDMY } from "../../../src/lib/utils/dates";
+import { HTTP_NOT_FOUND, SITE_NAME, SITE_URL } from "../../../src/lib/config";
+import { parseDMY, dmyToIso } from "../../../src/lib/utils/dates";
 import TripDetailPage from "../../../src/routes/travel/[slug]/+page.svelte";
 
 // Mirror of formatDateRange from routes/travel/[slug]/+page.svelte
@@ -113,6 +113,74 @@ describe("trip detail page component", () => {
     const { container } = render(TripDetailPage, { props: { data: { trip: firstTrip } } });
     const backLink = container.querySelector('nav[aria-label="Breadcrumb"] a');
     expect(backLink).toHaveAttribute("href", "/travel");
+  });
+
+  test("title is trip title — Wandering Pages", () => {
+    render(TripDetailPage, { props: { data: { trip: firstTrip } } });
+    expect(document.title).toBe(`${firstTrip.title} — Wandering Pages`);
+  });
+
+  test("meta description is the trip description", () => {
+    render(TripDetailPage, { props: { data: { trip: firstTrip } } });
+    expect(document.head.querySelector('meta[name="description"]')?.getAttribute("content")).toBe(firstTrip.description);
+  });
+
+  test("og:type is article", () => {
+    render(TripDetailPage, { props: { data: { trip: firstTrip } } });
+    expect(document.head.querySelector('meta[property="og:type"]')?.getAttribute("content")).toBe("article");
+  });
+
+  test("og:site_name is the site name", () => {
+    render(TripDetailPage, { props: { data: { trip: firstTrip } } });
+    expect(document.head.querySelector('meta[property="og:site_name"]')?.getAttribute("content")).toBe(SITE_NAME);
+  });
+
+  test("og:title is the trip title", () => {
+    render(TripDetailPage, { props: { data: { trip: firstTrip } } });
+    expect(document.head.querySelector('meta[property="og:title"]')?.getAttribute("content")).toBe(firstTrip.title);
+  });
+
+  test("og:description is the trip description", () => {
+    render(TripDetailPage, { props: { data: { trip: firstTrip } } });
+    expect(document.head.querySelector('meta[property="og:description"]')?.getAttribute("content")).toBe(firstTrip.description);
+  });
+
+  test("og:url is the trip page URL", () => {
+    render(TripDetailPage, { props: { data: { trip: firstTrip } } });
+    expect(document.head.querySelector('meta[property="og:url"]')?.getAttribute("content")).toBe(`${SITE_URL}/travel/${firstTrip.slug}`);
+  });
+
+  test("article:published_time is the ISO date of the trip start", () => {
+    render(TripDetailPage, { props: { data: { trip: firstTrip } } });
+    expect(document.head.querySelector('meta[property="article:published_time"]')?.getAttribute("content")).toBe(dmyToIso(firstTrip.dates.start));
+  });
+
+  test("article:tag metas match the trip tags", () => {
+    render(TripDetailPage, { props: { data: { trip: firstTrip } } });
+    const expectedTags = [...firstTrip.tags];
+    const tagMetas = [...document.head.querySelectorAll('meta[property="article:tag"]')];
+    expect(tagMetas).toHaveLength(expectedTags.length);
+    expect(tagMetas.map((m) => m.getAttribute("content"))).toEqual(expectedTags);
+  });
+
+  test("twitter:card is summary_large_image", () => {
+    render(TripDetailPage, { props: { data: { trip: firstTrip } } });
+    expect(document.head.querySelector('meta[name="twitter:card"]')?.getAttribute("content")).toBe("summary_large_image");
+  });
+
+  test("twitter:title is the trip title", () => {
+    render(TripDetailPage, { props: { data: { trip: firstTrip } } });
+    expect(document.head.querySelector('meta[name="twitter:title"]')?.getAttribute("content")).toBe(firstTrip.title);
+  });
+
+  test("twitter:description is the trip description", () => {
+    render(TripDetailPage, { props: { data: { trip: firstTrip } } });
+    expect(document.head.querySelector('meta[name="twitter:description"]')?.getAttribute("content")).toBe(firstTrip.description);
+  });
+
+  test("canonical link points to the trip page URL", () => {
+    render(TripDetailPage, { props: { data: { trip: firstTrip } } });
+    expect(document.head.querySelector('link[rel="canonical"]')?.getAttribute("href")).toBe(`${SITE_URL}/travel/${firstTrip.slug}`);
   });
 
   test("og:image uses the thumbnail url for the cover photo", () => {

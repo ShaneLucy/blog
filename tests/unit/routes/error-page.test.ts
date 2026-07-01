@@ -7,6 +7,20 @@ const mockState = vi.hoisted(() => ({
 }));
 vi.mock("$app/state", () => mockState);
 
+describe("+error page head", () => {
+  test("title includes the status code and site name", () => {
+    mockState.page = { status: 404, error: null };
+    render(ErrorPage);
+    expect(document.title).toBe("Error 404 — Wandering Pages");
+  });
+
+  test("title reflects a different status code", () => {
+    mockState.page = { status: 500, error: null };
+    render(ErrorPage);
+    expect(document.title).toBe("Error 500 — Wandering Pages");
+  });
+});
+
 describe("+error page", () => {
   test("renders the HTTP status code", () => {
     mockState.page = { status: 404, error: null };

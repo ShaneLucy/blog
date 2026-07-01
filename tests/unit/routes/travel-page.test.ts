@@ -5,6 +5,7 @@ import { allTrips, allDestinations, allTags } from "../../../src/lib/data/trips"
 import { parseDMY } from "../../../src/lib/utils/dates";
 import { type Trip, TripTag } from "../../../src/lib/types/trip";
 import TravelPage from "../../../src/routes/travel/+page.svelte";
+import { SITE_NAME, SITE_URL } from "../../../src/lib/config";
 
 const mockGoto = vi.hoisted(() => vi.fn());
 vi.mock("$app/navigation", () => ({ goto: mockGoto }));
@@ -114,6 +115,57 @@ describe("travel page filteredTrips logic", () => {
     const result = filterAndSort(twoTrips, "", [], "destination");
     expect(result[0].destination).toBe("Japan");
     expect(result[1].destination).toBe("Norway");
+  });
+});
+
+const TRAVEL_DESCRIPTION = "A collection of trips — photographs, notes, and stories from the road.";
+
+describe("travel page head", () => {
+  const pageData = { trips: allTrips, destinations: allDestinations, tags: allTags };
+
+  test("title is Travel — Wandering Pages", () => {
+    render(TravelPage, { props: { data: pageData } });
+    expect(document.title).toBe("Travel — Wandering Pages");
+  });
+
+  test("meta description matches the page copy", () => {
+    render(TravelPage, { props: { data: pageData } });
+    expect(document.head.querySelector('meta[name="description"]')?.getAttribute("content")).toBe(TRAVEL_DESCRIPTION);
+  });
+
+  test("og:type is website", () => {
+    render(TravelPage, { props: { data: pageData } });
+    expect(document.head.querySelector('meta[property="og:type"]')?.getAttribute("content")).toBe("website");
+  });
+
+  test("og:site_name is the site name", () => {
+    render(TravelPage, { props: { data: pageData } });
+    expect(document.head.querySelector('meta[property="og:site_name"]')?.getAttribute("content")).toBe(SITE_NAME);
+  });
+
+  test("og:title is Travel — Wandering Pages", () => {
+    render(TravelPage, { props: { data: pageData } });
+    expect(document.head.querySelector('meta[property="og:title"]')?.getAttribute("content")).toBe("Travel — Wandering Pages");
+  });
+
+  test("og:description matches the page copy", () => {
+    render(TravelPage, { props: { data: pageData } });
+    expect(document.head.querySelector('meta[property="og:description"]')?.getAttribute("content")).toBe(TRAVEL_DESCRIPTION);
+  });
+
+  test("og:url is the travel page URL", () => {
+    render(TravelPage, { props: { data: pageData } });
+    expect(document.head.querySelector('meta[property="og:url"]')?.getAttribute("content")).toBe(`${SITE_URL}/travel`);
+  });
+
+  test("twitter:card is summary", () => {
+    render(TravelPage, { props: { data: pageData } });
+    expect(document.head.querySelector('meta[name="twitter:card"]')?.getAttribute("content")).toBe("summary");
+  });
+
+  test("canonical link points to the travel page URL", () => {
+    render(TravelPage, { props: { data: pageData } });
+    expect(document.head.querySelector('link[rel="canonical"]')?.getAttribute("href")).toBe(`${SITE_URL}/travel`);
   });
 });
 
