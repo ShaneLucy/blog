@@ -152,7 +152,9 @@ describe("trip detail page component", () => {
 
   test("article:published_time is the ISO date of the trip start", () => {
     render(TripDetailPage, { props: { data: { trip: firstTrip } } });
-    expect(document.head.querySelector('meta[property="article:published_time"]')?.getAttribute("content")).toBe(dmyToIso(firstTrip.dates.start));
+    expect(document.head.querySelector('meta[property="article:published_time"]')?.getAttribute("content")).toBe(
+      dmyToIso(firstTrip.dates.start)
+    );
   });
 
   test("article:tag metas match the trip tags", () => {
