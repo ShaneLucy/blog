@@ -2,7 +2,7 @@ import { describe, test, expect, vi, beforeEach } from "vitest";
 import { render, fireEvent } from "@testing-library/svelte";
 import { entries, load } from "../../../src/routes/travel/[slug]/[photoSlug]/+page";
 import { allTrips } from "../../../src/lib/data/trips";
-import { HTTP_NOT_FOUND } from "../../../src/lib/config";
+import { HTTP_NOT_FOUND, SITE_URL } from "../../../src/lib/config";
 import PhotoDetailPage from "../../../src/routes/travel/[slug]/[photoSlug]/+page.svelte";
 
 const mockGoto = vi.hoisted(() => vi.fn());
@@ -181,5 +181,19 @@ describe("photo detail page component", () => {
     render(PhotoDetailPage, { props: { data: lastPhotoData } });
     await fireEvent.keyDown(document.body, { key: "ArrowLeft" });
     expect(mockGoto).toHaveBeenCalledWith(expect.stringContaining(photo.slug));
+  });
+
+  test("og:image uses the thumbnail url", () => {
+    render(PhotoDetailPage, { props: { data: firstPhotoData } });
+    const ogImage = document.head.querySelector('meta[property="og:image"]');
+    const expected = `${SITE_URL}/images/trips/${trip.slug}/thumbnails/${photo.filename}`;
+    expect(ogImage?.getAttribute("content")).toBe(expected);
+  });
+
+  test("twitter:image uses the thumbnail url", () => {
+    render(PhotoDetailPage, { props: { data: firstPhotoData } });
+    const twImage = document.head.querySelector('meta[name="twitter:image"]');
+    const expected = `${SITE_URL}/images/trips/${trip.slug}/thumbnails/${photo.filename}`;
+    expect(twImage?.getAttribute("content")).toBe(expected);
   });
 });

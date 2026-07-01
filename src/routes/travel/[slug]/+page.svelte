@@ -4,6 +4,7 @@
   import { resolve } from "$app/paths";
   import { SITE_NAME, SITE_URL } from "$lib/config";
   import { parseDMY, dmyToIso } from "$lib/utils/dates";
+  import { tripThumbSrc } from "$lib/images";
 
   let { data }: { data: PageData } = $props();
   let trip = $derived(data.trip);
@@ -12,6 +13,7 @@
   const FALLBACK_COVER_HEIGHT = 1350;
 
   let coverSrc = $derived(`/images/trips/${trip.slug}/${trip.coverPhoto.filename}`);
+  let coverThumbSrc = $derived(tripThumbSrc(trip.slug, trip.coverPhoto.filename));
   let coverPhoto = $derived(trip.photos.find((p) => p.filename === trip.coverPhoto.filename));
 
   function formatDateRange(start: string, end: string): string {
@@ -37,7 +39,7 @@
   <meta property="og:site_name" content={SITE_NAME} />
   <meta property="og:title" content={trip.title} />
   <meta property="og:description" content={trip.description} />
-  <meta property="og:image" content={`${SITE_URL}${coverSrc}`} />
+  <meta property="og:image" content={`${SITE_URL}${coverThumbSrc}`} />
   <meta property="og:url" content={`${SITE_URL}/travel/${trip.slug}`} />
   <meta property="article:published_time" content={dmyToIso(trip.dates.start)} />
   {#each trip.tags as tag (tag)}
@@ -46,7 +48,7 @@
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content={trip.title} />
   <meta name="twitter:description" content={trip.description} />
-  <meta name="twitter:image" content={`${SITE_URL}${coverSrc}`} />
+  <meta name="twitter:image" content={`${SITE_URL}${coverThumbSrc}`} />
   <link rel="canonical" href={`${SITE_URL}/travel/${trip.slug}`} />
   <link rel="preload" as="image" href={coverSrc} />
 </svelte:head>

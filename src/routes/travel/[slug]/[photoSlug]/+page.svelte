@@ -49,12 +49,12 @@
   <meta property="og:site_name" content={SITE_NAME} />
   <meta property="og:title" content={`${photo.caption ?? photo.alt} — ${trip.title}`} />
   <meta property="og:description" content={photo.caption ?? photo.alt} />
-  <meta property="og:image" content={`${SITE_URL}${imageSrc}`} />
+  <meta property="og:image" content={`${SITE_URL}${thumbSrc}`} />
   <meta property="og:url" content={`${SITE_URL}/travel/${trip.slug}/${photo.slug}`} />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content={`${photo.caption ?? photo.alt} — ${trip.title}`} />
   <meta name="twitter:description" content={photo.caption ?? photo.alt} />
-  <meta name="twitter:image" content={`${SITE_URL}${imageSrc}`} />
+  <meta name="twitter:image" content={`${SITE_URL}${thumbSrc}`} />
   <link rel="canonical" href={`${SITE_URL}/travel/${trip.slug}/${photo.slug}`} />
   <link rel="preload" as="image" href={imageSrc} />
 </svelte:head>

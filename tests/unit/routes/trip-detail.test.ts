@@ -2,7 +2,7 @@ import { describe, test, expect } from "vitest";
 import { render } from "@testing-library/svelte";
 import { entries, load } from "../../../src/routes/travel/[slug]/+page";
 import { allTrips } from "../../../src/lib/data/trips";
-import { HTTP_NOT_FOUND } from "../../../src/lib/config";
+import { HTTP_NOT_FOUND, SITE_URL } from "../../../src/lib/config";
 import { parseDMY } from "../../../src/lib/utils/dates";
 import TripDetailPage from "../../../src/routes/travel/[slug]/+page.svelte";
 
@@ -113,5 +113,19 @@ describe("trip detail page component", () => {
     const { container } = render(TripDetailPage, { props: { data: { trip: firstTrip } } });
     const backLink = container.querySelector('nav[aria-label="Breadcrumb"] a');
     expect(backLink).toHaveAttribute("href", "/travel");
+  });
+
+  test("og:image uses the thumbnail url for the cover photo", () => {
+    render(TripDetailPage, { props: { data: { trip: firstTrip } } });
+    const ogImage = document.head.querySelector('meta[property="og:image"]');
+    const expected = `${SITE_URL}/images/trips/${firstTrip.slug}/thumbnails/${firstTrip.coverPhoto.filename}`;
+    expect(ogImage?.getAttribute("content")).toBe(expected);
+  });
+
+  test("twitter:image uses the thumbnail url for the cover photo", () => {
+    render(TripDetailPage, { props: { data: { trip: firstTrip } } });
+    const twImage = document.head.querySelector('meta[name="twitter:image"]');
+    const expected = `${SITE_URL}/images/trips/${firstTrip.slug}/thumbnails/${firstTrip.coverPhoto.filename}`;
+    expect(twImage?.getAttribute("content")).toBe(expected);
   });
 });
