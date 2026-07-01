@@ -1,7 +1,9 @@
 import { describe, test, expect } from "vitest";
+import { render } from "@testing-library/svelte";
 import { allTrips } from "../../src/lib/data/trips";
 import { parseDMY } from "../../src/lib/utils/dates";
 import type { Trip } from "../../src/lib/types/trip";
+import AboutPage from "../../src/routes/about/+page.svelte";
 
 const DMY_YEAR_OFFSET = 6;
 
@@ -74,5 +76,36 @@ describe("about page destinations list", () => {
   test("no duplicate slugs", () => {
     const slugs = destinations.map((d) => d.slug);
     expect(new Set(slugs).size).toBe(slugs.length);
+  });
+});
+
+describe("about page component", () => {
+  test("renders the main heading with site owner name", () => {
+    const { getByRole } = render(AboutPage);
+    expect(getByRole("heading", { name: /hello, i'm shane/i, level: 1 })).toBeInTheDocument();
+  });
+
+  test("renders the philosophy section heading", () => {
+    const { getByRole } = render(AboutPage);
+    expect(getByRole("heading", { name: /how i travel/i, level: 2 })).toBeInTheDocument();
+  });
+
+  test("renders three philosophy pillars", () => {
+    const { container } = render(AboutPage);
+    expect(container.querySelectorAll(".about-pillar")).toHaveLength(3);
+  });
+
+  test("destinations list links to each trip's detail page", () => {
+    const { container } = render(AboutPage);
+    const links = container.querySelectorAll("a.destination-card");
+    expect(links.length).toBeGreaterThan(0);
+    for (const link of links) {
+      expect(link.getAttribute("href")).toMatch(/^\/travel\//);
+    }
+  });
+
+  test("CTA browse link navigates to /travel", () => {
+    const { getByRole } = render(AboutPage);
+    expect(getByRole("link", { name: /browse all travel/i })).toHaveAttribute("href", "/travel");
   });
 });

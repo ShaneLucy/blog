@@ -1,5 +1,5 @@
 import { describe, test, expect } from "vitest";
-import { render } from "@testing-library/svelte";
+import { render, fireEvent } from "@testing-library/svelte";
 import TripCard from "../../../src/lib/components/travel/TripCard.svelte";
 import { type Trip, PhotoTag, TripTag } from "../../../src/lib/types/trip";
 
@@ -63,5 +63,25 @@ describe("TripCard", () => {
     const { getByRole } = render(TripCard, { props: { trip: manyTagTrip } });
     const items = getByRole("list", { name: /tags/i }).querySelectorAll("li");
     expect(items).toHaveLength(allTags.length);
+  });
+
+  test("first img error switches src from thumbnail to full-resolution fallback", async () => {
+    const { container } = render(TripCard, { props: { trip: mockTrip } });
+    const img = container.querySelector("img");
+    expect(img).not.toBeNull();
+    const imgEl = img as HTMLImageElement;
+    expect(imgEl.getAttribute("src")).toContain("/thumbnails/");
+    await fireEvent.error(imgEl);
+    expect(imgEl.getAttribute("src")).not.toContain("/thumbnails/");
+  });
+
+  test("second img error removes the image element entirely", async () => {
+    const { container } = render(TripCard, { props: { trip: mockTrip } });
+    const img = container.querySelector("img");
+    expect(img).not.toBeNull();
+    const imgEl = img as HTMLImageElement;
+    await fireEvent.error(imgEl);
+    await fireEvent.error(imgEl);
+    expect(container.querySelector("img")).toBeNull();
   });
 });

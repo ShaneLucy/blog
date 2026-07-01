@@ -1,7 +1,12 @@
-import { describe, test, expect } from "vitest";
+import { describe, test, expect, vi, beforeEach } from "vitest";
+import { render, fireEvent } from "@testing-library/svelte";
 import { entries, load } from "../../../src/routes/travel/[slug]/[photoSlug]/+page";
 import { allTrips } from "../../../src/lib/data/trips";
 import { HTTP_NOT_FOUND } from "../../../src/lib/config";
+import PhotoDetailPage from "../../../src/routes/travel/[slug]/[photoSlug]/+page.svelte";
+
+const mockGoto = vi.hoisted(() => vi.fn());
+vi.mock("$app/navigation", () => ({ goto: mockGoto }));
 
 const firstTrip = allTrips[0];
 const firstPhoto = firstTrip.photos[0];
@@ -100,5 +105,81 @@ describe("photo detail load()", () => {
       thrown = e;
     }
     expect((thrown as { status: number }).status).toBe(HTTP_NOT_FOUND);
+  });
+});
+
+describe("photo detail page component", () => {
+  const trip = allTrips[0];
+  const photo = trip.photos[0];
+  const nextPhoto = trip.photos[1];
+
+  const firstPhotoData = {
+    trip,
+    photo,
+    prevPhoto: null,
+    nextPhoto,
+    photoIndex: 0,
+    envelopeWidth: photo.width,
+    envelopeHeight: photo.height
+  };
+
+  const lastPhotoData = {
+    trip,
+    photo: nextPhoto,
+    prevPhoto: photo,
+    nextPhoto: null,
+    photoIndex: 1,
+    envelopeWidth: photo.width,
+    envelopeHeight: photo.height
+  };
+
+  beforeEach(() => {
+    mockGoto.mockClear();
+  });
+
+  test("renders the photo alt text as the main heading", () => {
+    const { getByRole } = render(PhotoDetailPage, { props: { data: firstPhotoData } });
+    expect(getByRole("heading", { name: new RegExp(photo.alt, "i"), level: 1 })).toBeInTheDocument();
+  });
+
+  test("breadcrumb link points to the parent trip page", () => {
+    const { container } = render(PhotoDetailPage, { props: { data: firstPhotoData } });
+    const backLink = container.querySelector('nav[aria-label="Breadcrumb"] a');
+    expect(backLink).toHaveAttribute("href", `/travel/${trip.slug}`);
+  });
+
+  test("previous link is absent when there is no previous photo", () => {
+    const { container } = render(PhotoDetailPage, { props: { data: firstPhotoData } });
+    expect(container.querySelector(".photo-nav__link--prev")).not.toBeInTheDocument();
+  });
+
+  test("next link points to the next photo", () => {
+    const { container } = render(PhotoDetailPage, { props: { data: firstPhotoData } });
+    const nextLink = container.querySelector(".photo-nav__link--next");
+    expect(nextLink).toHaveAttribute("href", `/travel/${trip.slug}/${nextPhoto.slug}`);
+  });
+
+  test("previous link points to the previous photo", () => {
+    const { container } = render(PhotoDetailPage, { props: { data: lastPhotoData } });
+    const prevLink = container.querySelector(".photo-nav__link--prev");
+    expect(prevLink).toHaveAttribute("href", `/travel/${trip.slug}/${photo.slug}`);
+  });
+
+  test("ArrowRight navigates to the next photo", async () => {
+    render(PhotoDetailPage, { props: { data: firstPhotoData } });
+    await fireEvent.keyDown(document.body, { key: "ArrowRight" });
+    expect(mockGoto).toHaveBeenCalledWith(expect.stringContaining(nextPhoto.slug));
+  });
+
+  test("ArrowLeft does nothing when there is no previous photo", async () => {
+    render(PhotoDetailPage, { props: { data: firstPhotoData } });
+    await fireEvent.keyDown(document.body, { key: "ArrowLeft" });
+    expect(mockGoto).not.toHaveBeenCalled();
+  });
+
+  test("ArrowLeft navigates to the previous photo", async () => {
+    render(PhotoDetailPage, { props: { data: lastPhotoData } });
+    await fireEvent.keyDown(document.body, { key: "ArrowLeft" });
+    expect(mockGoto).toHaveBeenCalledWith(expect.stringContaining(photo.slug));
   });
 });

@@ -74,4 +74,12 @@ describe("TripFilters", () => {
     expect(queryByText(/clear/i)).not.toBeInTheDocument();
     expect(getByRole("button", { name: /newest/i })).toHaveAttribute("aria-pressed", "true");
   });
+
+  test("clicking Newest after A–Z is selected restores date sort", async () => {
+    const { getByRole } = render(TripFilters, { props: { destinations, tags } });
+    await fireEvent.click(getByRole("button", { name: /a.z/i }));
+    await fireEvent.click(getByRole("button", { name: /newest/i }));
+    expect(getByRole("button", { name: /newest/i })).toHaveAttribute("aria-pressed", "true");
+    expect(getByRole("button", { name: /a.z/i })).toHaveAttribute("aria-pressed", "false");
+  });
 });

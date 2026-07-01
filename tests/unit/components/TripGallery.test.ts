@@ -73,4 +73,26 @@ describe("TripGallery", () => {
     // photo-1 has landscape, photo-2 has architecture — both should show
     expect(gallery.querySelectorAll("li")).toHaveLength(2);
   });
+
+  test("first img error switches src from thumbnail to full-resolution", async () => {
+    const { container } = render(TripGallery, { props: { photos, slug: "japan-2024" } });
+    const img = container.querySelector("img");
+    expect(img).not.toBeNull();
+    const imgEl = img as HTMLImageElement;
+    expect(imgEl.getAttribute("src")).toContain("/thumbnails/");
+    await fireEvent.error(imgEl);
+    expect(imgEl.getAttribute("src")).not.toContain("/thumbnails/");
+    expect(imgEl.getAttribute("src")).toContain("photo1.jpg");
+  });
+
+  test("second img error removes that image element from the gallery", async () => {
+    const { container } = render(TripGallery, { props: { photos, slug: "japan-2024" } });
+    const img = container.querySelector("img");
+    expect(img).not.toBeNull();
+    const imgEl = img as HTMLImageElement;
+    await fireEvent.error(imgEl);
+    await fireEvent.error(imgEl);
+    // photo-1's img removed; photo-2's img still present
+    expect(container.querySelectorAll("img")).toHaveLength(1);
+  });
 });
