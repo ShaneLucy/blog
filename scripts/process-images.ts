@@ -3,24 +3,41 @@ import { readdir, mkdir, readFile, writeFile } from "node:fs/promises";
 import { existsSync, type Dirent } from "node:fs";
 import { join, extname, basename } from "node:path";
 import { fileURLToPath } from "node:url";
+import { RENDITION_WIDTHS, OG_WIDTH, OG_HEIGHT, WEBP_QUALITY } from "../src/lib/images";
 
 function projectRoot(): string {
   return fileURLToPath(new URL("..", import.meta.url));
 }
 
-const THUMBNAIL_WIDTH = 400;
 const SUPPORTED_EXTS = new Set([".jpg", ".jpeg", ".png", ".tif", ".tiff", ".webp", ".avif"]);
 
-export async function processImage(
-  inputPath: string,
-  outputPath: string,
-  thumbnailPath: string
-): Promise<{ width: number; height: number }> {
-  const info = await sharp(inputPath).rotate().webp({ quality: 100 }).toFile(outputPath);
+export async function processImage(inputPath: string, outDir: string, stem: string): Promise<{ width: number; height: number }> {
+  const meta = await sharp(inputPath).rotate().metadata();
+  const sourceWidth = meta.width ?? 0;
+  const sourceHeight = meta.height ?? 0;
 
-  await sharp(inputPath).rotate().resize({ width: THUMBNAIL_WIDTH, withoutEnlargement: true }).webp({ quality: 80 }).toFile(thumbnailPath);
+  const targets = (RENDITION_WIDTHS as readonly number[]).filter((w) => w < sourceWidth);
+  if (targets.length === 0 || targets[targets.length - 1] < sourceWidth) {
+    targets.push(Math.min(sourceWidth, RENDITION_WIDTHS[RENDITION_WIDTHS.length - 1]));
+  }
 
-  return { width: info.width, height: info.height };
+  await Promise.all(
+    targets.map((w) =>
+      sharp(inputPath)
+        .rotate()
+        .resize({ width: w, withoutEnlargement: true })
+        .webp({ quality: WEBP_QUALITY })
+        .toFile(join(outDir, `${stem}-${w}.webp`))
+    )
+  );
+
+  await sharp(inputPath)
+    .rotate()
+    .resize({ width: OG_WIDTH, height: OG_HEIGHT, fit: "cover", position: "attention" })
+    .webp({ quality: WEBP_QUALITY })
+    .toFile(join(outDir, `${stem}-og.webp`));
+
+  return { width: sourceWidth, height: sourceHeight };
 }
 
 export async function verifyNoExif(filePath: string): Promise<boolean> {
@@ -102,9 +119,7 @@ async function processTrip(entry: Dirent, contentDir: string, outputDir: string)
   }
 
   const outDir = join(outputDir, entry.name);
-  const thumbDir = join(outDir, "thumbnails");
   await mkdir(outDir, { recursive: true });
-  await mkdir(thumbDir, { recursive: true });
 
   const files = await readdir(rawDir);
   const images = files.filter((f) => SUPPORTED_EXTS.has(extname(f).toLowerCase()));
@@ -117,20 +132,22 @@ async function processTrip(entry: Dirent, contentDir: string, outputDir: string)
   for (const file of images) {
     const inputPath = join(rawDir, file);
     const stem = basename(file, extname(file));
-    const outFile = `${stem}.webp`;
-    const outputPath = join(outDir, outFile);
-    const thumbnailPath = join(thumbDir, outFile);
 
     try {
-      const { width, height } = await processImage(inputPath, outputPath, thumbnailPath);
-      const clean = await verifyNoExif(outputPath);
+      const { width, height } = await processImage(inputPath, outDir, stem);
+      const filesToVerify = [
+        ...RENDITION_WIDTHS.filter((w) => w <= width).map((w) => join(outDir, `${stem}-${w}.webp`)),
+        join(outDir, `${stem}-og.webp`)
+      ];
+      const cleanResults = await Promise.all(filesToVerify.map(verifyNoExif));
+      const clean = cleanResults.every(Boolean);
       const icon = clean ? "✓" : "⚠ EXIF NOT STRIPPED";
-      console.info(`  ${icon}  ${outFile}  (${width}×${height})`);
+      console.info(`  ${icon}  ${stem}  (${width}×${height})`);
       if (!clean) {
         errors++;
       } else {
         processed++;
-        tripPhotos.push({ filename: outFile, width, height });
+        tripPhotos.push({ filename: `${stem}.webp`, width, height });
       }
     } catch (err) {
       console.error(`  ✗  ${file}:`, (err as Error).message);

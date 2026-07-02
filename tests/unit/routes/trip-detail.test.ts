@@ -4,6 +4,7 @@ import { entries, load } from "../../../src/routes/travel/[slug]/+page";
 import { allTrips } from "../../../src/lib/data/trips";
 import { HTTP_NOT_FOUND, SITE_NAME, SITE_URL } from "../../../src/lib/config";
 import { parseDMY, dmyToIso } from "../../../src/lib/utils/dates";
+import { tripOgSrc } from "../../../src/lib/images";
 import TripDetailPage from "../../../src/routes/travel/[slug]/+page.svelte";
 
 // Mirror of formatDateRange from routes/travel/[slug]/+page.svelte
@@ -185,17 +186,17 @@ describe("trip detail page component", () => {
     expect(document.head.querySelector('link[rel="canonical"]')?.getAttribute("href")).toBe(`${SITE_URL}/travel/${firstTrip.slug}`);
   });
 
-  test("og:image uses the thumbnail url for the cover photo", () => {
+  test("og:image uses the og rendition url for the cover photo", () => {
     render(TripDetailPage, { props: { data: { trip: firstTrip } } });
     const ogImage = document.head.querySelector('meta[property="og:image"]');
-    const expected = `${SITE_URL}/images/trips/${firstTrip.slug}/thumbnails/${firstTrip.coverPhoto.filename}`;
+    const expected = `${SITE_URL}${tripOgSrc(firstTrip.slug, firstTrip.coverPhoto.filename)}`;
     expect(ogImage?.getAttribute("content")).toBe(expected);
   });
 
-  test("twitter:image uses the thumbnail url for the cover photo", () => {
+  test("twitter:image uses the og rendition url for the cover photo", () => {
     render(TripDetailPage, { props: { data: { trip: firstTrip } } });
     const twImage = document.head.querySelector('meta[name="twitter:image"]');
-    const expected = `${SITE_URL}/images/trips/${firstTrip.slug}/thumbnails/${firstTrip.coverPhoto.filename}`;
+    const expected = `${SITE_URL}${tripOgSrc(firstTrip.slug, firstTrip.coverPhoto.filename)}`;
     expect(twImage?.getAttribute("content")).toBe(expected);
   });
 });

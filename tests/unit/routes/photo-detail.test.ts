@@ -3,6 +3,7 @@ import { render, fireEvent } from "@testing-library/svelte";
 import { entries, load } from "../../../src/routes/travel/[slug]/[photoSlug]/+page";
 import { allTrips } from "../../../src/lib/data/trips";
 import { HTTP_NOT_FOUND, SITE_NAME, SITE_URL } from "../../../src/lib/config";
+import { tripOgSrc } from "../../../src/lib/images";
 import PhotoDetailPage from "../../../src/routes/travel/[slug]/[photoSlug]/+page.svelte";
 
 const mockGoto = vi.hoisted(() => vi.fn());
@@ -244,17 +245,17 @@ describe("photo detail page component", () => {
     );
   });
 
-  test("og:image uses the thumbnail url", () => {
+  test("og:image uses the og rendition url", () => {
     render(PhotoDetailPage, { props: { data: firstPhotoData } });
     const ogImage = document.head.querySelector('meta[property="og:image"]');
-    const expected = `${SITE_URL}/images/trips/${trip.slug}/thumbnails/${photo.filename}`;
+    const expected = `${SITE_URL}${tripOgSrc(trip.slug, photo.filename)}`;
     expect(ogImage?.getAttribute("content")).toBe(expected);
   });
 
-  test("twitter:image uses the thumbnail url", () => {
+  test("twitter:image uses the og rendition url", () => {
     render(PhotoDetailPage, { props: { data: firstPhotoData } });
     const twImage = document.head.querySelector('meta[name="twitter:image"]');
-    const expected = `${SITE_URL}/images/trips/${trip.slug}/thumbnails/${photo.filename}`;
+    const expected = `${SITE_URL}${tripOgSrc(trip.slug, photo.filename)}`;
     expect(twImage?.getAttribute("content")).toBe(expected);
   });
 });

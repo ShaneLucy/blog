@@ -3,7 +3,7 @@
   import type { PageData } from "./$types";
   import { resolve } from "$app/paths";
   import { SITE_NAME, SITE_URL } from "$lib/config";
-  import { tripImageSrc, tripThumbSrc } from "$lib/images";
+  import { tripImageSrc, tripSrcset, tripOgSrc, DETAIL_SIZES, MAX_WIDTH } from "$lib/images";
 
   let { data }: { data: PageData } = $props();
   let trip = $derived(data.trip);
@@ -12,17 +12,8 @@
   let nextPhoto = $derived(data.nextPhoto);
   let photoIndex = $derived(data.photoIndex);
 
-  let imageSrc = $derived(tripImageSrc(trip.slug, photo.filename));
-  let thumbSrc = $derived(tripThumbSrc(trip.slug, photo.filename));
-
   let envelopeWidth = $derived(data.envelopeWidth);
   let envelopeHeight = $derived(data.envelopeHeight);
-
-  let imgFailed = $state(false);
-  let thumbFailed = $state(false);
-
-  let activeSrc = $derived(thumbFailed ? thumbSrc : imageSrc);
-  let currentSrc = $derived(imgFailed ? null : activeSrc);
 
   // Issue 7: arrow-key navigation (progressive enhancement)
   function handleKeydown(e: KeyboardEvent) {
@@ -49,14 +40,17 @@
   <meta property="og:site_name" content={SITE_NAME} />
   <meta property="og:title" content={`${photo.caption ?? photo.alt} — ${trip.title}`} />
   <meta property="og:description" content={photo.caption ?? photo.alt} />
-  <meta property="og:image" content={`${SITE_URL}${thumbSrc}`} />
+  <meta property="og:image" content={`${SITE_URL}${tripOgSrc(trip.slug, photo.filename)}`} />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:type" content="image/webp" />
   <meta property="og:url" content={`${SITE_URL}/travel/${trip.slug}/${photo.slug}`} />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content={`${photo.caption ?? photo.alt} — ${trip.title}`} />
   <meta name="twitter:description" content={photo.caption ?? photo.alt} />
-  <meta name="twitter:image" content={`${SITE_URL}${thumbSrc}`} />
+  <meta name="twitter:image" content={`${SITE_URL}${tripOgSrc(trip.slug, photo.filename)}`} />
   <link rel="canonical" href={`${SITE_URL}/travel/${trip.slug}/${photo.slug}`} />
-  <link rel="preload" as="image" href={imageSrc} />
+  <link rel="preload" as="image" imagesrcset={tripSrcset(trip.slug, photo.filename)} imagesizes={DETAIL_SIZES} />
 </svelte:head>
 
 <!-- Issue 10: aria-labelledby names the article landmark -->
@@ -75,24 +69,17 @@
   <!-- Envelope aspect ratio keeps container height constant across all trip photos, preventing CLS on navigation -->
   <div class="photo-detail__image-wrap" style="aspect-ratio: {envelopeWidth} / {envelopeHeight}">
     <!-- Issue 5: driven by $derived currentSrc -->
-    {#if currentSrc}
-      <img
-        src={currentSrc}
-        alt={photo.alt}
-        width={photo.width}
-        height={photo.height}
-        class="photo-detail__image"
-        fetchpriority="high"
-        decoding="async"
-        onerror={() => {
-          if (!thumbFailed) {
-            thumbFailed = true;
-          } else {
-            imgFailed = true;
-          }
-        }}
-      />
-    {/if}
+    <img
+      src={tripImageSrc(trip.slug, photo.filename, MAX_WIDTH)}
+      srcset={tripSrcset(trip.slug, photo.filename)}
+      sizes={DETAIL_SIZES}
+      alt={photo.alt}
+      width={photo.width}
+      height={photo.height}
+      class="photo-detail__image"
+      fetchpriority="high"
+      decoding="async"
+    />
   </div>
 
   <!-- Issues 1 + 4: title uses caption ?? alt; description only shown when distinct from caption -->

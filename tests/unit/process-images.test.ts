@@ -1,6 +1,7 @@
 import { test, expect, describe, vi, beforeAll, afterAll, beforeEach, afterEach } from "vitest";
 import sharp from "sharp";
 import { processImage, verifyNoExif, updateTripPhotos, main } from "../../scripts/process-images";
+import { THUMB_WIDTH } from "$lib/images";
 import { mkdtemp, rm, mkdir, writeFile, readFile } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import { tmpdir } from "node:os";
@@ -9,7 +10,6 @@ import { join } from "node:path";
 const RGB_CHANNELS = 3 as const;
 const FULL_SIZE_WIDTH = 4000;
 const FULL_SIZE_HEIGHT = 3000;
-const THUMB_MAX_WIDTH = 400;
 
 let tempDir: string;
 
@@ -51,70 +51,62 @@ async function makeTestJpeg(path: string, opts: { width: number; height: number;
 
 test("strips all EXIF metadata from output", async () => {
   const input = join(tempDir, "exif-input.jpg");
-  const output = join(tempDir, "exif-output.webp");
-  const thumb = join(tempDir, "exif-thumb.webp");
 
-  await makeTestJpeg(input, { width: 200, height: 150, withMeta: true });
+  await makeTestJpeg(input, { width: 600, height: 400, withMeta: true });
 
-  // Confirm the source image has EXIF before processing
   const srcMeta = await sharp(input).metadata();
   expect(srcMeta.exif).toBeDefined();
 
-  await processImage(input, output, thumb);
+  await processImage(input, tempDir, "exif-output");
 
-  const outMeta = await sharp(output).metadata();
-  expect(outMeta.exif).toBeUndefined();
-  expect(outMeta.iptc).toBeUndefined();
-  expect(outMeta.xmp).toBeUndefined();
+  const ogMeta = await sharp(join(tempDir, "exif-output-og.webp")).metadata();
+  expect(ogMeta.exif).toBeUndefined();
+  expect(ogMeta.iptc).toBeUndefined();
+  expect(ogMeta.xmp).toBeUndefined();
+
+  const ladderMeta = await sharp(join(tempDir, "exif-output-400.webp")).metadata();
+  expect(ladderMeta.exif).toBeUndefined();
+  expect(ladderMeta.iptc).toBeUndefined();
+  expect(ladderMeta.xmp).toBeUndefined();
 });
 
 test("preserves original dimensions for full-size output", async () => {
   const input = join(tempDir, "large-input.jpg");
-  const output = join(tempDir, "large-output.webp");
-  const thumb = join(tempDir, "large-thumb.webp");
 
   await makeTestJpeg(input, { width: 4000, height: 3000 });
 
-  const { width, height } = await processImage(input, output, thumb);
+  const { width, height } = await processImage(input, tempDir, "large-output");
   expect(width).toBe(FULL_SIZE_WIDTH);
   expect(height).toBe(FULL_SIZE_HEIGHT);
 });
 
-test("generates thumbnail at most 400px wide", async () => {
+test("generates 400px rendition for large source images", async () => {
   const input = join(tempDir, "thumb-input.jpg");
-  const output = join(tempDir, "thumb-output.webp");
-  const thumb = join(tempDir, "thumb-result.webp");
 
   await makeTestJpeg(input, { width: 1200, height: 900 });
-  await processImage(input, output, thumb);
+  await processImage(input, tempDir, "thumb-output");
 
-  const thumbMeta = await sharp(thumb).metadata();
-  expect(thumbMeta.width).toBeLessThanOrEqual(THUMB_MAX_WIDTH);
+  const renditionMeta = await sharp(join(tempDir, "thumb-output-400.webp")).metadata();
+  expect(renditionMeta.width).toBeLessThanOrEqual(THUMB_WIDTH);
 });
 
 test("outputs valid WebP files", async () => {
   const input = join(tempDir, "format-input.jpg");
-  const output = join(tempDir, "format-output.webp");
-  const thumb = join(tempDir, "format-thumb.webp");
 
   await makeTestJpeg(input, { width: 300, height: 200 });
-  await processImage(input, output, thumb);
+  await processImage(input, tempDir, "format-output");
 
-  const outMeta = await sharp(output).metadata();
-  const thumbMeta = await sharp(thumb).metadata();
-  expect(outMeta.format).toBe("webp");
-  expect(thumbMeta.format).toBe("webp");
+  const ogMeta = await sharp(join(tempDir, "format-output-og.webp")).metadata();
+  expect(ogMeta.format).toBe("webp");
 });
 
 test("thumbnail also has no EXIF metadata", async () => {
   const input = join(tempDir, "thumb-exif-input.jpg");
-  const output = join(tempDir, "thumb-exif-output.webp");
-  const thumb = join(tempDir, "thumb-exif-thumb.webp");
 
   await makeTestJpeg(input, { width: 600, height: 400, withMeta: true });
-  await processImage(input, output, thumb);
+  await processImage(input, tempDir, "thumb-exif-output");
 
-  const thumbMeta = await sharp(thumb).metadata();
+  const thumbMeta = await sharp(join(tempDir, "thumb-exif-output-400.webp")).metadata();
   expect(thumbMeta.exif).toBeUndefined();
   expect(thumbMeta.iptc).toBeUndefined();
   expect(thumbMeta.xmp).toBeUndefined();
@@ -124,13 +116,11 @@ test("thumbnail also has no EXIF metadata", async () => {
 
 test("verifyNoExif: returns true for a processed file with no metadata", async () => {
   const input = join(tempDir, "vne-input.jpg");
-  const output = join(tempDir, "vne-output.webp");
-  const thumb = join(tempDir, "vne-thumb.webp");
 
-  await makeTestJpeg(input, { width: 200, height: 150 });
-  await processImage(input, output, thumb);
+  await makeTestJpeg(input, { width: 600, height: 400 });
+  await processImage(input, tempDir, "vne-output");
 
-  expect(await verifyNoExif(output)).toBe(true);
+  expect(await verifyNoExif(join(tempDir, "vne-output-400.webp"))).toBe(true);
 });
 
 test("verifyNoExif: returns false for a JPEG with EXIF metadata", async () => {
@@ -294,14 +284,14 @@ describe("main", () => {
   test("processes valid images and writes output files", async () => {
     const rawDir = join(contentDir, "my-trip", "raw");
     await mkdir(rawDir, { recursive: true });
-    await makeTestJpeg(join(rawDir, "photo.jpg"), { width: 300, height: 200 });
+    await makeTestJpeg(join(rawDir, "photo.jpg"), { width: 2500, height: 1600 });
 
     const logSpy = vi.spyOn(console, "info").mockImplementation(() => {});
     await main(contentDir, outputDir);
     logSpy.mockRestore();
 
-    expect(existsSync(join(outputDir, "my-trip", "photo.webp"))).toBe(true);
-    expect(existsSync(join(outputDir, "my-trip", "thumbnails", "photo.webp"))).toBe(true);
+    expect(existsSync(join(outputDir, "my-trip", "photo-400.webp"))).toBe(true);
+    expect(existsSync(join(outputDir, "my-trip", "photo-og.webp"))).toBe(true);
   });
 
   test("logs error and exits with code 1 for an unprocessable image", async () => {

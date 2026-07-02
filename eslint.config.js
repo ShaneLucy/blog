@@ -77,6 +77,13 @@ export default defineConfig(
     }
   },
   {
+    // images.ts is the single source of truth for rendition widths — the array literal IS the constant definition
+    files: ["src/lib/images.ts"],
+    rules: {
+      "no-magic-numbers": "off"
+    }
+  },
+  {
     rules: {
       curly: ["error", "all"],
       "prefer-template": "error",

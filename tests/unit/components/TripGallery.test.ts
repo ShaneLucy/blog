@@ -74,25 +74,18 @@ describe("TripGallery", () => {
     expect(gallery.querySelectorAll("li")).toHaveLength(2);
   });
 
-  test("first img error switches src from thumbnail to full-resolution", async () => {
+  test("renders images with 400px rendition as default src", () => {
     const { container } = render(TripGallery, { props: { photos, slug: "japan-2024" } });
-    const img = container.querySelector("img");
-    expect(img).not.toBeNull();
-    const imgEl = img as HTMLImageElement;
-    expect(imgEl.getAttribute("src")).toContain("/thumbnails/");
-    await fireEvent.error(imgEl);
-    expect(imgEl.getAttribute("src")).not.toContain("/thumbnails/");
-    expect(imgEl.getAttribute("src")).toContain("photo1.jpg");
+    const imgs = container.querySelectorAll("img");
+    expect(imgs[0]?.getAttribute("src")).toContain("photo1-400.webp");
+    expect(imgs[1]?.getAttribute("src")).toContain("photo2-400.webp");
   });
 
-  test("second img error removes that image element from the gallery", async () => {
+  test("renders images with a responsive srcset", () => {
     const { container } = render(TripGallery, { props: { photos, slug: "japan-2024" } });
     const img = container.querySelector("img");
-    expect(img).not.toBeNull();
-    const imgEl = img as HTMLImageElement;
-    await fireEvent.error(imgEl);
-    await fireEvent.error(imgEl);
-    // photo-1's img removed; photo-2's img still present
-    expect(container.querySelectorAll("img")).toHaveLength(1);
+    const srcset = img?.getAttribute("srcset");
+    expect(srcset).toContain("400w");
+    expect(srcset).toContain("2400w");
   });
 });

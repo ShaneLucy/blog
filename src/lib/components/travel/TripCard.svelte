@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { Trip } from "$lib/types/trip";
   import { resolve } from "$app/paths";
-  import { tripImageSrc, tripThumbSrc } from "$lib/images";
+  import { tripImageSrc, tripSrcset, GALLERY_SIZES, THUMB_WIDTH } from "$lib/images";
   import { parseDMY } from "$lib/utils/dates";
 
   interface Props {
@@ -18,35 +18,21 @@
   let dateLabel = $derived(
     startYear === endYear ? startDate.toLocaleDateString("en-GB", { month: "short", year: "numeric" }) : `${startYear}–${endYear}`
   );
-
-  let imageSrc = $derived(tripImageSrc(trip.slug, trip.coverPhoto.filename));
-  let thumbSrc = $derived(tripThumbSrc(trip.slug, trip.coverPhoto.filename));
-  let thumbFailed = $state(false);
-  let imgFailed = $state(false);
-  let fallbackSrc = $derived(thumbFailed ? imageSrc : thumbSrc);
-  let displaySrc = $derived(imgFailed ? null : fallbackSrc);
 </script>
 
 <a href={resolve("/travel/[slug]", { slug: trip.slug })} class="trip-card">
   <div class="trip-card__image" aria-hidden="true">
-    {#if displaySrc}
-      <img
-        src={displaySrc}
-        alt=""
-        width="400"
-        height="267"
-        loading={priority ? "eager" : "lazy"}
-        fetchpriority={priority ? "high" : undefined}
-        decoding="async"
-        onerror={() => {
-          if (!thumbFailed) {
-            thumbFailed = true;
-          } else {
-            imgFailed = true;
-          }
-        }}
-      />
-    {/if}
+    <img
+      src={tripImageSrc(trip.slug, trip.coverPhoto.filename, THUMB_WIDTH)}
+      srcset={tripSrcset(trip.slug, trip.coverPhoto.filename)}
+      sizes={GALLERY_SIZES}
+      alt=""
+      width="400"
+      height="267"
+      loading={priority ? "eager" : "lazy"}
+      fetchpriority={priority ? "high" : undefined}
+      decoding="async"
+    />
     <div class="trip-card__image-fallback" aria-hidden="true"></div>
   </div>
   <div class="trip-card__body">

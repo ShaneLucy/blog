@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { TripPhoto, PhotoTag } from "$lib/types/trip";
   import { resolve } from "$app/paths";
-  import { tripImageSrc, tripThumbSrc } from "$lib/images";
+  import { tripImageSrc, tripSrcset, GALLERY_SIZES, THUMB_WIDTH } from "$lib/images";
 
   const EAGER_LOAD_LIMIT = 8;
 
@@ -25,17 +25,6 @@
       selectedTags = [...selectedTags, tag];
     }
   }
-
-  function imageSrc(photo: TripPhoto) {
-    return tripImageSrc(slug, photo.filename);
-  }
-
-  function thumbSrc(photo: TripPhoto) {
-    return tripThumbSrc(slug, photo.filename);
-  }
-
-  let thumbFailed = $state<Record<string, boolean>>({});
-  let imgFailed = $state<Record<string, boolean>>({});
 </script>
 
 {#if availableTags.length > 0}
@@ -63,24 +52,17 @@
         class="gallery__link"
         aria-label="View photo: {photo.alt}"
       >
-        {#if !imgFailed[photo.slug]}
-          <img
-            src={thumbFailed[photo.slug] ? imageSrc(photo) : thumbSrc(photo)}
-            alt={photo.alt}
-            width={photo.width}
-            height={photo.height}
-            loading={i < EAGER_LOAD_LIMIT ? "eager" : "lazy"}
-            fetchpriority={i < EAGER_LOAD_LIMIT ? "low" : "auto"}
-            decoding="async"
-            onerror={() => {
-              if (!thumbFailed[photo.slug]) {
-                thumbFailed[photo.slug] = true;
-              } else {
-                imgFailed[photo.slug] = true;
-              }
-            }}
-          />
-        {/if}
+        <img
+          src={tripImageSrc(slug, photo.filename, THUMB_WIDTH)}
+          srcset={tripSrcset(slug, photo.filename)}
+          sizes={GALLERY_SIZES}
+          alt={photo.alt}
+          width={photo.width}
+          height={photo.height}
+          loading={i < EAGER_LOAD_LIMIT ? "eager" : "lazy"}
+          fetchpriority={i < EAGER_LOAD_LIMIT ? "low" : "auto"}
+          decoding="async"
+        />
       </a>
     </li>
   {/each}
