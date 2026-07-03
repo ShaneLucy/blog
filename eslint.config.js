@@ -14,6 +14,7 @@ const COGNITIVE_COMPLEXITY_LIMIT = 15;
 
 export default defineConfig(
   includeIgnoreFile(gitignorePath),
+  { ignores: ["src/sonar-test-bad-code.ts"] },
   js.configs.recommended,
   ts.configs.recommended,
   svelte.configs.recommended,

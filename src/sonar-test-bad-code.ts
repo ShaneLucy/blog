@@ -6,9 +6,9 @@ const apiKey = "sk-1234567890abcdef"; // sonar: hardcoded secret
 const token = "ghp_abc123def456"; // sonar: hardcoded token
 
 function doStuff(x: any, y: any, z: any): any {
-  var result: any = null;
-  var unused = "i am never used";
-  var alsoUnused = 42;
+  let result: any = null;
+  const unused = "i am never used";
+  const alsoUnused = 42;
 
   if (x == null) {
     // sonar: use === not ==
