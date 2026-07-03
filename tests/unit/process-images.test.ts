@@ -152,6 +152,16 @@ describe("updateTripPhotos", () => {
     expect(existsSync(join(dir, "trip.ts"))).toBe(false);
   });
 
+  test("does nothing when photos array key is absent from file", async () => {
+    const tripTs = join(dir, "trip.ts");
+    await writeFile(tripTs, `export const trip = { title: 'No photos key' };`, "utf-8");
+    const original = await readFile(tripTs, "utf-8");
+
+    await updateTripPhotos(tripTs, [{ filename: "photo.webp", width: 800, height: 600 }]);
+
+    expect(await readFile(tripTs, "utf-8")).toBe(original);
+  });
+
   test("does nothing when all photos are already in the array", async () => {
     const tripTs = join(dir, "trip.ts");
     const original = `export const trip = { photos: [\n    { slug: 'photo', filename: 'photo.webp', alt: '', tags: [], width: 800, height: 600 }\n  ] };`;
