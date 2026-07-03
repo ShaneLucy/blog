@@ -22,7 +22,7 @@
   let filteredTrips = $derived(
     data.trips
       .filter((t) => !selectedDestination || t.destination === selectedDestination)
-      .filter((t) => selectedTags.length === 0 || selectedTags.every((tag) => t.tags.has(tag)))
+      .filter((t) => selectedTags.length === 0 || selectedTags.some((tag) => t.tags.has(tag)))
       .sort((a, b) =>
         sortBy === "date"
           ? parseDMY(b.dates.start).getTime() - parseDMY(a.dates.start).getTime()
@@ -30,7 +30,9 @@
       )
   );
 
-  // Keep URL in sync with filter state for bookmarkable/shareable links
+  // Keep URL in sync with filter state for bookmarkable/shareable links.
+  // Guard prevents a spurious navigation on initial mount when the URL already
+  // reflects the current filter state (filters were initialised from the URL).
   $effect(() => {
     const params = new SvelteURLSearchParams();
     if (selectedDestination) {
@@ -43,11 +45,14 @@
       params.set("sort", sortBy);
     }
     const search = params.toString();
-    goto(resolve(search ? `/travel?${search}` : "/travel"), {
-      replaceState: true,
-      keepFocus: true,
-      noScroll: true
-    });
+    const targetSearch = search ? `?${search}` : "";
+    if (page.url.search !== targetSearch) {
+      goto(resolve(search ? `/travel?${search}` : "/travel"), {
+        replaceState: true,
+        keepFocus: true,
+        noScroll: true
+      });
+    }
   });
 </script>
 

@@ -40,7 +40,7 @@ describe("photo detail entries()", () => {
 });
 
 describe("photo detail load()", () => {
-  const makeEvent = (params: { slug: string; photoSlug: string }) => ({ params });
+  const makeEvent = (params: { slug: string; photoSlug: string }) => ({ params }) as Parameters<typeof load>[0];
 
   test("returns the correct trip and photo for valid slugs", () => {
     const result = load(makeEvent({ slug: firstTrip.slug, photoSlug: firstPhoto.slug }));

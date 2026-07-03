@@ -1,7 +1,7 @@
 import { allTrips } from "$lib/data/trips";
 import { HTTP_NOT_FOUND } from "$lib/config";
 import { error } from "@sveltejs/kit";
-import type { EntryGenerator } from "./$types";
+import type { EntryGenerator, PageLoad } from "./$types";
 
 export const entries: EntryGenerator = () => {
   return allTrips.flatMap((trip) =>
@@ -12,7 +12,7 @@ export const entries: EntryGenerator = () => {
   );
 };
 
-export function load({ params }: { params: { slug: string; photoSlug: string } }) {
+export const load = (({ params }) => {
   const trip = allTrips.find((t) => t.slug === params.slug);
   if (!trip) {
     error(HTTP_NOT_FOUND, "Trip not found");
@@ -40,4 +40,4 @@ export function load({ params }: { params: { slug: string; photoSlug: string } }
     envelopeWidth: envelope.width,
     envelopeHeight: envelope.height
   };
-}
+}) satisfies PageLoad;
