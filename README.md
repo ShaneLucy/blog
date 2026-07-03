@@ -99,15 +99,12 @@ Create `src/content/trips/[your-trip-slug]/trip.ts`. The image pipeline will hav
 import { type Trip, PhotoTag, TripTag } from "$lib/types/trip";
 
 export const trip: Trip = {
-  slug: "iceland-2027",           // must match the directory name
+  slug: "iceland-2027", // must match the directory name
   title: "Iceland in Winter",
   destination: "Iceland",
-  region: "Northern Europe",      // optional
+  region: "Northern Europe", // optional
   dates: { start: "DD-MM-YYYY", end: "DD-MM-YYYY" },
-  tags: new Set([
-    TripTag.Wilderness,
-    TripTag.Hiking,
-  ]),
+  tags: new Set([TripTag.Wilderness, TripTag.Hiking]),
   coverPhoto: {
     filename: "Cover-Photo.webp",
     alt: "Descriptive alt text for the cover image",
@@ -118,14 +115,14 @@ export const trip: Trip = {
   body: "Longer paragraph shown on the trip detail page.",
   photos: [
     {
-      slug: "descriptive-photo-slug",   // URL-safe, unique within the trip
-      filename: "My-Photo.webp",        // base name without rendition suffix
+      slug: "descriptive-photo-slug", // URL-safe, unique within the trip
+      filename: "My-Photo.webp", // base name without rendition suffix
       alt: "Descriptive alt text",
       caption: "Optional caption shown on the photo detail page",
       tags: new Set([PhotoTag.Landscape, PhotoTag.Nature]),
       width: 4032,
       height: 3024
-    },
+    }
     // ...
   ]
 };
@@ -133,20 +130,20 @@ export const trip: Trip = {
 
 **Available `TripTag` values** (for trip card filters):
 
-| Enum | Value |
-|---|---|
-| `TripTag.Beer` | `beer` |
+| Enum                     | Value             |
+| ------------------------ | ----------------- |
+| `TripTag.Beer`           | `beer`            |
 | `TripTag.CherryBlossoms` | `cherry-blossoms` |
-| `TripTag.Cities` | `cities` |
-| `TripTag.CityBreak` | `city-break` |
-| `TripTag.Cocktails` | `cocktails` |
-| `TripTag.Fjords` | `fjords` |
-| `TripTag.Food` | `food` |
-| `TripTag.Hiking` | `hiking` |
-| `TripTag.MidnightSun` | `midnight-sun` |
-| `TripTag.Temples` | `temples` |
-| `TripTag.Villages` | `villages` |
-| `TripTag.Wilderness` | `wilderness` |
+| `TripTag.Cities`         | `cities`          |
+| `TripTag.CityBreak`      | `city-break`      |
+| `TripTag.Cocktails`      | `cocktails`       |
+| `TripTag.Fjords`         | `fjords`          |
+| `TripTag.Food`           | `food`            |
+| `TripTag.Hiking`         | `hiking`          |
+| `TripTag.MidnightSun`    | `midnight-sun`    |
+| `TripTag.Temples`        | `temples`         |
+| `TripTag.Villages`       | `villages`        |
+| `TripTag.Wilderness`     | `wilderness`      |
 
 **Available `PhotoTag` values** (for gallery filters on the trip detail page):
 
