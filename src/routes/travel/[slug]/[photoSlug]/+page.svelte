@@ -118,8 +118,6 @@
           </svg>
           Previous
         </a>
-      {:else}
-        <span class="photo-nav__placeholder" aria-hidden="true"></span>
       {/if}
 
       <span class="photo-nav__counter" aria-label="Photo {photoIndex + 1} of {trip.photos.length}">
@@ -140,8 +138,6 @@
             <path d="M6 4L10 8L6 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
         </a>
-      {:else}
-        <span class="photo-nav__placeholder" aria-hidden="true"></span>
       {/if}
     </div>
   </nav>
