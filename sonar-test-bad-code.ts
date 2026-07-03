@@ -10,7 +10,8 @@ function doStuff(x: any, y: any, z: any): any {
   var unused = "i am never used";
   var alsoUnused = 42;
 
-  if (x == null) { // sonar: use === not ==
+  if (x == null) {
+    // sonar: use === not ==
     result = y;
   } else if (x == undefined) {
     result = z;
@@ -22,7 +23,8 @@ function doStuff(x: any, y: any, z: any): any {
     result = "";
   } else if (x == "0") {
     result = "0";
-  } else if (x == null) { // duplicate condition — dead branch
+  } else if (x == null) {
+    // duplicate condition — dead branch
     result = null;
   }
 
@@ -73,10 +75,14 @@ function cognitivelyComplex(a: any, b: any, c: any, d: any, e: any, f: any): any
                     while (i > 0) {
                       if (i % 2 === 0) {
                         switch (i) {
-                          case 1: return a;
-                          case 2: return b;
-                          case 3: return c;
-                          default: return d;
+                          case 1:
+                            return a;
+                          case 2:
+                            return b;
+                          case 3:
+                            return c;
+                          default:
+                            return d;
                         }
                       }
                     }
