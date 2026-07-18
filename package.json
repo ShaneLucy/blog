@@ -9,34 +9,33 @@
     "preview": "vite preview",
     "prepare": "svelte-kit sync || echo ''",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
-    "lint": "prettier --write . && eslint . --fix && bun run lint:css && bun run check",
+    "lint": "prettier --write . && eslint . --fix && bun run lint:css && bun run check && bun run knip",
     "lint:css": "stylelint \"src/**/*.css\" \"src/**/*.svelte\" --fix",
     "format": "prettier --write .",
     "test:unit": "vitest run --run",
     "coverage": "vitest run --run --coverage",
     "process-images": "bun run scripts/process-images.ts",
-    "test": "bun run test:unit"
+    "test": "bun run test:unit",
+    "knip": "knip"
   },
   "devDependencies": {
-    "@eslint/compat": "^2.0.4",
     "@eslint/js": "^10.0.1",
     "@sveltejs/adapter-static": "^3.0.10",
     "@sveltejs/kit": "^2.57.0",
     "@sveltejs/vite-plugin-svelte": "^7.0.0",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/svelte": "^5.3.1",
-    "@types/node": "^24",
+    "@types/node": "^26.1.1",
     "@vitest/coverage-istanbul": "^4.1.8",
     "@vitest/coverage-v8": "^4.1.8",
     "axe-core": "^4.12.1",
-    "bun-types": "^1.3.14",
     "eslint": "^10.2.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-sonarjs": "^4.1.0",
     "eslint-plugin-svelte": "^3.17.0",
     "globals": "^17.4.0",
     "jsdom": "^29.1.1",
-    "lighthouse": "^13.4.0",
+    "knip": "^6.27.0",
     "prettier": "^3.8.1",
     "prettier-plugin-svelte": "^3.5.1",
     "stylelint": "^17.12.0",
@@ -52,7 +51,6 @@
   "dependencies": {
     "@fontsource-variable/inter": "^5.2.8",
     "@fontsource-variable/lora": "^5.2.8",
-    "exifr": "^7.1.3",
     "sharp": "^0.34.5"
   }
 }

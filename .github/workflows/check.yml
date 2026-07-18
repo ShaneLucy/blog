@@ -24,6 +24,9 @@ jobs:
       - name: Format check
         run: bun prettier --check .
 
+      - name: Knip check
+        run: bun prettier --check .
+
       - name: Lint
         run: bun eslint .
 
